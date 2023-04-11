@@ -14,7 +14,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    ARN: {
+    arn: {
         type: String,
         required: true
     }
@@ -29,10 +29,10 @@ userSchema.pre('save', function (next) {
     })
 })
 
-userSchema.methods.comparePassword = async function(unhashed) {
-    const matching = await bcrypt.compare(unhashed, this.password);
-    return matching;
-}
+// userSchema.methods.comparePassword = async function(unhashed: string) {
+//     const matching = await bcrypt.compare(unhashed, this.password);
+//     return matching;
+// }
 
-const User = mongoose.model('Users', userSchema);
-module.exports = User;
+const User = mongoose.model('User', userSchema);
+export default User;

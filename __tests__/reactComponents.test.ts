@@ -56,7 +56,7 @@ describe('React Component Testing', () => {
 
     describe('Home Page', ()=> {
 
-        test('Should render a header component', async ()=> {
+        test('Should render navbarer component', async ()=> {
             
         });
 
