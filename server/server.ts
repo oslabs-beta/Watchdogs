@@ -2,6 +2,7 @@ import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} 
 const app: Express = express()
 import path from 'path';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import userController from './controllers/userController.js';
 import cookieController from './controllers/cookieController.js';
 // const {createAccount, logIn, getUser, addArn} = userController
@@ -9,14 +10,15 @@ const port = 3000;
 import cookieParser from 'cookie-parser';
 import { request } from 'http';
 app.use(express.urlencoded());
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors())
 const router = express.Router();
 
 mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority')
 mongoose.connection.once('open', () => {
   console.log('Connected to Database');
 })
-app.use(express.json());
-app.use(cookieParser());
 
 
 
