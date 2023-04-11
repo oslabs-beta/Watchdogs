@@ -1,28 +1,22 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
-interface LoginProps{
-    setIsLoggedIn: (IsLoggedIn: boolean)=>void
-}
 // import { Dispatch, SetStateAction } from "react";
 
 // interface IProps {
 //   setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
 // }
 
- function Login({ setIsLoggedIn }: LoginProps) {
+ function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     
     function loginSubmit (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
-        console.log('logging in')
-        console.log(username, password);
 
-        fetch('http://localhost:3000/api/login', {
+        fetch('/api/login', {
             method: 'POST', 
-            // mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
               },
@@ -33,9 +27,7 @@ interface LoginProps{
         })
         .then((res) => res.json())
         .then((res) => {
-            console.log(res)
             if (res.match){
-                setIsLoggedIn(true)
                 navigate('/home')
             } else {
                 window.alert('Incorrect username and/or password')

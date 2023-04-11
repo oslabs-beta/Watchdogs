@@ -1,18 +1,48 @@
-import React, { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
-    
+import React, { useState, useEffect } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+
+import UserInfo from './UserInfo.js';
+import WarmList from './WarmList.js';
+import ErrorLogs from './ErrorLogs.js';
+import FunctionsList from './FunctionsList.js'
 
 function Home () {
+const navigate = useNavigate();
+
+const [user, setUser] = useState({});
+
+useEffect(() => {
+  
+  fetch('/api/user')
+    .then((res) => {
+      if (res.redirected){
+        navigate('/login')
+      } else {
+        return res.json();
+      }
+    })
+    .then(res => {
+      setUser(res)
+    })
+
+}, []) 
+
         return (
       <>
         <nav>
-          <ul>
-            <li> <Link to='/'></Link></li>
-            <li> <Link to='/warmlist'></Link></li>
-            <li> <Link to='/errorlogs'></Link></li>
-            <li> <Link to='/userinfo'></Link></li>
-          </ul>
+          <Link to='/home'>Home</Link>
+          <Link to='warmlist'>Warm List</Link>
+          <Link to='errorlogs'>Error Logs</Link>
+          <Link to='userinfo'>User Info</Link>
         </nav>
+        <div>{user.username}</div>
+        <Routes>
+          <Route path='/' element={<FunctionsList/>}></Route>
+          <Route path='/warmlist' element={<WarmList/>}></Route>
+          <Route path='/errorlogs' element={<ErrorLogs/>}></Route>
+          <Route path='/userinfo' element={<UserInfo/>}></Route>
+        </Routes>
+
       </>
         )
     }

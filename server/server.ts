@@ -2,7 +2,7 @@ import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} 
 const app: Express = express()
 import path from 'path';
 import mongoose from 'mongoose';
-import cors from 'cors';
+// import cors from 'cors';
 import userController from './controllers/userController.js';
 import cookieController from './controllers/cookieController.js';
 // const {createAccount, logIn, getUser, addArn} = userController
@@ -12,7 +12,7 @@ import { request } from 'http';
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+// app.use(cors())
 const router = express.Router();
 
 mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority')
@@ -24,18 +24,21 @@ mongoose.connection.once('open', () => {
 
 app.use('/api', router);
 app.get('/', (req: Request, res: Response) => {
-    res.status(200).sendFile(__dirname, '../index.html')
+  res.status(200).sendFile(__dirname, '../index.html')
 })
 
-router.post('/signup', userController.createAccount, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.newUser)
+router.post('/signup', userController.createAccount, cookieController.setCookie, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
 })
 
 router.post('/login', userController.logIn, cookieController.setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })
 
-router.get('/', userController.getUser, (req: Request, res: Response) => {
+// app.use('/home', cookieController.checkCookie, (req: Request, res: Response) => {
+//   res.sendStatus(200)
+// })
+router.get('/user', cookieController.checkCookie, userController.getUser, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user)
 })
 

@@ -24,8 +24,7 @@ function Signup () {
         })
         .then((res) => res.json())
         .then((res) => {
-            if (res.newUser){
-                setIsLoggedIn(true);
+            if (res.user){
                 navigate('/home');
             } else {
                 window.alert('Incorrect username and/or password')
@@ -41,7 +40,7 @@ function Signup () {
                 <input type='text' placeholder='username' onChange={(e) =>{setUsername(e.target.value)}}/>
                 <input type='password' placeholder='password' onChange={(e) =>{setPassword(e.target.value)}}/>
                 <input type='text' placeholder='ARN' onChange={(e) =>{setArn(e.target.value)}}/>
-                <button type='submit' onClick={(e: React.MouseEvent<HTMLButtonElement>) => loginSubmit(e)}>Login</button>
+                <button type='submit' onClick={(e: React.MouseEvent<HTMLButtonElement>) => loginSubmit(e)}>Signup</button>
             </form>
         </div>
     )

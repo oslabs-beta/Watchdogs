@@ -7,8 +7,8 @@ const userController = {
     createAccount : async (req: Request, res: Response, next: NextFunction) => {
         try {
             const {username, password, arn} = req.body;
-            const newUser = await User.create({username: username, password: password, arn: arn});
-            res.locals.newUser = newUser;
+            const user = await User.create({username: username, password: password, arn: arn});
+            res.locals.user = user;
             return next()
         } catch (err) {
             return next({log: 'Error in userController createAccount middleware.', status: 500, message: err})
@@ -16,16 +16,12 @@ const userController = {
     },
 
     logIn : async (req: Request, res: Response, next: NextFunction) => {
-        console.log(req.body)
-        console.log('in the userController middleware logIn');
         try {
             const {username, password} = req.body;
             const user = await User.findOne({username: username});
             if (user) {
-                console.log('found a user!')
                 const rightPassword = await bcrypt.compare(password, user.password);
                 if (rightPassword) {
-                    console.log('the pw matches')
                     res.locals.user = user
                     res.locals.match = true;
                     return next();
@@ -39,8 +35,8 @@ const userController = {
     }, 
     getUser : async (req: Request, res: Response, next: NextFunction) => {
         try {
-          const {username} = req.body;
-          const user = await User.findOne({username: username})
+          const { userId } = req.cookies;
+          const user = await User.findOne({_id: userId})
           res.locals.user = user;
           return next()
         } catch (err){
