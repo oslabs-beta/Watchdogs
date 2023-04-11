@@ -2,11 +2,13 @@ import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} 
 const app: Express = express()
 import path from 'path';
 import mongoose from 'mongoose';
-import userController from './controllers/userController';
+import userController from './controllers/userController.js';
+import cookieController from './controllers/cookieController.js';
 // const {createAccount, logIn, getUser, addArn} = userController
 const port = 3000;
 import cookieParser from 'cookie-parser';
 import { request } from 'http';
+app.use(express.urlencoded());
 const router = express.Router();
 
 mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority')
@@ -15,6 +17,8 @@ mongoose.connection.once('open', () => {
 })
 app.use(express.json());
 app.use(cookieParser());
+
+
 
 app.use('/api', router);
 app.get('/', (req: Request, res: Response) => {
@@ -25,10 +29,9 @@ router.post('/signup', userController.createAccount, (req: Request, res: Respons
   res.status(200).json(res.locals.newUser)
 })
 
-router.post('/login', userController.logIn, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user)
+router.post('/login', userController.logIn, cookieController.setCookie, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
 })
-
 
 router.get('/', userController.getUser, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user)

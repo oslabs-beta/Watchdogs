@@ -1,5 +1,5 @@
 import {Express, Request, Response, NextFunction} from 'express';
-import User from '../models/userModel';
+import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
 const userController = {
@@ -16,13 +16,18 @@ const userController = {
     },
 
     logIn : async (req: Request, res: Response, next: NextFunction) => {
+        console.log(req.body)
+        console.log('in the userController middleware logIn');
         try {
             const {username, password} = req.body;
             const user = await User.findOne({username: username});
             if (user) {
+                console.log('found a user!')
                 const rightPassword = await bcrypt.compare(password, user.password);
                 if (rightPassword) {
+                    console.log('the pw matches')
                     res.locals.user = user
+                    res.locals.match = true;
                     return next();
                 }
                 else res.status(200).json({message: 'Incorrect username and/or password.'})
