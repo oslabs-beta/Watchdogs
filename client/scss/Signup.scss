@@ -1,0 +1,63 @@
+// Color Variables
+$primary-color: rgb(16, 17, 29);
+$secondary-color: rgb(224, 144, 52);
+
+// Main Container
+#main-signup-container {
+  display: flex;
+  height: 96vh;
+  justify-content: center;
+  align-items: center;
+}
+
+//Signup Container
+#signup-container {
+  background-color: $primary-color;
+  height: auto;
+  width: 50vw;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $secondary-color;
+  border-radius: 25px;
+  z-index: 1;
+
+  img {
+    width: 50vw;
+    max-width: 800px;
+    border-radius: 30px;
+  }
+
+  form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    div {
+      padding: 5px;
+      margin-bottom: 5px;
+
+      input {
+        margin: 5px;
+      }
+    }
+
+    #arn {
+      margin-bottom: 5px;
+    }
+
+    button {
+      width: 10em;
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: $secondary-color;
+      padding-bottom: 20px;
+    }
+  }
+}

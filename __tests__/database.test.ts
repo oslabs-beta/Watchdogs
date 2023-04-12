@@ -1,74 +1,38 @@
 import request from 'supertest';
 import app from '../server/server';
 
-describe ('Testing Suite for Routes', ()=> {
+describe('Testing Suite for Routes', () => {
+  describe('POST /signup', () => {
+    it('Responds with a 302 (redirect) status code', () => {});
 
-  describe ('POST /signup', () => {
-      
-    it('Responds with a 302 (redirect) status code', () => {
-      
-    })
-    
-    it('Sucsessfully creates a user in the database', () => {
-      
-    })
-    
-    it('Adds a session cookie in the response header', () => {
-      
-    })
-    
-  })
+    it('Sucsessfully creates a user in the database', () => {});
 
-  describe ('POST /login', () => {
-      
-    it('Responds with a 302 (redirect) status code', () => {
-      
-    })
+    it('Adds a session cookie in the response header', () => {});
+  });
 
-    it("Redirects to '/home'", () => {
-      
-    })
+  describe('POST /login', () => {
+    it('Responds with a 302 (redirect) status code', () => {});
 
-    it('Adds a session cookie in the response header', () => {
-      
-    })
+    it("Redirects to '/home'", () => {});
 
-    it("If input is invalid, responds with a 200 status code and 'Incorrect username and/or password.'", () => {
-      
-    })
-    
-  })
-  
-    describe ('GET /user', () => {
+    it('Adds a session cookie in the response header', () => {});
 
-      it('Responds with a 200 status code', () => {
-        
-      })
-  
-      it('Responds with a JSON object', () => {
-  
-      })
+    it("If input is invalid, responds with a 200 status code and 'Incorrect username and/or password.'", () => {});
+  });
 
-      it('Responds with the users data', () => {
-        
-      })
+  describe('GET /user', () => {
+    it('Responds with a 200 status code', () => {});
 
-  })
+    it('Responds with a JSON object', () => {});
 
-    describe ('PUT /user', () => {
+    it('Responds with the users data', () => {});
+  });
 
-      it('Responds with a 200 status code', () => {
-        
-      })
+  describe('PUT /user', () => {
+    it('Responds with a 200 status code', () => {});
 
-      it('Responds with a JSON object', () => {
+    it('Responds with a JSON object', () => {});
 
-      })
-
-      it('Responds with the updated users data', () => {
-        
-      })
-
-  })
-  
-})
+    it('Responds with the updated users data', () => {});
+  });
+});
