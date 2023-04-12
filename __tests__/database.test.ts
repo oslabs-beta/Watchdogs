@@ -1,5 +1,4 @@
 import request from 'supertest';
-import app from '../server/server';
 const server = 'http://localhost:3000';
 
 describe ('Testing Suite for Routes', ()=> {
@@ -181,15 +180,10 @@ describe ('Testing Suite for Routes', ()=> {
   })
   describe ('DELETE /user', () => {
 
-    let userId:string;
-
 
     beforeEach(() => request(server)
     .post('/api/signup')
     .send({username: testUser, password: testPass, arn: testArn})
-    .then(response => {
-      userId = response.body.user._id
-      })
     )
 
     it ('Responds with a 200 status code', () => request(server)
