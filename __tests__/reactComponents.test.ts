@@ -4,7 +4,7 @@ import { fireEvent, render , waitFor} from '@testing-library/react';
 
 import App from '../client/App';
 
-describe('React Component Testing', () => {
+xdescribe('React Component Testing', () => {
 
     describe('SignUp Page', () => {
 

@@ -41,6 +41,17 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
         return next({log: 'Error in userController getUser middleware.', status: 500, message: err})
     }
 }
+
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { username } = req.body;
+        const user = await User.findOneAndDelete({username: username})
+        res.locals.user = user;
+        return next();
+    } catch (err){
+        return next({log: 'Error in userController deleteUser middleware.', status: 500, message: err})
+    }
+}
 const addArn = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {username, arn} = req.body;
@@ -56,5 +67,6 @@ export {
     createAccount,
     logIn, 
     getUser,
+    deleteUser,
     addArn
 };
