@@ -3,7 +3,7 @@ import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} 
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 //IMPORT CONTROLLERS
-import { createAccount, getUser, addArn, logIn } from './controllers/userController.js';
+import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie } from './controllers/cookieController.js';
 
 const port = 3000;
@@ -25,6 +25,9 @@ router.get('/user', checkCookie, getUser, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user)
 })
 
+router.delete('/user', deleteUser, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.user)
+})
 router.post('/signup', createAccount, setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })
