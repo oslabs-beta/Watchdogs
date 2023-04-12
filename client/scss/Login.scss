@@ -3,10 +3,6 @@ $secondary-color: rgb(224,144,52);
 
 
 
-img {
-    width: 50vw;
-    z-index: -1;
-}
 
 
 
@@ -18,6 +14,7 @@ img {
 }
 
 #login-containter {
+    background-color: $primary-color;
     height: auto;
     width: 50vw;
     display: flex;
@@ -26,7 +23,12 @@ img {
     justify-content: center;
     border: 1px solid $secondary-color;
     border-radius: 25px;
-
+    z-index: 1;
+   
+    img {
+        width: 50vw;
+        border-radius: 30px;
+    }
     form {
         text-align: center;
         display: flex;

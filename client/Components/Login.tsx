@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import Particles from "react-particles";
+import { loadFull } from 'tsparticles';
 import logo from '../assets/watchdogs-black.png';
 import '../scss/Login.scss'
+import { Engine } from 'tsparticles-engine';
+import loginParticles from '../assets/login-particles.json'
 
 function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    
+    const particlesInit = useCallback(async (engine: Engine) => {
+      await loadFull(engine);
+    }, []);
+    const options:any = loginParticles
+
     function loginSubmit (e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
 
@@ -37,6 +44,7 @@ function Login() {
 
     return (
         <main id='main-container'>
+            <Particles options={options} init={particlesInit} />
             <div id='login-containter'>
                 <img src={logo} alt="Watchdogs logo" />
                 <form>
