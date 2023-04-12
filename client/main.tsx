@@ -1,11 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+// React Imports
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
-import App from './App'
+// Component Imports
+import App from './App';
 
+// Remder Root Component
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-)
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

@@ -1,49 +1,74 @@
-import React, { useState, useEffect } from 'react'
+// React Imports
+import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
-import UserInfo from './UserInfo.js';
-import WarmList from './WarmList.js';
-import ErrorLogs from './ErrorLogs.js';
-import FunctionsList from './FunctionsList.js'
-import '../scss/Home.scss'
+// Particles Imports
+import Particles from 'react-particles';
+import { loadFull } from 'tsparticles';
+import { Engine } from 'tsparticles-engine';
+import loginParticles from '../assets/login-particles.json';
 
-function Home () {
-  const [user, setUser] = useState({});
+// Component Imports
+import UserInfo from './UserInfo';
+import WarmList from './WarmList';
+import ErrorLogs from './ErrorLogs';
+import FunctionsList from './FunctionsList';
+import '../scss/Home.scss';
+
+// Main Function
+function Home() {
+  //
+  // State Declaration
+  const [user, setUser] = useState({
+    arn: '',
+    password: '',
+    username: '',
+    __v: 0,
+    _id: '',
+  });
   const navigate = useNavigate();
 
+  // Particles Initialization
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadFull(engine);
+  }, []);
+  const options: any = loginParticles;
+
+  // Check For User Info
   useEffect(() => {
     fetch('/api/user')
       .then((res) => {
-        if (res.redirected){
-          navigate('/login')
+        if (res.redirected) {
+          navigate('/login');
         } else {
           return res.json();
         }
       })
-      .then(res => {
-        setUser(res)
-      })
-  }, []) 
+      .then((res) => {
+        setUser(res);
+      });
+  }, []);
 
+  //Render Componenets
   return (
     <>
+      <Particles options={options} init={particlesInit} />
+
       <nav>
-        <Link to='/home'>Home</Link>
-        <Link to='warmlist'>Warm List</Link>
-        <Link to='errorlogs'>Error Logs</Link>
-        <Link to='userinfo'>User Info</Link>
+        <Link to="/home">Functions</Link>
+        <Link to="warmlist">Warm List</Link>
+        <Link to="errorlogs">Error Logs</Link>
+        <Link to="userinfo">User Info</Link>
       </nav>
 
       <Routes>
-        <Route path='/' element={<FunctionsList/>}></Route>
-        <Route path='/warmlist' element={<WarmList/>}></Route>
-        <Route path='/errorlogs' element={<ErrorLogs/>}></Route>
-        <Route path='/userinfo' element={<UserInfo/>}></Route>
+        <Route path="/" element={<FunctionsList user={user} />}></Route>
+        <Route path="/warmlist" element={<WarmList user={user} />}></Route>
+        <Route path="/errorlogs" element={<ErrorLogs user={user} />}></Route>
+        <Route path="/userinfo" element={<UserInfo user={user} />}></Route>
       </Routes>
     </>
-  )
+  );
 }
-    
+
 export default Home;
-    
-    

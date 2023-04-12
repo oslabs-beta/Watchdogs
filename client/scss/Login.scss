@@ -1,55 +1,58 @@
-$primary-color: rgb(16,17,29);
-$secondary-color: rgb(224,144,52);
+// Color Variables
+$primary-color: rgb(16, 17, 29);
+$secondary-color: rgb(224, 144, 52);
 
-
-
-
-
-
-#main-container {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
+// Main Container
+#main-login-container {
+  display: flex;
+  height: 96vh;
+  justify-content: center;
+  align-items: center;
 }
 
-#login-containter {
-    background-color: $primary-color;
-    height: auto;
+// Login Container
+#login-container {
+  background-color: $primary-color;
+  height: auto;
+  width: 50vw;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $secondary-color;
+  border-radius: 25px;
+  z-index: 1;
+  box-shadow: $primary-color 0px 7px 29px 0px;
+
+  img {
     width: 50vw;
+    max-width: 800px;
+    border-radius: 30px;
+  }
+
+  form {
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    border: 1px solid $secondary-color;
-    border-radius: 25px;
-    z-index: 1;
-   
-    img {
-        width: 50vw;
-        border-radius: 30px;
+
+    div {
+      padding: 5px;
+      margin-bottom: 5px;
+
+      input {
+        margin: 5px;
+      }
     }
-    form {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        div {
-            padding: 5px;
-            
-            input {
-                margin: 5px;
-            }
 
-        }
-
-        button {
-            width: 200px;
-        }
-
-        a {
-            color: $secondary-color;
-            padding: 12px;
-        }
+    button {
+      width: 10em;
     }
+
+    a {
+      color: $secondary-color;
+      padding-bottom: 20px;
+    }
+  }
 }

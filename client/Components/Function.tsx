@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
+// React Imports
+import React, { useState } from 'react';
 
-function Function () {
-
-    return (
-        <>
-        </>
-    )
+// Main Function
+function Function() {
+  return (
+    <>
+      <div className="function">
+        <div className="function-info">
+          <p>Function name</p>
+        </div>
+        <iframe></iframe>
+      </div>
+    </>
+  );
 }
 
-export default Function
+export default Function;

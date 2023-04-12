@@ -1,21 +1,115 @@
-$primary-color: rgb(16,17,29);
-$secondary-color: rgb(224,144,52);
+// Color Variables
+$primary-color: rgb(16, 17, 29);
+$secondary-color: rgb(224, 144, 52);
 
 body {
-    margin: 0px;
-    background-color: $primary-color;
+  margin: 20px;
+  background-color: $primary-color;
+  color: $secondary-color;
 }
 
+// Nav-Bar
 nav {
-display: flex;
-justify-content: space-around;
+  min-height: 30px;
+  position: relative;
+  z-index: 1000;
+  height: 5vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: $primary-color;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: $primary-color 0px 7px 29px 0px;
 
-    a {
+  a {
     color: $secondary-color;
-    }
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
-p {
-    color: $secondary-color;
+// Functions
+#functions-list {
+  position: relative;
 }
 
+.function {
+  background-color: $primary-color;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: $primary-color 0px 7px 29px 0px;
+
+  div {
+    width: 25%;
+    text-align: center;
+  }
+
+  iframe {
+    width: 75%;
+    border: 1px solid $secondary-color;
+    border-radius: 15px;
+  }
+}
+
+// Error Logs, Warm List
+#error-logs,
+#warm-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+  max-width: 50vw;
+  position: relative;
+  background-color: $primary-color;
+  margin-top: 20px;
+  padding-left: 20px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: $primary-color 0px 7px 29px 0px;
+}
+
+//User Info
+#main-user-info,
+#main-error-logs,
+#main-warm-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+  position: relative;
+  background-color: $primary-color;
+  margin-top: 20px;
+  padding-left: 20px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: $primary-color 0px 7px 29px 0px;
+
+  button {
+    color: $secondary-color;
+    background: transparent;
+    border: none;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  form {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  span {
+    text-decoration: underline;
+  }
+}

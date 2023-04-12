@@ -1,4 +1,4 @@
-import type {Config} from 'jest';
+import type { Config } from 'jest';
 
 const config: Config = {
   // The root of your source code, typically /src
@@ -8,9 +8,10 @@ const config: Config = {
   // Jest transformations -- this adds support for TypeScript
   // using ts-jest
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    '^.+\\.tsx?$': 'ts-jest',
+    // '\\.(jpg|jpeg|png|scss)$': '<rootDir>/__tests/mock.js',
   },
-  
+
   // Runs special logic, such as cleaning up components
   // when using React Testing Library and adds special
   // extended assertions to Jest
@@ -22,11 +23,10 @@ const config: Config = {
   // Test spec file resolution pattern
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
-  
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+
   // Module file extensions for importing
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+};
 
-}
-
-export default config
+export default config;

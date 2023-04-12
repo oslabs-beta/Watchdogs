@@ -1,12 +1,27 @@
-import React, { useState } from 'react'
+// React Imports
+import React, { useState } from 'react';
 
-function FunctionsList() {
+// Component Imports
+import Function from './Function';
 
-    return(
-        <>
-            <p>Functions List</p>
-        </>
-    )
+// Type Declarations
+type UserProps = {
+  user: {
+    username: string;
+    arn: string;
+    _id: string;
+  };
+};
+
+// Main Function
+function FunctionsList(props: UserProps) {
+  const functions = [];
+
+  for (let i = 0; i < 5; i++) {
+    functions.push(<Function key={i}></Function>);
+  }
+
+  return <div id="functions-list">{functions}</div>;
 }
 
-export default FunctionsList
+export default FunctionsList;
