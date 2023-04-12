@@ -1,0 +1,21 @@
+$primary-color: rgb(16,17,29);
+$secondary-color: rgb(224,144,52);
+
+body {
+    margin: 0px;
+    background-color: $primary-color;
+}
+
+nav {
+display: flex;
+justify-content: space-around;
+
+    a {
+    color: $secondary-color;
+    }
+}
+
+p {
+    color: $secondary-color;
+}
+

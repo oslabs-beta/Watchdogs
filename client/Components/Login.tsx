@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// import { Dispatch, SetStateAction } from "react";
+import logo from '../assets/watchdogs-black.png';
+import '../scss/Login.scss'
 
-// interface IProps {
-//   setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
-// }
-
- function Login() {
+function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
@@ -39,18 +36,20 @@ import { Link, useNavigate } from 'react-router-dom';
     }
 
     return (
-        
-    <div>
-        <form>
-            <input type='text' placeholder='username' onChange={(e) =>{setUsername(e.target.value)}}/>
-            <input type='password' placeholder='password' onChange={(e) =>{setPassword(e.target.value)}}/>
-            <button type='submit' onClick={(e: React.MouseEvent<HTMLButtonElement>) => loginSubmit(e)}>Login</button>
-            <br></br>
-            <p><Link to='/signup'>Click Here to Sign Up</Link></p>
-        </form>
-        {/* <div>Incorrect Username or Password</div> */}
-    </div>
-
+        <main id='main-container'>
+            <div id='login-containter'>
+                <img src={logo} alt="Watchdogs logo" />
+                <form>
+                    <div>
+                    <input type='text' placeholder='username' onChange={(e) =>{setUsername(e.target.value)}}/>
+                    <input type='password' placeholder='password' onChange={(e) =>{setPassword(e.target.value)}}/>
+                    </div>
+                    <button type='submit' onClick={(e: React.MouseEvent<HTMLButtonElement>) => loginSubmit(e)}>Login</button>
+                    <br></br>
+                    <Link to='/signup'>Click Here to Sign Up</Link>
+                </form>
+            </div>
+        </main>
     )
 
 }
