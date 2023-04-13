@@ -9,12 +9,16 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "tsc": "tsc ./server/controllers/AWScontroller.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-sts": "^3.312.0",
+    "@aws-sdk/types": "^3.310.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "aws-sdk": "^2.1357.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
