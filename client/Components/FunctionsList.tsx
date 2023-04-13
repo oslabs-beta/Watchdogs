@@ -17,7 +17,7 @@ type UserProps = {
 function FunctionsList(props: UserProps) {
   const functions = [];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 1; i++) {
     functions.push(<Function key={i}></Function>);
   }
 
