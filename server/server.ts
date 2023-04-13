@@ -2,11 +2,14 @@
 import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie } from './controllers/cookieController.js';
+import {doStuff} from './controllers/AWScontroller.js'
 
 const port = 3000;
+
 //CREATE APP AND PARSE 
 const app: Express = express();
 app.use(express.urlencoded());
@@ -17,9 +20,15 @@ mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian
 mongoose.connection.once('open', () => {
   console.log('Connected to Database');
 })
+
 //ROUTER FOR /API
 const router = express.Router();
 app.use('/api', router);
+
+router.get('/metric', async (req: Request, res: Response) => {
+  const result = await doStuff();
+  res.json(result);
+})
 
 router.get('/user', checkCookie, getUser, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user)
