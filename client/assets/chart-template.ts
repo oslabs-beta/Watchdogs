@@ -3,9 +3,47 @@
 // https://observablehq.com/@d3/line-chart
 
 import * as d3 from 'd3';
+// const chart = Chart(test, {
+//       x: (d) => d.date,
+//       y: (d) => d.close,
+//       yLabel: '↑ Daily close ($)',
+//       width,
+//       height: 500,
+//       color: 'steelblue',
+//     });
+interface OptionsInterface {
+  x: (d: any) => number;
+  y: (d: any) => number;
+  defined: (d: any, i: number) => boolean;
+  curve: d3.CurveFactory; // method of interpolation between points
+  marginTop: number;
+  marginRight: number;
+  marginBottom: number;
+  marginLeft: number;
+  width: number;
+  height: number; // outer height, in pixels
+  xType: d3.ScaleTime<number, number, never>; // the x-scale type
+  xDomain: Array<number | undefined>; // [xmin, xmax]
+  xRange: Array<number>; // [left, right]
+  yType: d3.ScaleContinuousNumeric<number, number, never>; // the y-scale type
+  yDomain: Array<number | string>; // [ymin, ymax]
+  yRange: Array<number>; // [bottom, top]
+  yFormat: (d: number) => string; // a format specifier string for the y-axis
+  yLabel: string; // a label for the y-axis
+  color: string; // stroke color of line
+  strokeLinecap: string; // stroke line cap of the line
+  strokeLinejoin: string; // stroke line join of the line
+  strokeWidth: number; // stroke width of line, in pixels
+  strokeOpacity: number; // stroke opacity of line
+}
+
+interface DataInterface {
+  date: string;
+  close: number;
+}
 
 export function Chart(
-  data,
+  data: Iterable<DataInterface[]>,
   {
     x = ([x]) => x, // given d in data, returns the (temporal) x-value
     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
@@ -30,7 +68,7 @@ export function Chart(
     strokeLinejoin = 'round', // stroke line join of the line
     strokeWidth = 1.5, // stroke width of line, in pixels
     strokeOpacity = 1, // stroke opacity of line
-  } = {}
+  } = {} as OptionsInterface
 ) {
   // Compute values.
   const X = d3.map(data, x);

@@ -1,12 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { rootCertificates } from 'tls';
 import * as Plot from '@observablehq/plot';
 
-// import {Chart} from '../assets/chart-template.js';
+import { Chart } from '../assets/chart-template.js';
 
 // function Chart(
-//   data: object[],
+//   data,
 //   {
 //     x = ([x]) => x, // given d in data, returns the (temporal) x-value
 //     y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
@@ -31,7 +31,7 @@ import * as Plot from '@observablehq/plot';
 //     strokeLinejoin = 'round', // stroke line join of the line
 //     strokeWidth = 1.5, // stroke width of line, in pixels
 //     strokeOpacity = 1, // stroke opacity of line
-//   } = {}
+//   } = {},
 // ) {
 //   // Compute values.
 //   const X = d3.map(data, x);
@@ -107,100 +107,121 @@ import * as Plot from '@observablehq/plot';
 
 //   return svg.node();
 // }
+//   const chart = Chart(test, {
+//     x: (d) => d.date,
+//     y: (d) => d.close,
+//     yLabel: '↑ Daily close ($)',
+//     width,
+//     height: 500,
+//     color: 'steelblue',
+//   });
 
-// function LineChart() {
-//   const test: object[] = [
-//     { date: '2007-04-23', close: 93.24 },
-//     { date: '2007-04-24', close: 95.35 },
-//     { date: '2007-04-25', close: 98.84 },
-//     { date: '2007-04-26', close: 99.92 },
-//     { date: '2007-04-29', close: 99.8 },
-//     { date: '2007-05-01', close: 99.47 },
-//     { date: '2007-05-02', close: 100.39 },
-//   ];
+function LineChart() {
+  const divRef = useRef<HTMLInputElement>(null);
+  // ref!: SVGSVGElement;
+  const test: object[] = [
+    { date: '2007-04-23', close: 93.24 },
+    { date: '2007-04-24', close: 95.35 },
+    { date: '2007-04-25', close: 98.84 },
+    { date: '2007-04-26', close: 99.92 },
+    { date: '2007-04-29', close: 99.8 },
+    { date: '2007-05-01', close: 99.47 },
+    { date: '2007-05-02', close: 100.39 },
+  ];
 
-//   //   const chart = Chart(test, {
-//   //     x: (d) => d.date,
-//   //     y: (d) => d.close,
-//   //     yLabel: '↑ Daily close ($)',
-//   //     width,
-//   //     height: 500,
-//   //     color: 'steelblue',
-//   //   });
-//   const chartArray: [] = [];
-//   const chart = Plot.plot({
-//     y: {
-//       grid: true,
-//     },
-//     marks: [Plot.line(test, { x: 'Date', y: 'Close' })],
-//   }) as SVGProps<SVGElement>;
-//   //   chartArray.push(chart)
-//   console.log(chart);
-//   return <>
-//   <svg src={chart}></svg>
-//   </>;
-// }
+  // const chart = Plot.plot({
+  //   grid: true,
+  //   style: {
+  //     background: 'transparent',
+  //     color: 'rgb(224, 144, 52)',
+  //   },
 
-// export default LineChart;
+  //   marks: [Plot.line(test, { x: 'date', y: 'close' })],
+  // });
+  // const chart = Chart(test, {
+  //       x: (d) => d.date,
+  //       y: (d) => d.close,
+  //       yLabel: '↑ Daily close ($)',
+  //       width,
+  //       height: 500,
+  //       color: 'steelblue',
+  //     });
 
-class LineChart extends React.Component {
-  ref!: SVGSVGElement;
+  useEffect(() => {
+    divRef.current?.append(chart);
+    return function cleanup() {
+      divRef.current?.removeChild(chart);
+    };
+  }, []);
 
-  private buildGraph(data: Array<number>) {
-    const width = 200,
-      scaleFactor = 10,
-      barHeight = 20;
-
-    const graph = d3
-      .select(this.ref)
-      .attr('width', width)
-      .attr('height', barHeight * data.length);
-
-    const bar = graph
-      .selectAll('g')
-      .data(data)
-      .enter()
-      .append('g')
-      .attr('transform', function (d, i) {
-        return 'translate(0,' + i * barHeight + ')';
-      });
-
-    bar
-      .append('rect')
-      .attr('width', function (d) {
-        return d * scaleFactor;
-      })
-      .attr('height', barHeight - 1);
-
-    bar
-      .append('text')
-      .attr('x', function (d) {
-        return d * scaleFactor;
-      })
-      .attr('y', barHeight / 2)
-      .attr('dy', '.35em')
-      .text(function (d) {
-        return d;
-      });
-  }
-
-  componentDidMount() {
-    // activate
-    this.buildGraph([5, 10, 12]);
-  }
-
-  render() {
-    return (
-      <div className="svg">
-        <svg
-          className="container"
-          ref={(ref: SVGSVGElement) => (this.ref = ref)}
-          width="100"
-          height="100"
-        ></svg>
-      </div>
-    );
-  }
+  console.log(chart);
+  return (
+    <>
+      <div style={{ width: '500px' }} ref={divRef}></div>
+    </>
+  );
 }
 
 export default LineChart;
+
+// class LineChart extends React.Component {
+//   ref!: SVGSVGElement;
+
+//   private buildGraph(data: Array<number>) {
+//     const width = 200,
+//       scaleFactor = 10,
+//       barHeight = 20;
+
+//     const graph = d3
+//       .select(this.ref)
+//       .attr('width', width)
+//       .attr('height', barHeight * data.length);
+
+//     const bar = graph
+//       .selectAll('g')
+//       .data(data)
+//       .enter()
+//       .append('g')
+//       .attr('transform', function (d, i) {
+//         return 'translate(0,' + i * barHeight + ')';
+//       });
+
+//     bar
+//       .append('rect')
+//       .attr('width', function (d) {
+//         return d * scaleFactor;
+//       })
+//       .attr('height', barHeight - 1);
+
+//     bar
+//       .append('text')
+//       .attr('x', function (d) {
+//         return d * scaleFactor;
+//       })
+//       .attr('y', barHeight / 2)
+//       .attr('dy', '.35em')
+//       .text(function (d) {
+//         return d;
+//       });
+//   }
+
+//   componentDidMount() {
+//     // activate
+//     this.buildGraph([5, 10, 12]);
+//   }
+
+//   render() {
+//     return (
+//       <div className="svg">
+//         <svg
+//           className="container"
+//           ref={(ref: SVGSVGElement) => (this.ref = ref)}
+//           width="100"
+//           height="100"
+//         ></svg>
+//       </div>
+//     );
+//   }
+// }
+
+// export default LineChart;
