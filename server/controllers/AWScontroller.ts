@@ -2,101 +2,36 @@
 import AWS from 'aws-sdk';
 import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import * as dotenv from 'dotenv';
+import {Express, Request, Response, NextFunction} from 'express';
+
+import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse } from './types.js';
+
 dotenv.config();
 
-// Interfaces
-interface CredentialsInterface {
-  Credentials: {
-    AccessKeyId: string
-    SecretAccessKey: string
-    SessionToken: string
-  }
-}
-
-interface LogGroupsInterface {
-  logGroups: Array<LogGroup>
-}
-
-interface LogGroup {
-  logGroupName: string
-}
-
-interface ParamsInterface {
-  MetricDataQueries: Array<MetricDataQueriesInterface>
-  StartTime: Date
-  EndTime: Date
-  ScanBy: string
-  MaxDatapoints: number
-  NextToken?: string
-}
-
-interface MetricDataQueriesInterface {
-  Id: string
-  MetricStat: {
-    Metric: {
-      Namespace: string
-      MetricName: string
-      Dimensions: [
-        {
-          Name: string,
-          Value: string
-        }
-      ]
-    }
-    Period: number
-    Stat: string
-  }
-}
-
-interface Metrics {
-  [key: string] : {
-    [key: string]: MetricValues
-  }
-}
-
-interface MetricValues {
-  values: Array<number> 
-  timestamps: Array<string>
-}
-
-interface MetricDataResponse {
-  MetricDataResults: Array<MetricData>
-  NextToken: string
-}
-
-interface MetricData{
-      Id: string,
-      Label: string
-      Timestamps: Array<string>,
-      Values: Array<number>,
-      StatusCode: string
-      Messages: Array<string>
-}
-
+//TYPING FOR ENV FILE
 declare let process : {
   env: {
-    accessKeyId: string
-    secretAccessKeyId: string
+      accessKeyId: string
+      secretAccessKey: string
   }
 }
-
-//CLIENT'S REGION
-const REGION = "us-east-2";
 
 //OUR PROJECT'S AWS USER CREDENTIALS
 
 const credentials = new AWS.Credentials({
-  accessKeyId: 'AKIAXA4JSMQS3XHMVDXV',
-  secretAccessKey: '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'
+  accessKeyId: process.env.accessKeyId,
+  secretAccessKey: process.env.secretAccessKey
 });
 
 //STS CLIENT TO ASSUME ROLE
-const client = new STSClient({ region: REGION, credentials: credentials });
+const client = new STSClient({ region: 'us-east-2', credentials: credentials });
 
-const doStuff = async () => {
+const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
+
+  const { region, arn } = res.locals.user
 
   const input = {
-    RoleArn: "arn:aws:iam::482935464997:role/test_role", // required
+    RoleArn: arn, // required
     RoleSessionName: "test", // required
     DurationSeconds: 900,
   };
@@ -112,7 +47,7 @@ const doStuff = async () => {
   })
 
   const cloudwatchlogs = new AWS.CloudWatchLogs({ 
-    region: REGION, 
+    region: region, 
     credentials: userCredentials,
   });
 
@@ -126,14 +61,14 @@ const doStuff = async () => {
   console.log(functions);
 
   const cloudwatch = new AWS.CloudWatch({ 
-    region: REGION, 
+    region: region, 
     credentials: userCredentials,
   });
 
   const addQuery = (func: string) => {
     params.MetricDataQueries.push(
       { 
-        Id: `invocations`, 
+        Id: `invocations` + func.replaceAll('-', ''), 
         Label: `${func} Invocations`,
 
         MetricStat: {
@@ -152,7 +87,7 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `duration`,
+        Id: `duration` + func.replaceAll('-', ''),
         Label: `${func} Duration`,
 
         MetricStat: {
@@ -171,7 +106,7 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `errors`,
+        Id: `errors` + func.replaceAll('-', ''),
         Label: `${func} Errors`,
 
         MetricStat: {
@@ -190,7 +125,7 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `throttles`,
+        Id: `throttles` + func.replaceAll('-', ''),
         Label: `${func} Throttles`,
 
         MetricStat: {
@@ -240,7 +175,6 @@ const doStuff = async () => {
     };
   })
 
-
   async function getMetricData(params: ParamsInterface) {
     const {MetricDataResults, NextToken} = await cloudwatch.getMetricData(params).promise() as unknown as MetricDataResponse;
 
@@ -261,13 +195,9 @@ const doStuff = async () => {
     return metrics;
   }
 
-  return await getMetricData(params);
+  res.locals.metrics = await getMetricData(params);
+  return next();
 }
 
-// async function main() {
-//   const allMetrics = await doStuff();
-//   console.log(JSON.stringify(allMetrics, null, 2));
-// }
-// main();
 
-export {doStuff}
+export {getMetrics}
