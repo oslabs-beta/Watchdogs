@@ -1,6 +1,8 @@
 // Imports
-import AWS from 'aws-sdk'
-import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts'
+import AWS from 'aws-sdk';
+import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 // Interfaces
 interface CredentialsInterface {
@@ -71,17 +73,28 @@ interface MetricData{
       Messages: Array<string>
 }
 
+declare let process : {
+  env: {
+    accessKeyId: string
+    secretAccessKeyId: string
+  }
+}
+
 //CLIENT'S REGION
 const REGION = "us-east-2";
+
 //OUR PROJECT'S AWS USER CREDENTIALS
+
 const credentials = new AWS.Credentials({
-  accessKeyId: 'AKIAXA4JSMQSTQ35WVVW',
-  secretAccessKey: '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'
+  accessKeyId: 'AKIAXA4JSMQS3XHMVDXV',
+  secretAccessKey: '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'
 });
+
 //STS CLIENT TO ASSUME ROLE
 const client = new STSClient({ region: REGION, credentials: credentials });
 
 const doStuff = async () => {
+
   const input = {
     RoleArn: "arn:aws:iam::482935464997:role/test_role", // required
     RoleSessionName: "test", // required
@@ -120,7 +133,8 @@ const doStuff = async () => {
   const addQuery = (func: string) => {
     params.MetricDataQueries.push(
       { 
-        Id: `${func}Invocations`, 
+        Id: `invocations`, 
+        Label: `${func} Invocations`,
 
         MetricStat: {
           Metric: {
@@ -138,7 +152,8 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `${func}Duration`,
+        Id: `duration`,
+        Label: `${func} Duration`,
 
         MetricStat: {
           Metric: {
@@ -156,7 +171,8 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `${func}Errors`,
+        Id: `errors`,
+        Label: `${func} Errors`,
 
         MetricStat: {
           Metric: {
@@ -174,7 +190,8 @@ const doStuff = async () => {
         },
       },
       {
-        Id: `${func}Throttles`,
+        Id: `throttles`,
+        Label: `${func} Throttles`,
 
         MetricStat: {
           Metric: {
