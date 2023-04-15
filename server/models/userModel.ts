@@ -17,6 +17,10 @@ const userSchema = new Schema({
     arn: {
         type: String,
         required: true
+    },
+    region: {
+        type: String,
+        required: true
     }
 });
 
@@ -29,10 +33,7 @@ userSchema.pre('save', function (next) {
     })
 })
 
-// userSchema.methods.comparePassword = async function(unhashed: string) {
-//     const matching = await bcrypt.compare(unhashed, this.password);
-//     return matching;
-// }
+
 
 const User = mongoose.model('User', userSchema);
 export default User;

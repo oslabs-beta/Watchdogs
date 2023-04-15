@@ -2,10 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import Chart from './Chart'
 
+type FunctionProps = {
+  functionName: string;
+  functionData: {
+    [metric:string]: {
+      timestamps: Array<string>
+      values: Array<number>
+    }
+  }
+}
 
 
 // Main Function
-function Function(props: any) {
+function Function(props: FunctionProps) {
   const { functionData, functionName } = props;
   // console.log(functionData)
   //if i console log the functionData, I should see an object containing name: string, data: object
@@ -14,8 +23,8 @@ function Function(props: any) {
  
 
   const charts = [];
-  for (const element in functionData) {
-    charts.push(<Chart key={element} name={element} data={functionData[element]}/>)
+  for (const metric in functionData) {
+    charts.push(<Chart key={metric} name={metric} data={functionData[metric]}/>)
   }
  
   return (

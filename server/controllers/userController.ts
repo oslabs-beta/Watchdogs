@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs';
 
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {username, password, arn} = req.body;
-        const user = await User.create({username: username, password: password, arn: arn});
+        const {username, password, arn, region} = req.body;
+        const user = await User.create({username: username, password: password, arn: arn, region: region});
         res.locals.user = user;
         return next()
     } catch (err) {

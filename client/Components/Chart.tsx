@@ -13,8 +13,8 @@ const Chart = (props: any) => {
   const { name, data } = props;
   
 
-  const labels = data.map((e: any) => e.date)
-  const values = data.map((e: any) => e.value)
+  const labels = data.timestamps
+  const values = data.values
   return (
     <div style={{background: 'white', width: '80vw'}}>
       <Line 
@@ -37,7 +37,7 @@ const Chart = (props: any) => {
           x: {
             type: 'time',
             time: {
-              unit: "day",
+              unit: "minute",
             
             }
           }
