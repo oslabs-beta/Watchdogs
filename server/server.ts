@@ -3,10 +3,12 @@ import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} 
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
+
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie } from './controllers/cookieController.js';
 import { getMetrics } from './controllers/AWScontroller.js'
+import { setCache, getCache } from './controllers/redisController.js';
 
 const port = 3000;
 
@@ -25,7 +27,11 @@ mongoose.connection.once('open', () => {
 const router = express.Router();
 app.use('/api', router);
 
-router.get('/user', checkCookie, getUser, getMetrics, (req: Request, res: Response) => {
+router.get('/refresh', getMetrics, setCache, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
+})
+
+router.get('/user', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })
 

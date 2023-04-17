@@ -194,7 +194,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     }
     return metrics;
   }
-
+  
   res.locals.metrics = await getMetricData(params);
   return next();
 }
