@@ -11,7 +11,7 @@ type UserProps = {
 };
 
 // Main Function
-function ErrorLogs(props: UserProps) {
+function ErrorLogs() {
   return (
     <main id="main-error-logs">
       <div id="error-logs">

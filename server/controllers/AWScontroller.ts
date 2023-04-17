@@ -58,7 +58,6 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const functions = await getFunctions();
-  console.log(functions);
 
   const cloudwatch = new AWS.CloudWatch({ 
     region: region, 

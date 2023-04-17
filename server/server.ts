@@ -27,7 +27,7 @@ mongoose.connection.once('open', () => {
 const router = express.Router();
 app.use('/api', router);
 
-router.get('/refresh', getMetrics, setCache, (req: Request, res: Response) => {
+router.get('/refresh', getUser, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })
 
@@ -46,9 +46,10 @@ router.post('/login', logIn, setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })
 
-router.put('/', addArn, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user)
+router.put('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
 })
+
 //Serve static files
 app.get('/', (req: Request, res: Response) => {
   res.status(200).sendFile(__dirname, '../index.html')

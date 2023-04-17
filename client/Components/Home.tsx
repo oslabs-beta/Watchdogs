@@ -49,13 +49,22 @@ function Home() {
         }
       })
       .then((res) => {
-        console.log(res);
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
       });
   }
 
+    function refreshInfo(): void {
+    setLoading(true);
+    fetch('/api/refresh')
+      .then(res => res.json())
+      .then((res) => {
+        setLoading(false);
+        setUser(res.user);
+        setMetrics(res.metrics);
+      });
+  }
   // Check For User Info
   useEffect(() => {
     getUserInfo();
@@ -86,10 +95,10 @@ function Home() {
       </div>
 
       <Routes>
-        <Route path="/" element={<FunctionsList user={user} metrics={metrics} getUserInfo={getUserInfo} loading={loading} />}></Route>
-        <Route path="/warmlist" element={<WarmList user={user} />}></Route>
-        <Route path="/errorlogs" element={<ErrorLogs user={user} />}></Route>
-        <Route path="/userinfo" element={<UserInfo user={user} loading={loading} />}></Route>
+        <Route path="/" element={<FunctionsList user={user} metrics={metrics} getUserInfo={getUserInfo} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} refreshInfo={refreshInfo}/>}></Route>
+        <Route path="/warmlist" element={<WarmList />}></Route>
+        <Route path="/errorlogs" element={<ErrorLogs />}></Route>
+        <Route path="/userinfo" element={<UserInfo user={user} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} />}></Route>
       </Routes>
     </>
   );

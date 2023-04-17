@@ -1,11 +1,13 @@
 // Color Variables
-$primary-color: rgb(16, 17, 29);
+$primary-color: #10111d;
 $secondary-color: #e09034;
+$third-color: #FFFFFF;
+$fourth-color: darken($third-color, 10);
 
 body {
   margin: 20px;
   background-color: $primary-color;
-  color: $secondary-color;
+  color: $third-color;
 }
 
 // Nav-Bar
@@ -17,7 +19,7 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: $primary-color;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 10));
   border: 1px solid $secondary-color;
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
@@ -46,12 +48,12 @@ nav {
     display: flex;
     align-items: center;
     color: $secondary-color;
-    background: $primary-color;
+    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 10));
     border: none;
     border: 1px solid $secondary-color;
     border-radius: 5px;
     margin-left: 10px;
-    font-size: 14 px;
+    font-size: 14px;
 
     #refresh-img {
       margin: 5px;
@@ -61,7 +63,9 @@ nav {
 }
 
 .function {
-  background-color: $primary-color;
+  color: $fourth-color;
+  // background-color: $primary-color;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 5));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,13 +75,8 @@ nav {
   border: 1px solid $secondary-color;
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
-
-  .charts {
-    display: grid;
-    grid-template: "a a" 1fr
-                   "a a" 1fr;
-  }
 }
+
 
 // Error Logs, Warm List
 #error-logs,
@@ -100,6 +99,7 @@ nav {
 #main-user-info,
 #main-error-logs,
 #main-warm-list {
+  color: $secondary-color;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,12 +111,12 @@ nav {
   align-items: center;
   width: 50vw;
   position: relative;
-  background-color: $primary-color;
-  margin-top: 20px;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 5));  margin-top: 20px;
   padding-left: 20px;
   border: 1px solid $secondary-color;
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
+  color: $secondary-color;
 
   button {
     color: $secondary-color;
@@ -129,12 +129,14 @@ nav {
   form {
     margin-top: 10px;
     margin-bottom: 20px;
+    input {
+      margin-right: 5px;
+    }
   }
   span {
     text-decoration: underline;
   }
 }
-
 
 //Loading
 #loading-section {
@@ -157,6 +159,8 @@ nav {
 .ldio-7c2ii3644jj > div {
   animation: ldio-7c2ii3644jj 3s infinite linear;
   transform-origin: 64px 64px;
+  border-radius: 5px;
+  background-color: $primary-color;
 }
 .ldio-7c2ii3644jj > div div {
   position: absolute;
