@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie } from './controllers/cookieController.js';
-import {doStuff} from './controllers/AWScontroller.js'
+import { getMetrics } from './controllers/AWScontroller.js'
 
 const port = 3000;
 
@@ -25,13 +25,8 @@ mongoose.connection.once('open', () => {
 const router = express.Router();
 app.use('/api', router);
 
-router.get('/metric', async (req: Request, res: Response) => {
-  const result = await doStuff();
-  res.json(result);
-})
-
-router.get('/user', checkCookie, getUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user)
+router.get('/user', checkCookie, getUser, getMetrics, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
 })
 
 router.delete('/user', deleteUser, (req: Request, res: Response) => {

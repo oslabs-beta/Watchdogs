@@ -26,6 +26,7 @@ function Home() {
     __v: 0,
     _id: '',
   });
+  const [metrics, setMetrics] = useState({})
   const navigate = useNavigate();
 
   // Particles Initialization
@@ -45,7 +46,9 @@ function Home() {
         }
       })
       .then((res) => {
-        setUser(res);
+        console.log(res);
+        setUser(res.user);
+        setMetrics(res.metrics)
       });
   }, []);
 
@@ -62,7 +65,7 @@ function Home() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<FunctionsList user={user} />}></Route>
+        <Route path="/" element={<FunctionsList user={user} metrics={metrics}/>}></Route>
         <Route path="/warmlist" element={<WarmList user={user} />}></Route>
         <Route path="/errorlogs" element={<ErrorLogs user={user} />}></Route>
         <Route path="/userinfo" element={<UserInfo user={user} />}></Route>
