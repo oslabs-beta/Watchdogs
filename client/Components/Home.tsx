@@ -21,12 +21,14 @@ function Home() {
   // State Declaration
   const [user, setUser] = useState({
     arn: '',
+    region: '',
     password: '',
     username: '',
     __v: 0,
     _id: '',
   });
-  const [metrics, setMetrics] = useState({})
+  const [metrics, setMetrics] = useState({});
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Particles Initialization
@@ -35,8 +37,9 @@ function Home() {
   }, []);
   const options: any = loginParticles;
 
-  // Check For User Info
-  useEffect(() => {
+  // Get User Info Logic
+  function getUserInfo(): void {
+    setLoading(true);
     fetch('/api/user')
       .then((res) => {
         if (res.redirected) {
@@ -47,12 +50,18 @@ function Home() {
       })
       .then((res) => {
         console.log(res);
+        setLoading(false);
         setUser(res.user);
-        setMetrics(res.metrics)
+        setMetrics(res.metrics);
       });
+  }
+
+  // Check For User Info
+  useEffect(() => {
+    getUserInfo();
   }, []);
 
-  //Render Componenets
+  // Render Componenets
   return (
     <>
       <Particles options={options} init={particlesInit} />
@@ -64,11 +73,23 @@ function Home() {
         <Link to="userinfo">User Info</Link>
       </nav>
 
+      <div id="loading-section">
+        <div className="loadingio-spinner-reload-95c95vxnjuq">
+          <div className="ldio-7c2ii3644jj">
+            <div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Routes>
-        <Route path="/" element={<FunctionsList user={user} metrics={metrics}/>}></Route>
+        <Route path="/" element={<FunctionsList user={user} metrics={metrics} getUserInfo={getUserInfo} loading={loading} />}></Route>
         <Route path="/warmlist" element={<WarmList user={user} />}></Route>
         <Route path="/errorlogs" element={<ErrorLogs user={user} />}></Route>
-        <Route path="/userinfo" element={<UserInfo user={user} />}></Route>
+        <Route path="/userinfo" element={<UserInfo user={user} loading={loading} />}></Route>
       </Routes>
     </>
   );

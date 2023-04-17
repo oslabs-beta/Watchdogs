@@ -41,7 +41,7 @@ function Signup() {
         username,
         password,
         arn,
-        region
+        region,
       }),
     })
       .then((res) => res.json())
@@ -93,8 +93,7 @@ function Signup() {
             id="region-selector"
             onChange={(e) => {
               setRegion(e.target.value);
-            }}
-          >
+            }}>
             <option value="us-east-1">US East 1 (N. Virginia)</option>
             <option value="us-east-2">US East 2 (Ohio)</option>
             <option value="us-west-1">US West 1 (N. California) </option>
@@ -117,8 +116,7 @@ function Signup() {
             type="submit"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               signupSubmit(e);
-            }}
-          >
+            }}>
             Signup
           </button>
         </form>
