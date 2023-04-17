@@ -39,6 +39,8 @@ nav {
 .function {
   background-color: $primary-color;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   margin-top: 20px;
   padding: 10px;
@@ -46,15 +48,10 @@ nav {
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
 
-  div {
-    width: 25%;
-    text-align: center;
-  }
-
-  iframe {
-    width: 75%;
-    border: 1px solid $secondary-color;
-    border-radius: 15px;
+  .charts {
+    display: grid;
+    grid-template: "a a" 1fr
+                   "a a" 1fr;
   }
 }
 
