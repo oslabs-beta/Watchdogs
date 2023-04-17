@@ -82,7 +82,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 60, // seconds
+          Period: 600, // seconds
           Stat: "Sum", 
         },
       },
@@ -101,7 +101,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 60, // seconds
+          Period: 600, // seconds
           Stat: "Average",
         },
       },
@@ -120,7 +120,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 60, // seconds
+          Period: 600, // seconds
           Stat: "Sum", 
         },
       },
@@ -139,7 +139,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 60, // seconds
+          Period: 600, // seconds
           Stat: "Sum", 
         },
       }
@@ -149,7 +149,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   const params = {
     // eslint-disable-next-line @typescript-eslint/no-array-constructor
     MetricDataQueries: new Array(),
-    StartTime: new Date(Date.now() - 1200000), //milliseconds
+    StartTime: new Date(Date.now() - 10800000), //milliseconds
     EndTime: new Date(),
     ScanBy: "TimestampAscending",
     MaxDatapoints: Number("10"),
@@ -194,7 +194,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     }
     return metrics;
   }
-
+  
   res.locals.metrics = await getMetricData(params);
   return next();
 }

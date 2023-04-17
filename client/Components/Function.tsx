@@ -29,9 +29,9 @@ function Function(props: FunctionProps) {
   return (
     <>
       <div className="function">
-        <div id="function" className="function-info">
+        <div className="function-info">
           <h2>Function: &quot;{functionName}&quot;</h2>
-          <div>{charts}</div>
+          <div className="charts">{charts}</div>
         </div>
       </div>
     </>
