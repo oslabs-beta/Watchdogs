@@ -27,6 +27,10 @@ mongoose.connection.once('open', () => {
 const router = express.Router();
 app.use('/api', router);
 
+router.get('/refresh', getMetrics, setCache, (req: Request, res: Response) => {
+  res.status(200).json(res.locals)
+})
+
 router.get('/user', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals)
 })

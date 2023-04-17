@@ -1,7 +1,6 @@
 import {Express, Request, Response, NextFunction} from 'express';
 
 import redis from "redis"
-import * as util from "util"
 
 const redisClient = redis.createClient()
 await redisClient.connect()
