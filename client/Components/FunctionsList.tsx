@@ -8,7 +8,7 @@ import Function from './Function';
 import refresh from '../assets/Reload-100s-200px.png';
 
 // Type Declarations
-type UserProps = {
+type FunctionListProps = {
   user: {
     username: string;
     arn: string;
@@ -24,12 +24,27 @@ type UserProps = {
   };
   loading: boolean;
   getUserInfo: () => void;
+  setUser: (arg0:UserInfo) => void;
+  setLoading: (arg0:boolean) => void;
+  setMetrics: (arg0: any) => void;
+  refreshInfo: () => void
 };
 
+type UserInfo = {
+      arn: string,
+    region: string,
+    password: string,
+    username: string,
+    __v: number,
+    _id: string,
+}
+
 // Main Function
-function FunctionsList(props: UserProps) {
+function FunctionsList(props: FunctionListProps) {
   const functions = [];
-  const { loading } = props;
+  const { loading, setUser, setLoading, setMetrics , refreshInfo} = props;
+
+
 
   // Show/Hide Loading Display
   useEffect(() => {
@@ -53,7 +68,7 @@ function FunctionsList(props: UserProps) {
     <>
       <div id="functions-list">
         <div id="refresh-area">
-          <button id="refresh-button" onClick={props.getUserInfo}>
+          <button id="refresh-button" onClick={refreshInfo}>
             Refresh
             <img id="refresh-img" src={refresh}></img>
           </button>

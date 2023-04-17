@@ -10,6 +10,16 @@ type UserProps = {
     region: string;
   };
   loading: boolean;
+  setUser: ( arg0: {
+       arn: string,
+    region:string,
+    password: string,
+    username: string,
+    __v: number,
+    _id: string}
+    ) => void;
+  setLoading: (arg0:boolean) => void;
+    setMetrics: (arg0: any) => void
 };
 
 // Main Function
@@ -19,10 +29,12 @@ function UserInfo(props: UserProps) {
   const [formVisible, setFormVisible] = useState(false);
   const [newArn, setNewArn] = useState('');
   const [newRegion, setNewRegion] = useState('');
-  const { loading } = props;
+  const { loading, setUser , setMetrics, setLoading } = props;
 
   // Update ARN Submission
-  function sendNewArn() {
+  function sendNewArn(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setLoading(true)
     fetch('/api', {
       method: 'PUT',
       headers: {
@@ -33,6 +45,10 @@ function UserInfo(props: UserProps) {
         arn: newArn,
         region: newRegion,
       }),
+    }).then(res => res.json()).then((res) => {
+      setUser(res.user)
+      setMetrics(res.metrics)
+      setLoading(false)
     });
   }
 
@@ -126,8 +142,8 @@ function UserInfo(props: UserProps) {
             <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
           </select>
           <button
-            onClick={() => {
-              sendNewArn();
+            onClick={(e)=> {
+              sendNewArn(e)
             }}>
             Submit
           </button>

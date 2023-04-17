@@ -2,16 +2,9 @@
 import React from 'react';
 
 // Type Declarations
-type UserProps = {
-  user: {
-    username: string;
-    arn: string;
-    _id: string;
-  };
-};
 
 // Main Function
-function WarmList(props: UserProps) {
+function WarmList() {
   return (
     <main id="main-warm-list">
       <div id="warm-list">

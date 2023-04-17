@@ -10,7 +10,6 @@ const DEFAULT_EXPIRATION = 3600
 const setCache = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {metrics}  = res.locals
-        console.log("IN SETCACHE, metrics from locals: ", metrics)
         await redisClient.setEx("metrics", DEFAULT_EXPIRATION, JSON.stringify(metrics))
         return next()
     } catch (err){
