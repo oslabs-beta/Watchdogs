@@ -11,12 +11,12 @@ ChartJS.register(
 const Chart = (props: any) => {
  
   const { name, data } = props;
-  
 
-  const labels = data.timestamps
-  const values = data.values
+  const labels = data.timestamps;
+  const values = data.values;  
+
   return (
-    <div style={{background: 'white', width: '80vw'}}>
+    <div style={{background: 'white', width: '45vw', margin: '5px'}}>
       <Line 
       data={{
         labels: labels,
@@ -38,9 +38,25 @@ const Chart = (props: any) => {
             type: 'time',
             time: {
               unit: "minute",
-            
-            }
+            },
+            min: (new Date(Date.now() - 10800000)).toISOString(),
+          },
+          y: {
+            title: {
+              display: true,
+              text: name == 'Duration'? 'Time (ms)': 'Value'
+            },
+            min: 0,
+            suggestedMax: 100,
+            // max: Math.ceil(Math.max(values)),
+            // max: 100,
+            // ticks: {
+            //   stepSize: 1
+            // }
           }
+        },
+        layout: {
+          padding: 10,
         }
       }}
         />

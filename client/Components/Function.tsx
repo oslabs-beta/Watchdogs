@@ -30,14 +30,10 @@ function Function(props: FunctionProps) {
   return (
     <>
       <div className="function">
-        <div id="function" className="function-info">
-          <h2>{functionName}</h2>
-          <button>OR click me to refresh data for each function</button>
-          <div>
-            {charts}
-          </div>
+        <h2>{functionName}</h2>
+        <div className="charts">
+          {charts}
         </div>
-      
       </div>
     </>
   );
