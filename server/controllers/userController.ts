@@ -5,6 +5,13 @@ import bcrypt from 'bcryptjs';
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password, arn, region } = req.body;
+    // const check = await User.findOne({username: username})
+    // if (check){
+    //   res.locals.exists = true;
+    // } else
+    if (!username.length || !password.length || !arn.length || !region.length) {
+      return next({ log: 'Requires all input', status: 500, message: { err: 'Requires all input' } });
+    }
     const user = await User.create({ username: username, password: password, arn: arn, region: region });
     res.locals.user = user;
     return next();

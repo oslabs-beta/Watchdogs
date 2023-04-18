@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Particles Imports
@@ -12,15 +12,17 @@ import loginParticles from '../assets/login-particles.json';
 import logo from '../assets/watchdogs-black.png';
 import '../scss/Signup.scss';
 
+//Types Imports
+import { SignupBodyType, SignupErrorType } from '../types';
+
 // Main Function
 function Signup() {
-  //
   // State Declaration
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [arn, setArn] = useState('');
-  const [region, setRegion] = useState('');
-
+  const [username, setUsername] = useState('' as string);
+  const [password, setPassword] = useState('' as string);
+  const [arn, setArn] = useState('' as string);
+  const [region, setRegion] = useState('us-east-1' as string);
+  const [diffUser, setdiffUser] = useState(true as boolean);
   const navigate = useNavigate();
 
   // Initialize Particles
@@ -32,6 +34,15 @@ function Signup() {
   //Signup Form Submission
   function signupSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    if (!username.length || !password.length || !arn.length || !region.length) {
+      const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
+      if (errorDisplay) {
+        errorDisplay.innerHTML = 'username or password cannot be empty';
+        errorDisplay.style.display = '';
+      }
+      return;
+    }
+
     fetch('/api/signup', {
       method: 'POST',
       headers: {
@@ -42,20 +53,33 @@ function Signup() {
         password,
         arn,
         region,
-      }),
+      } as SignupBodyType),
     })
-      .then((res) => res.json())
+      .then((res): Promise<SignupErrorType> => res.json())
       .then((res) => {
-        if (res.user) {
-          navigate('/home');
+        if (res.code == 11000) {
+          console.log('username already exists');
+          setdiffUser(false);
         } else {
-          window.alert('Incorrect username and/or password');
+          navigate('/');
         }
+        console.log(res);
       })
       .catch((err) => {
-        console.log('Error in login fetch request:', err);
+        console.log('Error in signup fetch request:', err);
       });
   }
+
+  useEffect(() => {
+    const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
+    if (diffUser && errorDisplay) {
+      errorDisplay.style.display = 'none';
+      errorDisplay.innerHTML = '';
+    } else if (errorDisplay) {
+      errorDisplay.style.display = '';
+      errorDisplay.innerHTML = 'username already exists';
+    }
+  }, [diffUser]);
 
   // Render Components
   return (
@@ -63,55 +87,63 @@ function Signup() {
       <Particles options={options} init={particlesInit} />
       <div id="signup-container">
         <img src={logo} alt="Watchdogs logo" />
+        <p id="user-already-exists"></p>
         <form>
           <div>
             <input
               type="text"
               placeholder="username"
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setUsername(e.target.value);
               }}
             />
             <input
               type="password"
               placeholder="password"
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword(e.target.value);
               }}
             />
           </div>
-          <input
-            id="arn"
-            type="text"
-            placeholder="ARN"
-            onChange={(e) => {
-              setArn(e.target.value);
-            }}
-          />
-          <select
-            name="Select Region"
-            id="region-selector"
-            onChange={(e) => {
-              setRegion(e.target.value);
-            }}>
-            <option value="us-east-1">US East 1 (N. Virginia)</option>
-            <option value="us-east-2">US East 2 (Ohio)</option>
-            <option value="us-west-1">US West 1 (N. California) </option>
-            <option value="us-west-2">US West 2 (Oregon)</option>
-            <option value="ap-south-1">AP South 1 (Mumbai)</option>
-            <option value="ap-northeast-1">AP Northeast 1 (Tokyo)</option>
-            <option value="ap-northeast-2">AP Northeast 2 (Seoul)</option>
-            <option value="ap-northeast-3">AP Northeast 3 (Osaka)</option>
-            <option value="ap-southeast-1">AP Southeast 1 (Singapore)</option>
-            <option value="ap-southeast-2">AP Southeast 2 (Sydney)</option>
-            <option value="ca-central-1">CA Central 1 (Canada)</option>
-            <option value="eu-central-1">Europe Central 1 (Frankfurt)</option>
-            <option value="eu-west-1">Europe West 1 (Ireland)</option>
-            <option value="eu-west-2">Europe West 2 (London)</option>
-            <option value="eu-west-3">Europe West 3 (Paris)</option>
-            <option value="eu-north-1">EU North 1 (Stockholm)</option>
-            <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
-          </select>
+          <a
+            target="blank"
+            href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
+            Setup an ARN
+          </a>
+          <div>
+            <input
+              id="arn"
+              type="text"
+              placeholder="ARN"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setArn(e.target.value);
+              }}
+            />
+            <select
+              name="Select Region"
+              id="region-selector"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setRegion(e.target.value);
+              }}>
+              <option value="us-east-1">US East 1 (N. Virginia)</option>
+              <option value="us-east-2">US East 2 (Ohio)</option>
+              <option value="us-west-1">US West 1 (N. California) </option>
+              <option value="us-west-2">US West 2 (Oregon)</option>
+              <option value="ap-south-1">AP South 1 (Mumbai)</option>
+              <option value="ap-northeast-1">AP Northeast 1 (Tokyo)</option>
+              <option value="ap-northeast-2">AP Northeast 2 (Seoul)</option>
+              <option value="ap-northeast-3">AP Northeast 3 (Osaka)</option>
+              <option value="ap-southeast-1">AP Southeast 1 (Singapore)</option>
+              <option value="ap-southeast-2">AP Southeast 2 (Sydney)</option>
+              <option value="ca-central-1">CA Central 1 (Canada)</option>
+              <option value="eu-central-1">Europe Central 1 (Frankfurt)</option>
+              <option value="eu-west-1">Europe West 1 (Ireland)</option>
+              <option value="eu-west-2">Europe West 2 (London)</option>
+              <option value="eu-west-3">Europe West 3 (Paris)</option>
+              <option value="eu-north-1">EU North 1 (Stockholm)</option>
+              <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
+            </select>
+          </div>
           <button
             type="submit"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {

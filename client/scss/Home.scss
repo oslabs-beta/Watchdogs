@@ -1,11 +1,12 @@
 // Color Variables
 $primary-color: #10111d;
 $secondary-color: #e09034;
-$third-color: #FFFFFF;
+$third-color: #ffffff;
 $fourth-color: darken($third-color, 10);
 
 body {
-  margin: 20px;
+  font-family: sans-serif;
+  margin: 25px;
   background-color: $primary-color;
   color: $third-color;
 }
@@ -15,14 +16,49 @@ nav {
   min-height: 30px;
   position: relative;
   z-index: 1000;
-  height: 5vh;
+  height: 4vh;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 10));
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   border: 1px solid $secondary-color;
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
+
+  #lock-left {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      display: flex;
+      align-items: center;
+      margin: 20px;
+      height: 80%;
+      img {
+        height: 70%;
+      }
+    }
+  }
+
+  #lock-right {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px;
+
+    a {
+      display: flex;
+      align-items: center;
+      height: 80%;
+      img {
+        margin: 15px;
+        height: 45%;
+        filter: invert(74%) sepia(57%) saturate(2033%) hue-rotate(335deg) brightness(93%) contrast(89%);
+      }
+    }
+  }
 
   a {
     color: $secondary-color;
@@ -48,7 +84,7 @@ nav {
     display: flex;
     align-items: center;
     color: $secondary-color;
-    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 10));
+    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
     border: none;
     border: 1px solid $secondary-color;
     border-radius: 5px;
@@ -64,8 +100,7 @@ nav {
 
 .function {
   color: $fourth-color;
-  // background-color: $primary-color;
-  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 5));
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,8 +110,13 @@ nav {
   border: 1px solid $secondary-color;
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
-}
 
+  .chart {
+    width: 90%;
+    height: 20vh;
+    margin: 20px;
+  }
+}
 
 // Error Logs, Warm List
 #error-logs,
@@ -109,9 +149,9 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50vw;
   position: relative;
-  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 5));  margin-top: 20px;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  margin-top: 20px;
   padding-left: 20px;
   border: 1px solid $secondary-color;
   border-radius: 15px;
@@ -136,6 +176,9 @@ nav {
   span {
     text-decoration: underline;
   }
+  #logout-button {
+    margin: 20px;
+  }
 }
 
 //Loading
@@ -144,7 +187,7 @@ nav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 25vh;
+  margin-top: 15vh;
 }
 
 // Loading Icon
@@ -160,7 +203,6 @@ nav {
   animation: ldio-7c2ii3644jj 3s infinite linear;
   transform-origin: 64px 64px;
   border-radius: 5px;
-  background-color: $primary-color;
 }
 .ldio-7c2ii3644jj > div div {
   position: absolute;

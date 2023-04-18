@@ -1,50 +1,19 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // Component Imports
 import Function from './Function';
 
-//Asset Imports
+// Type Imports
+import { FunctionsListProps } from '../types';
+
+// Asset Imports
 import refresh from '../assets/Reload-100s-200px.png';
 
-// Type Declarations
-type FunctionListProps = {
-  user: {
-    username: string;
-    arn: string;
-    _id: string;
-  };
-  metrics: {
-    [func: string]: {
-      [metric: string]: {
-        timestamps: Array<string>;
-        values: Array<number>;
-      };
-    };
-  };
-  loading: boolean;
-  getUserInfo: () => void;
-  setUser: (arg0:UserInfo) => void;
-  setLoading: (arg0:boolean) => void;
-  setMetrics: (arg0: any) => void;
-  refreshInfo: () => void
-};
-
-type UserInfo = {
-      arn: string,
-    region: string,
-    password: string,
-    username: string,
-    __v: number,
-    _id: string,
-}
-
 // Main Function
-function FunctionsList(props: FunctionListProps) {
-  const functions = [];
-  const { loading, setUser, setLoading, setMetrics , refreshInfo} = props;
-
-
+function FunctionsList(props: FunctionsListProps) {
+  // Destructure Props
+  const { loading, refreshInfo } = props;
 
   // Show/Hide Loading Display
   useEffect(() => {
@@ -60,6 +29,7 @@ function FunctionsList(props: FunctionListProps) {
     }
   });
 
+  const functions = [];
   for (const func in props.metrics) {
     functions.push(<Function key={func} functionName={func} functionData={props.metrics[func]}></Function>);
   }
