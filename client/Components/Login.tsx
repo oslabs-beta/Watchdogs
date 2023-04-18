@@ -12,12 +12,15 @@ import loginParticles from '../assets/login-particles.json';
 import logo from '../assets/watchdogs-black.png';
 import '../scss/Login.scss';
 
+//Types Imports
+import { LoginResponseType, LoginBodyType } from '../types';
+
 // Main Function
 function Login() {
   //
   // State Declaration
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('' as string);
+  const [password, setPassword] = useState('' as string);
   const navigate = useNavigate();
 
   //Initialize Particles
@@ -38,12 +41,12 @@ function Login() {
       body: JSON.stringify({
         username,
         password,
-      }),
+      } as LoginBodyType),
     })
-      .then((res) => res.json())
+      .then((res): Promise<LoginResponseType> => res.json())
       .then((res) => {
         if (res.match) {
-          navigate('/home');
+          navigate('/');
         } else {
           window.alert('Incorrect username and/or password');
         }

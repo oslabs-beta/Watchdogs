@@ -1,21 +1,16 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Chart from './Chart';
 
-type FunctionProps = {
-  functionName: string;
-  functionData: {
-    [metric: string]: {
-      timestamps: Array<string>;
-      values: Array<number>;
-    };
-  };
-};
-
+// Type Imports
+import { FunctionProps } from '../types';
+//region, arn, function name
 // Main Function
 function Function(props: FunctionProps) {
+  // Destructure Props
   const { functionData, functionName } = props;
 
+  // Render Component
   return (
     <>
       <div className="function">

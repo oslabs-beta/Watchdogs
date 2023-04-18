@@ -1,40 +1,27 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 
-// Type Declarations
-type UserProps = {
-  user: {
-    username: string;
-    arn: string;
-    _id: string;
-    region: string;
-  };
-  loading: boolean;
-  setUser: ( arg0: {
-       arn: string,
-    region:string,
-    password: string,
-    username: string,
-    __v: number,
-    _id: string}
-    ) => void;
-  setLoading: (arg0:boolean) => void;
-    setMetrics: (arg0: any) => void
-};
+// Import types
+import { UserInfoProps, ArnBodyUpdateType, ResponseDataType } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 // Main Function
-function UserInfo(props: UserProps) {
+function UserInfo(props: UserInfoProps) {
   //
   // State Declaration
-  const [formVisible, setFormVisible] = useState(false);
-  const [newArn, setNewArn] = useState('');
-  const [newRegion, setNewRegion] = useState('');
-  const { loading, setUser , setMetrics, setLoading } = props;
+  const [formVisible, setFormVisible] = useState(false as boolean);
+  const [newArn, setNewArn] = useState('' as string);
+  const [newRegion, setNewRegion] = useState('us-east-1' as string);
+  const { loading, setUser, setMetrics, setLoading } = props;
+  const navigate = useNavigate();
 
   // Update ARN Submission
   function sendNewArn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    setLoading(true)
+    if (!newArn.length || !newRegion.length) {
+      return;
+    }
+    setLoading(true);
     fetch('/api', {
       method: 'PUT',
       headers: {
@@ -44,16 +31,22 @@ function UserInfo(props: UserProps) {
         username: props.user.username,
         arn: newArn,
         region: newRegion,
-      }),
-    }).then(res => res.json()).then((res) => {
-      setUser(res.user)
-      setMetrics(res.metrics)
-      setLoading(false)
-    });
+      } as ArnBodyUpdateType),
+    })
+      .then((res): Promise<ResponseDataType> => res.json())
+      .then((res) => {
+        setUser(res.user);
+        setMetrics(res.metrics);
+        setLoading(false);
+      });
+  }
+
+  function sendLogout() {
+    fetch('/api/logout').then(() => navigate('/login'));
   }
 
   // Toggle showForm State
-  function showForm() {
+  function showForm(): void {
     // Toggle Form Visibility State
     if (!formVisible) {
       setFormVisible(true);
@@ -68,11 +61,11 @@ function UserInfo(props: UserProps) {
     const edit = document.getElementById('edit') as HTMLDivElement;
     if (formVisible) {
       form.style.display = '';
-      edit.innerHTML = 'edit *';
+      edit.innerHTML = 'Edit *';
       // edit.style.border = 'none';
     } else {
       form.style.display = 'none';
-      edit.innerHTML = 'edit ';
+      edit.innerHTML = 'Edit ARN / Region';
       edit.style.border = '1px solid rgb(224, 144, 52)';
     }
   });
@@ -99,28 +92,38 @@ function UserInfo(props: UserProps) {
           <span>Username</span> : {props.user.username}
         </p>
         <p>
+          <span>Region</span> : {props.user.region}
+        </p>
+        <p>
           <span>ARN</span> : {props.user.arn}{' '}
+        </p>
+        <div>
           <button
             id="edit"
             onClick={() => {
               showForm();
-            }}>
-            edit v
+            }}></button>
+          <button
+            onClick={() => {
+              sendLogout();
+            }}
+            id="logout-button">
+            Log Out
           </button>
-        </p>
+        </div>
         <form id="new-arn">
           <input
             id="arn-input"
             type="text"
             placeholder="New ARN"
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setNewArn(e.target.value);
             }}
           />
           <select
             name="Select Region"
             id="region-selector"
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               setNewRegion(e.target.value);
             }}>
             <option value="us-east-1">US East 1 (N. Virginia)</option>
@@ -142,15 +145,12 @@ function UserInfo(props: UserProps) {
             <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
           </select>
           <button
-            onClick={(e)=> {
-              sendNewArn(e)
+            onClick={(e) => {
+              sendNewArn(e);
             }}>
             Submit
           </button>
         </form>
-        <p>
-          <span>Region</span> : {props.user.region}
-        </p>
       </div>
     </main>
   );

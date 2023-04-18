@@ -8,27 +8,25 @@ import { loadFull } from 'tsparticles';
 import { Engine } from 'tsparticles-engine';
 import loginParticles from '../assets/login-particles.json';
 
+// Type Imports
+import { UserDataType, MetricType, ResponseDataType } from '../types';
+
 // Component Imports
 import UserInfo from './UserInfo';
 import WarmList from './WarmList';
-import ErrorLogs from './ErrorLogs';
 import FunctionsList from './FunctionsList';
 import '../scss/Home.scss';
 
+// Asset Imports
+import logo from '../assets/logo.png';
+import icon from '../assets/icon.png';
+
 // Main Function
 function Home() {
-  //
   // State Declaration
-  const [user, setUser] = useState({
-    arn: '',
-    region: '',
-    password: '',
-    username: '',
-    __v: 0,
-    _id: '',
-  });
-  const [metrics, setMetrics] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({} as UserDataType);
+  const [metrics, setMetrics] = useState({} as MetricType);
+  const [loading, setLoading] = useState(false as boolean);
   const navigate = useNavigate();
 
   // Particles Initialization
@@ -41,7 +39,7 @@ function Home() {
   function getUserInfo(): void {
     setLoading(true);
     fetch('/api/user')
-      .then((res) => {
+      .then((res): Promise<ResponseDataType> | undefined => {
         if (res.redirected) {
           navigate('/login');
         } else {
@@ -49,23 +47,28 @@ function Home() {
         }
       })
       .then((res) => {
+        if (res == undefined) {
+          return;
+        }
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
       });
   }
 
-    function refreshInfo(): void {
+  // Refresh Functions
+  function refreshInfo(): void {
     setLoading(true);
     fetch('/api/refresh')
-      .then(res => res.json())
+      .then((res): Promise<ResponseDataType> => res.json())
       .then((res) => {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
       });
   }
-  // Check For User Info
+
+  // Check For User Info on Refresh
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -74,12 +77,20 @@ function Home() {
   return (
     <>
       <Particles options={options} init={particlesInit} />
-
       <nav>
-        <Link to="/home">Functions</Link>
-        <Link to="warmlist">Warm List</Link>
-        <Link to="errorlogs">Error Logs</Link>
-        <Link to="userinfo">User Info</Link>
+        <div id="lock-left">
+          <Link to="/">
+            <img src={logo} alt="" />
+          </Link>
+          <Link to="/">Functions</Link>
+          <Link to="warmlist">Warm List</Link>
+        </div>
+        <div id="lock-right">
+          <Link to="userinfo">
+            <img src={icon}></img>
+            {user.username}
+          </Link>
+        </div>
       </nav>
 
       <div id="loading-section">
@@ -95,9 +106,8 @@ function Home() {
       </div>
 
       <Routes>
-        <Route path="/" element={<FunctionsList user={user} metrics={metrics} getUserInfo={getUserInfo} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} refreshInfo={refreshInfo}/>}></Route>
+        <Route path="/" element={<FunctionsList user={user} metrics={metrics} getUserInfo={getUserInfo} loading={loading} refreshInfo={refreshInfo} />}></Route>
         <Route path="/warmlist" element={<WarmList />}></Route>
-        <Route path="/errorlogs" element={<ErrorLogs />}></Route>
         <Route path="/userinfo" element={<UserInfo user={user} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} />}></Route>
       </Routes>
     </>

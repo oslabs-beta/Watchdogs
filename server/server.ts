@@ -1,59 +1,62 @@
 //IMPORT DEPENDECIES
-import express, {Express, Request, Response, NextFunction, ErrorRequestHandler} from 'express';
+import express, { Express, Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
-import { setCookie, checkCookie } from './controllers/cookieController.js';
-import { getMetrics } from './controllers/AWScontroller.js'
-import { setCache, getCache } from './controllers/redisController.js';
+import { setCookie, checkCookie, deleteCookie } from './controllers/cookieController.js';
+import { getMetrics } from './controllers/AWScontroller.js';
+import { setCache, getCache, flushRedis } from './controllers/redisController.js';
 
 const port = 3000;
 
-//CREATE APP AND PARSE 
+//CREATE APP AND PARSE
 const app: Express = express();
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(cookieParser());
 
-mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority');
 mongoose.connection.once('open', () => {
   console.log('Connected to Database');
-})
+});
 
 //ROUTER FOR /API
 const router = express.Router();
 app.use('/api', router);
 
 router.get('/refresh', getUser, getMetrics, setCache, (req: Request, res: Response) => {
-  res.status(200).json(res.locals)
-})
+  res.status(200).json(res.locals);
+});
 
 router.get('/user', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
-  res.status(200).json(res.locals)
-})
+  res.status(200).json(res.locals);
+});
 
 router.delete('/user', deleteUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user)
-})
-router.post('/signup', createAccount, setCookie, (req: Request, res: Response) => {
-  res.status(200).json(res.locals)
-})
+  res.status(200).json(res.locals.user);
+});
+router.post('/signup', flushRedis, createAccount, setCookie, (req: Request, res: Response) => {
+  res.status(200).json(res.locals);
+});
 
-router.post('/login', logIn, setCookie, (req: Request, res: Response) => {
-  res.status(200).json(res.locals)
-})
+router.post('/login', flushRedis, logIn, setCookie, (req: Request, res: Response) => {
+  res.status(200).json(res.locals);
+});
 
-router.put('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
-  res.status(200).json(res.locals)
-})
+router.get('/logout', flushRedis, deleteCookie, (req: Request, res: Response) => {
+  res.sendStatus(200);
+});
+
+router.post('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
+  res.status(200).json(res.locals);
+});
 
 //Serve static files
 app.get('/', (req: Request, res: Response) => {
-  res.status(200).sendFile(__dirname, '../index.html')
-})
+  res.status(200).sendFile(__dirname, '../index.html');
+});
 
 //Catch-all error handler:
 app.use((req: Request, res: Response) => res.sendStatus(404));
@@ -69,9 +72,8 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-
 app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
-})
+  console.log(`Listening on port ${port}`);
+});
 
 export default app;

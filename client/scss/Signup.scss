@@ -23,7 +23,9 @@ $secondary-color: rgb(224, 144, 52);
   border: 1px solid $secondary-color;
   border-radius: 25px;
   z-index: 1;
-
+  a {
+    
+  }
   img {
     width: 50vw;
     max-width: 800px;
@@ -53,6 +55,11 @@ $secondary-color: rgb(224, 144, 52);
       width: 10em;
       margin-top: 5px;
       margin-bottom: 20px;
+      background-color: $primary-color;
+      border: solid 1px $secondary-color;
+      color: $secondary-color;
+      border-radius: 6px;
+      padding: 8px;
     }
 
     a {
