@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie, deleteCookie } from './controllers/cookieController.js';
-import { getMetrics } from './controllers/AWScontroller.js';
+import { getMetrics, getErrors } from './controllers/AWScontroller.js';
 import { setCache, getCache, flushRedis } from './controllers/redisController.js';
 
 const port = 3000;
@@ -52,6 +52,10 @@ router.get('/logout', flushRedis, deleteCookie, (req: Request, res: Response) =>
 router.post('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
+
+router.post('/error', getErrors, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.errors);
+})
 
 //Serve static files
 app.get('/', (req: Request, res: Response) => {

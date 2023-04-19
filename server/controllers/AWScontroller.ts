@@ -4,7 +4,7 @@ import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import * as dotenv from 'dotenv';
 import {Express, Request, Response, NextFunction} from 'express';
 
-import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse } from './types.js';
+import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse, ErrorParamsInterface, ErrorData } from './types.js';
 
 dotenv.config();
 
@@ -26,6 +26,7 @@ const credentials = new AWS.Credentials({
 //STS CLIENT TO ASSUME ROLE
 const client = new STSClient({ region: 'us-east-2', credentials: credentials });
 
+// GET METRICS MIDDLEWARE
 const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
 
   const { region, arn } = res.locals.user
@@ -198,5 +199,52 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   return next();
 }
 
+//GET ERRORS MIDDLEWARE
+const getErrors = async (req: Request, res: Response, next: NextFunction) => {
+  const { region, arn, func } = req.body;
 
-export {getMetrics}
+  const input = {
+    RoleArn: arn, // required
+    RoleSessionName: "test", // required
+    DurationSeconds: 900,
+  };
+
+  const command = new AssumeRoleCommand(input);
+  const response = await client.send(command) as CredentialsInterface;
+  
+  const userCredentials = new AWS.Credentials({
+      accessKeyId: response.Credentials.AccessKeyId,
+      secretAccessKey: response.Credentials.SecretAccessKey,
+      sessionToken: response.Credentials.SessionToken,
+  });
+
+  const cloudwatchlogs = new AWS.CloudWatchLogs({ 
+    region: region, 
+    credentials: userCredentials,
+  });
+
+  const errorParams = {
+    logGroupName: `/aws/lambda/${func}`,
+    filterPattern: 'ERROR',
+    startTime: Date.now() - 10800000,//this is in milliseconds
+    endTime: Date.now(),
+  };
+
+  const errorList: ErrorData[]  = [];
+  
+
+  async function getErrorLogs(params: ErrorParamsInterface) {
+    const errors = await cloudwatchlogs.filterLogEvents(params).promise();
+    errors.events?.forEach(event => errorList.push(event));
+
+    if (errors.nextToken) {
+      params.nextToken = errors.nextToken;
+      await getErrorLogs(params);
+    }
+    return errorList;
+  }
+  res.locals.errors = await getErrorLogs(errorParams);
+  return next();
+}
+
+export {getMetrics, getErrors}

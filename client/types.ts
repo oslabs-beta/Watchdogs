@@ -15,6 +15,7 @@ export type FunctionProps = {
       values: Array<number>;
     };
   };
+  user: UserDataType;
 };
 
 export type ChartProps = {
@@ -73,6 +74,12 @@ export type ArnBodyUpdateType = {
   username: string;
 };
 
+export type ErrorBodyType = {
+          region: string;
+        arn: string;
+        func: string;
+}
+
 //Responses
 export type ResponseDataType = {
   user: UserDataType;
@@ -95,6 +102,15 @@ export type SignupErrorType = {
     username: string;
   };
 };
+
+//Error Log Response
+export interface ErrorData {
+  logStreamName?: string
+  timestamp?: number
+  message?: string
+  ingestionTime?: number
+  eventId?: string
+}
 
 // Particle
 // type Particle = {
