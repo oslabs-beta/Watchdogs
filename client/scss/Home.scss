@@ -69,11 +69,6 @@ nav {
   }
 }
 
-// Functions
-#functions-list {
-  position: relative;
-}
-
 #refresh-area {
   margin: 20px;
   display: flex;
@@ -98,6 +93,11 @@ nav {
   }
 }
 
+// Functions
+#functions-list {
+  position: relative;
+}
+
 .function {
   color: $fourth-color;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
@@ -111,15 +111,33 @@ nav {
   border-radius: 15px;
   box-shadow: $primary-color 0px 7px 29px 0px;
 
+  h2{
+    align-self: flex-start;
+    padding-left: 50px;
+  }
   .chart {
-    width: 90%;
-    height: 20vh;
+    width: 100%;
+    height: 300px;
     margin: 20px;
+  }
+  .error-button {
+    align-self: flex-end;
+    color: $secondary-color;
+    background: transparent;
+    border: none;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
   }
 }
 
-// Error Logs, Warm List
-#error-logs,
+.errorfunction {
+  border: 1px solid red !important;
+}
+
+// Warm List
 #warm-list {
   display: flex;
   flex-direction: column;
@@ -137,7 +155,6 @@ nav {
 
 //User Info
 #main-user-info,
-#main-error-logs,
 #main-warm-list {
   color: $secondary-color;
   display: flex;

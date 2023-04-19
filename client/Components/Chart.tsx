@@ -13,8 +13,9 @@ ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScal
 // Main Function
 const Chart = (props: ChartProps) => {
   // Destructure Props
-  const { data } = props;
+  const { data} = props;
   const labels = data.Invocations.timestamps;
+  console.log(data);
 
   // Render Component
   return (

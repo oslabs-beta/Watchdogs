@@ -13,7 +13,7 @@ import refresh from '../assets/Reload-100s-200px.png';
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
   // Destructure Props
-  const { loading, refreshInfo } = props;
+  const { loading, refreshInfo, metrics, user } = props;
 
   // Show/Hide Loading Display
   useEffect(() => {
@@ -30,13 +30,13 @@ function FunctionsList(props: FunctionsListProps) {
   });
 
   const functions = [];
-  for (const func in props.metrics) {
-    functions.push(<Function key={func} functionName={func} functionData={props.metrics[func]}></Function>);
+  for (const func in metrics) {
+    functions.push(<Function key={func} user={user} functionName={func} functionData={metrics[func]}></Function>);
   }
 
   return (
     <>
-      <div id="functions-list">
+      <div id="functions-list" >
         <div id="refresh-area">
           <button id="refresh-button" onClick={refreshInfo}>
             Refresh

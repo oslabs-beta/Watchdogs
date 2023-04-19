@@ -24,6 +24,14 @@ MaxDatapoints: number
 NextToken?: string
 }
 
+export interface ErrorParamsInterface {
+    logGroupName: string
+    filterPattern: string
+    startTime: number
+    endTime: number
+    nextToken?: string
+}
+
 export interface MetricDataQueriesInterface {
 Id: string
 MetricStat: {
@@ -65,5 +73,13 @@ export interface MetricData{
     Values: Array<number>,
     StatusCode: string
     Messages: Array<string>
+}
+
+export interface ErrorData {
+    logStreamName?: string
+    timestamp?: number
+    message?: string
+    ingestionTime?: number
+    eventId?: string
 }
 
