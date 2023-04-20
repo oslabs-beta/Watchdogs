@@ -7,23 +7,28 @@ $fourth-color: darken($third-color, 10);
 body {
   font-family: sans-serif;
   margin: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: $primary-color;
   color: $third-color;
 }
 
 // Nav-Bar
 nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4.5vh;
+  min-width: 80vw;
+  width: auto;
   min-height: 30px;
   position: relative;
   z-index: 1000;
-  height: 4vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
-  border: 1px solid $secondary-color;
+  border: .5px solid $secondary-color;
   border-radius: 15px;
-  box-shadow: $primary-color 0px 7px 29px 0px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
 
   #lock-left {
     height: 100%;
@@ -70,10 +75,11 @@ nav {
 }
 
 #refresh-area {
-  margin: 20px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  align-self: flex-end;
 
   #refresh-button {
     display: flex;
@@ -83,8 +89,8 @@ nav {
     border: none;
     border: 1px solid $secondary-color;
     border-radius: 5px;
-    margin-left: 10px;
     font-size: 14px;
+    box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
 
     #refresh-img {
       margin: 5px;
@@ -95,21 +101,26 @@ nav {
 
 // Functions
 #functions-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
 }
 
 .function {
-  color: $fourth-color;
+  width: 80vw;
+  color: $secondary-color;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 10px;
-  border: 1px solid $secondary-color;
+  border: .5px solid $secondary-color;
   border-radius: 15px;
-  box-shadow: $primary-color 0px 7px 29px 0px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
 
   h2{
     align-self: flex-start;
@@ -117,8 +128,10 @@ nav {
   }
   .chart {
     width: 100%;
-    height: 300px;
-    margin: 20px;
+    height: 250px;
+  }
+  p {
+    text-align: center;
   }
   .error-button {
     align-self: flex-end;
@@ -127,14 +140,14 @@ nav {
     border: none;
     border: 1px solid $secondary-color;
     border-radius: 5px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin: 0 5px 10px;
     padding: 5px;
   }
 }
 
 .errorfunction {
-  border: 1px solid red !important;
+  border: 0.5px solid red !important;
+  box-shadow: red 0px 0px 20px 0px !important; 
 }
 
 // Warm List
@@ -172,7 +185,7 @@ nav {
   padding-left: 20px;
   border: 1px solid $secondary-color;
   border-radius: 15px;
-  box-shadow: $primary-color 0px 7px 29px 0px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
   color: $secondary-color;
 
   button {

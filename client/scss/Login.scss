@@ -8,6 +8,8 @@ $secondary-color: rgb(224, 144, 52);
   height: 96vh;
   justify-content: center;
   align-items: center;
+
+
 }
 
 // Login Container
@@ -23,14 +25,16 @@ $secondary-color: rgb(224, 144, 52);
   border: 1px solid $secondary-color;
   border-radius: 25px;
   z-index: 1;
-  box-shadow: $primary-color 0px 7px 29px 0px;
+    box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
 
   img {
     width: 50vw;
     max-width: 800px;
     border-radius: 30px;
   }
-
+  #invalid-display{
+    color: red;
+  }
   form {
     text-align: center;
     display: flex;

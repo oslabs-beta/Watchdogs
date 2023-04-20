@@ -19,7 +19,7 @@ function Function(props: FunctionProps) {
     if (Math.max(...functionData.Errors.values)) {
         const errorFunc = document.getElementById(functionName);
         if ( errorFunc){
-          errorFunc.style.border = 'solid 1px red'
+          errorFunc.className = 'function errorfunction'
         }
     }
   }, [])
