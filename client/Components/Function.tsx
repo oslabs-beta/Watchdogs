@@ -16,13 +16,13 @@ function Function(props: FunctionProps) {
   const { functionData, functionName, user } = props;
   //change function border to red if there are errors
   useEffect(() => {
-    if (Math.max(...functionData.Errors.values)) {
+    if (Math.max(...functionData.Errors.values) > 0) {
         const errorFunc = document.getElementById(functionName);
         if ( errorFunc){
           errorFunc.className = 'function errorfunction'
         }
     }
-  }, [])
+  })
  
   // PDF Generator Function
   const generatePDF = (): void => {

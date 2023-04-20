@@ -15,7 +15,7 @@ const Chart = (props: ChartProps) => {
   // Destructure Props
   const { data} = props;
   const labels = data.Invocations.timestamps;
-  console.log(data);
+  // console.log(data);
 
   // const chartAreaBorder = {
   //   id: 'chartAreaBorder',
@@ -45,10 +45,11 @@ const Chart = (props: ChartProps) => {
               backgroundColor: "#9985B8",
             },
             {
-              label: "Errors",
-              data: data.Errors.values,
-              borderColor: "red",
-              backgroundColor: "red",
+              label: "Duration",
+              data: data.Duration.values,
+              borderColor: "#28A49E",
+              backgroundColor: "#28A49E",
+              yAxisID: "y1",
             },
             {
               label: "Throttles",
@@ -57,11 +58,10 @@ const Chart = (props: ChartProps) => {
               backgroundColor: "#983628",
             },
             {
-              label: "Duration",
-              data: data.Duration.values,
-              borderColor: "#28A49E",
-              backgroundColor: "#28A49E",
-              yAxisID: "y1",
+              label: "Errors",
+              data: data.Errors.values,
+              borderColor: "#ff0000ed",
+              backgroundColor: "#ff0000ed",
             },
           ],
           // lineTension:
@@ -98,18 +98,19 @@ const Chart = (props: ChartProps) => {
               ticks: {
                 color: "#a6a6a6",
                 stepSize: 15,
+                // interval: time.minute.every(15),
               },
               type: "time",
               time: {
                 unit: "minute",
+                
               },
-              min: new Date(Date.now() - 10800000).toISOString(),
-              max: new Date().toISOString(),
+              min: new Date((Math.ceil(Date.now()/900000) *900000) - 10800000).toISOString(),
+              max: new Date(Math.ceil(Date.now()/900000) *900000).toISOString(),
                  grid: {
                 color: "#a6a6a6",
                 display: false,
               },
-              // border: true,
             },
 
             y: {
