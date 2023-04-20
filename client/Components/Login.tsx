@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // Particles Imports
@@ -21,6 +21,7 @@ function Login() {
   // State Declaration
   const [username, setUsername] = useState('' as string);
   const [password, setPassword] = useState('' as string);
+
   const navigate = useNavigate();
 
   //Initialize Particles
@@ -48,13 +49,21 @@ function Login() {
         if (res.match) {
           navigate('/');
         } else {
-          window.alert('Incorrect username and/or password');
+          // window.alert('Incorrect username and/or password');
+          const invalidDisplay = document.getElementById('invalid-display');
+          if(invalidDisplay) {
+            invalidDisplay.innerHTML = 'Invalid Username or Password'
+          }
         }
       })
       .catch((err) => {
         console.log('Error in login fetch request:', err);
       });
   }
+  
+  // useEffect(() => {
+
+  // })
 
   // Render Components
   return (
@@ -63,6 +72,7 @@ function Login() {
 
       <div id="login-container">
         <img src={logo} alt="Watchdogs logo" />
+        <div id="invalid-display"></div>
         <form>
           <div>
             <input

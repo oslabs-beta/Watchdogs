@@ -23,6 +23,7 @@ $secondary-color: rgb(224, 144, 52);
   border: 1px solid $secondary-color;
   border-radius: 25px;
   z-index: 1;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
   a {
     
   }
@@ -31,7 +32,9 @@ $secondary-color: rgb(224, 144, 52);
     max-width: 800px;
     border-radius: 30px;
   }
-
+#user-already-exists{
+  color: red;
+}
   form {
     text-align: center;
     display: flex;

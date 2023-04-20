@@ -31,6 +31,8 @@ const logIn = async (req: Request, res: Response, next: NextFunction) => {
         res.locals.match = true;
         return next();
       } else res.status(200).json({ message: 'Incorrect username and/or password.' });
+    } else {
+      res.status(200).json({message: 'No user exists'});
     }
   } catch (err) {
     return next({ log: 'Error in userController logIn middleware.', status: 500, message: err });

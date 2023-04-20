@@ -22,7 +22,7 @@ function Signup() {
   const [password, setPassword] = useState('' as string);
   const [arn, setArn] = useState('' as string);
   const [region, setRegion] = useState('us-east-1' as string);
-  const [diffUser, setdiffUser] = useState(true as boolean);
+  // const [diffUser, setdiffUser] = useState(true as boolean);
   const navigate = useNavigate();
 
   // Initialize Particles
@@ -58,8 +58,10 @@ function Signup() {
       .then((res): Promise<SignupErrorType> => res.json())
       .then((res) => {
         if (res.code == 11000) {
-          console.log('username already exists');
-          setdiffUser(false);
+          const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
+          if (errorDisplay) {
+            errorDisplay.innerHTML = 'username already exists';      
+          }
         } else {
           navigate('/');
         }
@@ -69,17 +71,6 @@ function Signup() {
         console.log('Error in signup fetch request:', err);
       });
   }
-
-  useEffect(() => {
-    const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
-    if (diffUser && errorDisplay) {
-      errorDisplay.style.display = 'none';
-      errorDisplay.innerHTML = '';
-    } else if (errorDisplay) {
-      errorDisplay.style.display = '';
-      errorDisplay.innerHTML = 'username already exists';
-    }
-  }, [diffUser]);
 
   // Render Components
   return (
