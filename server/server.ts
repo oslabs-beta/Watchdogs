@@ -1,7 +1,9 @@
 //IMPORT DEPENDECIES
-import express, { Express, Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import express, { Express, Request, Response, NextFunction, ErrorRequestHandler, Router } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+
+import { GlobalErrorType } from './controllers/types.js';
 
 //IMPORT CONTROLLERS
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
@@ -23,7 +25,7 @@ mongoose.connection.once('open', () => {
 });
 
 //ROUTER FOR /API
-const router = express.Router();
+const router: Router = express.Router();
 app.use('/api', router);
 
 router.get('/refresh', getUser, getMetrics, setCache, (req: Request, res: Response) => {
@@ -49,7 +51,7 @@ router.get('/logout', flushRedis, deleteCookie, (req: Request, res: Response) =>
   res.sendStatus(200);
 });
 
-router.post('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
+router.put('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
@@ -67,12 +69,12 @@ app.use((req: Request, res: Response) => res.sendStatus(404));
 
 //Global error handler:
 app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
-  const defaultErr = {
+  const defaultErr: GlobalErrorType = {
     log: 'Express error handler caught unknown middleware error',
     status: 400,
     message: { err: 'An error occurred' },
   };
-  const errorObj = Object.assign({}, defaultErr, err);
+  const errorObj: GlobalErrorType = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
 });
 

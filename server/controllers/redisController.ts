@@ -18,7 +18,7 @@ const setCache = async (req: Request, res: Response, next: NextFunction) => {
 
 const getCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const metrics = await redisClient.get('metrics');
+    const metrics: string | null = await redisClient.get('metrics');
     if (metrics !== null) {
       res.locals.metrics = JSON.parse(metrics);
       res.status(200).json(res.locals);

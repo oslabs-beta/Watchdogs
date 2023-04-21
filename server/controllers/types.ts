@@ -1,3 +1,5 @@
+import {ObjectId} from 'mongoose'
+
 // Interfaces
 export interface CredentialsInterface {
     Credentials: {
@@ -83,3 +85,26 @@ export interface ErrorData {
     eventId?: string
 }
 
+export interface GlobalErrorType {
+    log: string,
+    status: number,
+    message: {
+        err: string
+    }
+}
+
+export type UserDataType = {
+  arn: string;
+  region: string;
+  password: string;
+  username: string;
+  __v?: number | undefined;
+  ObjectId?: ObjectId;
+};
+
+export type ReqDataType = {
+    arn: string;
+    region: string;
+    password: string;
+    username: string;
+  };
