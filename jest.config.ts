@@ -3,13 +3,13 @@ import type { Config } from 'jest';
 const config: Config = {
   // The root of your source code, typically /src
   // `<rootDir>` is a token Jest substitutes
-  roots: ["<rootDir>"],
-  
+  roots: ['<rootDir>'],
+
   // Jest transformations -- this adds support for TypeScript
   // using ts-jest
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    // '\\.(jpg|jpeg|png|scss)$': '<rootDir>/__tests/mock.js',
+    '\\.(jpg|jpeg|png|scss)$': '<rootDir>/__tests__/mock.js',
   },
 
   // Runs special logic, such as cleaning up components
@@ -17,9 +17,10 @@ const config: Config = {
   // extended assertions to Jest
   setupFilesAfterEnv: [
     // "@testing-library/react/cleanup-after-each",
-    // "@testing-library/jest-dom/extend-expect"
+    '@testing-library/jest-dom/extend-expect',
   ],
-  
+
+  testEnvironment: 'jsdom',
   // Test spec file resolution pattern
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.

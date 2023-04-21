@@ -60,7 +60,7 @@ function Signup() {
         if (res.code == 11000) {
           const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
           if (errorDisplay) {
-            errorDisplay.innerHTML = 'username already exists';      
+            errorDisplay.innerHTML = 'username already exists';
           }
         } else {
           navigate('/');
@@ -82,6 +82,7 @@ function Signup() {
         <form>
           <div>
             <input
+              id='username-field'
               type="text"
               placeholder="username"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +90,7 @@ function Signup() {
               }}
             />
             <input
+              id='password-field'
               type="password"
               placeholder="password"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
