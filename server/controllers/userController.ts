@@ -1,7 +1,7 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { UserDataType, ReqDataType } from './types.js'
+import { UserDataType, ReqDataType } from './types'
 
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -37,20 +37,28 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     DurationSeconds: 900,
   };
 
-  const command = new AssumeRoleCommand(input);
+  let userCredentials;
+  let cloudwatchlogs:any;
 
-  const response = await client.send(command) as CredentialsInterface;
+  try {
+    const command = new AssumeRoleCommand(input);
 
-  const userCredentials = new AWS.Credentials({
-    accessKeyId: response.Credentials.AccessKeyId,
-    secretAccessKey: response.Credentials.SecretAccessKey,
-    sessionToken: response.Credentials.SessionToken,
-  })
+    const response = await client.send(command) as CredentialsInterface;
 
-  const cloudwatchlogs = new AWS.CloudWatchLogs({ 
-    region: region, 
-    credentials: userCredentials,
-  });
+    userCredentials = new AWS.Credentials({
+      accessKeyId: response.Credentials.AccessKeyId,
+      secretAccessKey: response.Credentials.SecretAccessKey,
+      sessionToken: response.Credentials.SessionToken,
+    })
+
+     cloudwatchlogs = new AWS.CloudWatchLogs({ 
+      region: region, 
+      credentials: userCredentials,
+    });
+  } catch(err) {
+    res.locals.badArn = true;
+    return res.json(res.locals);
+  }
 
   async function getFunctions() {
     const { logGroups } = await cloudwatchlogs.describeLogGroups({logGroupNamePrefix:'/aws/lambda'}).promise() as LogGroupsInterface;
@@ -194,9 +202,12 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     }
     return metrics;
   }
-  
-  res.locals.metrics = await getMetricData(params);
-  return next();
+  try {
+    res.locals.metrics = await getMetricData(params);
+    return next();
+  } catch (err){
+    return next({ log: 'Error in AWSController getMetrics middleware.', status: 500, message: err })
+  }
 }
 
 //GET ERRORS MIDDLEWARE
@@ -232,7 +243,6 @@ const getErrors = async (req: Request, res: Response, next: NextFunction) => {
 
   const errorList: ErrorData[]  = [];
   
-
   async function getErrorLogs(params: ErrorParamsInterface) {
     const errors = await cloudwatchlogs.filterLogEvents(params).promise();
     errors.events?.forEach(event => errorList.push(event));
@@ -243,8 +253,12 @@ const getErrors = async (req: Request, res: Response, next: NextFunction) => {
     }
     return errorList;
   }
-  res.locals.errors = await getErrorLogs(errorParams);
-  return next();
+  try {
+    res.locals.errors = await getErrorLogs(errorParams);
+    return next();
+  } catch (err){
+    return next({ log: 'Error in AWSController getErrors middleware.', status: 500, message: err })
+  }
 }
 
 export {getMetrics, getErrors}

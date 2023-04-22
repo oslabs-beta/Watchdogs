@@ -84,6 +84,7 @@ export type ErrorBodyType = {
 export type ResponseDataType = {
   user: UserDataType;
   metrics: MetricType;
+  badArn?: boolean;
 };
 
 export type LoginResponseType = {

@@ -36,8 +36,8 @@ router.get('/user', checkCookie, getUser, getCache, getMetrics, setCache, (req: 
   res.status(200).json(res.locals);
 });
 
-router.delete('/user', deleteUser, (req: Request, res: Response) => {
-  res.status(200).json(res.locals.user);
+router.delete('/user', deleteUser, deleteCookie, (req: Request, res: Response) => {
+  res.status(200).json(res.locals);
 });
 router.post('/signup', flushRedis, createAccount, setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals);

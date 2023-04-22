@@ -41,6 +41,20 @@ function UserInfo(props: UserInfoProps) {
       });
   }
 
+  function deleteAccount(){
+    if (window.confirm('Are you sure you want to delete your account?')){
+      fetch('/api/user', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username: props.user.username})
+      })
+      .then(() => navigate('/login'))
+    }
+  }
+
+
   function sendLogout() {
     fetch('/api/logout').then(() => navigate('/login'));
   }
@@ -110,6 +124,11 @@ function UserInfo(props: UserInfoProps) {
             id="logout-button">
             Log Out
           </button>
+
+          <button onClick={() => {
+            deleteAccount();
+          }}
+          id='delete-button'>Delete Account</button>
         </div>
         <form id="new-arn">
           <input
