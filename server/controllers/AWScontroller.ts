@@ -28,8 +28,55 @@ const client = new STSClient({ region: 'us-east-2', credentials: credentials });
 
 // GET METRICS MIDDLEWARE
 const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
-
+  console.log('getting metrics')
+  console.log('REQ PARAMS --->', req.params)
   const { region, arn } = res.locals.user
+  const { timeframe, increment} = req.params;
+  console.log(timeframe, increment);
+  let period: number;
+  
+
+  switch (increment) {
+    case '10min':
+      period = 600;
+      break;
+    case '30min':
+      period = 1800;
+      break;
+    case '1hr':
+      period = 3600;
+      break;
+    case '3hr':
+      period = 10800;
+      break;
+    case '6hr':
+      period = 21600;
+      break;
+    case '12hr':
+      period = 43200;
+      break;
+    case '1d':
+      period = 86400;
+      break;
+  }
+  
+  // switch (timeframe) {
+  //   case 'three-hour':
+  //     timeframems = 10800000;
+  //     break;
+  //   case 'twelve-hour':
+  //     timeframems = 43200000;
+  //     break;
+  //   case 'one-day':
+  //     timeframems = 86400000;
+  //     break;
+  //   case 'one-week':
+  //     timeframems = 604800000;
+  //     break;
+  //   case 'one-month':
+  //     timeframems = 2628000000;
+  //     break;
+  // }
 
   const input = {
     RoleArn: arn, // required
@@ -90,7 +137,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 600, // seconds
+          Period: period, //period// seconds
           Stat: "Sum", 
         },
       },
@@ -109,7 +156,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 600, // seconds
+          Period: period, // seconds
           Stat: "Average",
         },
       },
@@ -128,7 +175,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 600, // seconds
+          Period: period, // seconds
           Stat: "Sum", 
         },
       },
@@ -147,7 +194,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
               },
             ]
           },
-          Period: 600, // seconds
+          Period: period, // seconds
           Stat: "Sum", 
         },
       }
@@ -157,10 +204,10 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   const params = {
     // eslint-disable-next-line @typescript-eslint/no-array-constructor
     MetricDataQueries: new Array(),
-    StartTime: new Date(Date.now() - 10800000), //milliseconds
+    StartTime: new Date(Date.now() - Number(timeframe)), //date.now() - timeframe(in milliseconds)
     EndTime: new Date(),
     ScanBy: "TimestampAscending",
-    MaxDatapoints: Number("10"),
+    MaxDatapoints: 10,
   };
 
   const metrics = {} as Metrics
@@ -212,7 +259,34 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
 
 //GET ERRORS MIDDLEWARE
 const getErrors = async (req: Request, res: Response, next: NextFunction) => {
-  const { region, arn, func } = req.body;
+  const { region, arn, func, timeframe } = req.body;
+
+  // let timeframems: number;
+  // if (timeframe==='three-hour') return timeframems = 10800000;
+  // else if (timeframe==='twelve-hour') return timeframems = 43200000;
+  // else if (timeframe==='one-day') return timeframems = 86400000;
+  // else if (timeframe==='one-week') return timeframems = 604800000;
+  // else if (timeframe==='one-month') return timeframems = 2628000000;
+
+  // let timeframems: number;
+
+  // switch (timeframe) {
+  //   case 'three-hour':
+  //     timeframems = 600;
+  //     break;
+  //   case 'twelve-hour':
+  //     timeframems = 43200000;
+  //     break;
+  //   case 'one-day':
+  //     timeframems = 86400000;
+  //     break;
+  //   case 'one-week':
+  //     timeframems = 604800000;
+  //     break;
+  //   case 'one-month':
+  //     timeframems = 2628000000;
+  //     break;
+  // }
 
   const input = {
     RoleArn: arn, // required
@@ -237,7 +311,7 @@ const getErrors = async (req: Request, res: Response, next: NextFunction) => {
   const errorParams = {
     logGroupName: `/aws/lambda/${func}`,
     filterPattern: 'ERROR',
-    startTime: Date.now() - 10800000,//this is in milliseconds
+    startTime: Date.now() - Number(timeframe),//this is in milliseconds
     endTime: Date.now(),
   };
 

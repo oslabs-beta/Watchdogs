@@ -75,6 +75,16 @@ nav {
   }
 }
 
+#timeframe-selector{
+  position: relative;
+  z-index: 1000;
+}
+
+#increment-selector{
+  position: relative;
+  z-index: 1000;
+}
+
 #refresh-area {
   margin-top: 20px;
   display: flex;

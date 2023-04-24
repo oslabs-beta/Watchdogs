@@ -13,23 +13,10 @@ ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScal
 // Main Function
 const Chart = (props: ChartProps) => {
   // Destructure Props
-  const { data} = props;
+  const { data, timeframe, period, unit} = props;
   const labels = data.Invocations.timestamps;
-  // console.log(data);
-
-  // const chartAreaBorder = {
-  //   id: 'chartAreaBorder',
-  //   beforeDraw(chart, args, options) {
-  //     const {ctx, chartArea: {left, top, width, height}} = chart;
-  //     ctx.save();
-  //     ctx.strokeStyle = options.borderColor;
-  //     ctx.lineWidth = options.borderWidth;
-  //     ctx.setLineDash(options.borderDash || []);
-  //     ctx.lineDashOffset = options.borderDashOffset;
-  //     ctx.strokeRect(left, top, width, height);
-  //     ctx.restore();
-  //   }
-  // };
+  
+  
 
   // Render Component
   return (
@@ -64,19 +51,9 @@ const Chart = (props: ChartProps) => {
               backgroundColor: "#ff0000ed",
             },
           ],
-          // lineTension:
+        
         }}
-        // plugins={[{
-        //   id: 'chartAreaBorder',
-        //   beforeDraw(chart, args, options) {
-        //     const {ctx, chartArea: {left, top, width, height}} = chart;
-        //     ctx.save();
-        //     ctx.strokeStyle = 'white';
-        //     ctx.lineWidth = 2;
-        //     ctx.strokeRect(left, top, width, height);
-        //     ctx.restore();
-        //   }
-        // }]}
+      
         options={{
           maintainAspectRatio: false,
           plugins: {
@@ -85,28 +62,22 @@ const Chart = (props: ChartProps) => {
                 color: "#e09034",
               },
             },
-            // chartAreaBorder: {
-            //   borderColor: 'red',
-            //   borderWidth: 2,
-            //   borderDash: [5, 5],
-            //   borderDashOffset: 2,
-            // },
+       
           },
 
           scales: {
             x: {
               ticks: {
                 color: "#a6a6a6",
-                stepSize: 15,
-                // interval: time.minute.every(15),
+                stepSize: period,
               },
               type: "time",
               time: {
-                unit: "minute",
+                unit: unit,
                 
               },
-              min: new Date((Math.ceil(Date.now()/900000) *900000) - 10800000).toISOString(),
-              max: new Date(Math.ceil(Date.now()/900000) *900000).toISOString(),
+              min: new Date((Math.ceil(Date.now()/600000) *600000) - Number(timeframe)).toISOString(),
+              max: new Date(Math.ceil(Date.now()/600000) *600000).toISOString(),
                  grid: {
                 color: "#a6a6a6",
                 display: false,

@@ -9,7 +9,9 @@ const DEFAULT_EXPIRATION = 3600;
 const setCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { metrics } = res.locals;
-    await redisClient.setEx('metrics', DEFAULT_EXPIRATION, JSON.stringify(metrics));
+    const { username } = res.locals.user;
+    const { timeframe, increment } = req.params;
+    await redisClient.setEx(`${username}${timeframe}${increment}`, DEFAULT_EXPIRATION, JSON.stringify(metrics));
     return next();
   } catch (err) {
     return next({ log: 'Error in redisController setCache middleware.', status: 500, message: err });
@@ -18,7 +20,10 @@ const setCache = async (req: Request, res: Response, next: NextFunction) => {
 
 const getCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const metrics: string | null = await redisClient.get('metrics');
+    const { username } = res.locals.user;
+    const { timeframe, increment } = req.params;
+    console.log('REQ PARAMS in GET CACHE --->', req.params)
+    const metrics: string | null = await redisClient.get(`${username}${timeframe}${increment}`);
     if (metrics !== null) {
       res.locals.metrics = JSON.parse(metrics);
       res.status(200).json(res.locals);
