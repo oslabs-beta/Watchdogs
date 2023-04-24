@@ -3,8 +3,14 @@ export type FunctionsListProps = {
   user: UserDataType;
   metrics: MetricType;
   loading: boolean;
+  timeframe: string;
   getUserInfo: () => void;
   refreshInfo: () => void;
+  setIncrement: (arg0: string) => void;
+  setTimeframe: (arg0: string) => void;
+  incrementOptions: string[];
+  period: number;
+  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
 };
 
 export type FunctionProps = {
@@ -16,6 +22,9 @@ export type FunctionProps = {
     };
   };
   user: UserDataType;
+  timeframe: string;
+  period: number;
+  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
 };
 
 export type ChartProps = {
@@ -25,6 +34,9 @@ export type ChartProps = {
       values: Array<number>;
     };
   };
+  timeframe: string;
+  period: number;
+  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
 };
 
 export type UserInfoProps = {
@@ -113,118 +125,3 @@ export interface ErrorData {
   eventId?: string
 }
 
-// Particle
-// type Particle = {
-//     number: {
-//         value: number;
-//         density: {
-//         enable: boolean;
-//         value_area: number;
-//         };
-//     };
-//     color: {
-//         value: string;
-//     };
-//     shape: {
-//         type: string;
-//         stroke: {
-//         width: number;
-//         color: string;
-//         };
-//         polygon: {
-//         nb_sides: number;
-//         };
-//         image: {
-//         src: string;
-//         width: number;
-//         height: number;
-//         };
-//     };
-//     opacity: {
-//         value: number;
-//         random: boolean;
-//         anim: {
-//         enable: boolean;
-//         speed: number;
-//         opacity_min: number;
-//         sync: boolean;
-//         };
-//     };
-//     size: {
-//         value: number;
-//         random: boolean;
-//         anim: {
-//         enable: boolean;
-//         speed: number;
-//         size_min: number;
-//         sync: boolean;
-//         };
-//     };
-//     line_linked: {
-//         enable: boolean;
-//         distance: number;
-//         color: string;
-//         opacity: number;
-//         width: number;
-//     };
-//     move: {
-//         enable: boolean;
-//         speed: number;
-//         direction: string;
-//         random: boolean;
-//         straight: boolean;
-//         out_mode: string;
-//         bounce: boolean;
-//         attract: {
-//         enable: boolean;
-//         rotateX: number;
-//         rotateY: number;
-//         };
-//     };
-// }
-
-// type Interactivity = {
-//     detect_on: string;
-//     events: {
-//         onhover: {
-//         enable: boolean;
-//         mode: string;
-//         };
-//         onclick: {
-//         enable: boolean;
-//         mode: string;
-//         };
-//         resize: boolean;
-//     };
-//     modes: {
-//         grab: {
-//         distance: number;
-//         line_linked: {
-//             opacity: number;
-//         };
-//         };
-//         bubble: {
-//         distance: number;
-//         size: number;
-//         duration: number;
-//         opacity: number;
-//         speed: number;
-//         };
-//         repulse: {
-//         distance: number;
-//         duration: number;
-//         };
-//         push: {
-//         particles_nb: number;
-//         };
-//         remove: {
-//         particles_nb: number;
-//         };
-//     };
-// }
-
-// export type TSParticles = {
-//     particles: Particle;
-//     interactivity: Interactivity;
-//     retina_detect: boolean;
-// }

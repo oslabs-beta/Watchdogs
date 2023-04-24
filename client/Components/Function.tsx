@@ -13,7 +13,8 @@ import { FunctionProps, ErrorData , ErrorBodyType} from '../types';
 // Main Function
 function Function(props: FunctionProps) {
   // Destructure Props
-  const { functionData, functionName, user } = props;
+  const { functionData, functionName, user, timeframe, period, unit } = props;
+
   //change function border to red if there are errors
   useEffect(() => {
     if (Math.max(...functionData.Errors.values) > 0) {
@@ -106,7 +107,7 @@ function Function(props: FunctionProps) {
     <>
       <div className='function' id={functionName}>
         <h2>&quot;{functionName}&quot;</h2>
-        <Chart key={functionName} data={functionData} />
+        <Chart key={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
         <div>
           <p>Generate Error Logs: </p>
           <button className='error-button' onClick={() => generatePDF()}>As PDF</button>
