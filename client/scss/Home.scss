@@ -4,7 +4,6 @@ $secondary-color: #e09034;
 $third-color: #ffffff;
 $fourth-color: darken($third-color, 10);
 
-
 body {
   font-family: sans-serif;
   margin: 25px;
@@ -27,7 +26,7 @@ nav {
   position: relative;
   z-index: 1000;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
-  border: .5px solid $secondary-color;
+  border: 0.5px solid $secondary-color;
   border-radius: 15px;
   box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
 
@@ -128,11 +127,11 @@ nav {
     justify-content: space-between;
     margin-top: 30px;
     padding: 10px;
-    border: .5px solid $secondary-color;
+    border: 0.5px solid $secondary-color;
     border-radius: 15px;
     box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-  
-    h2{
+
+    h2 {
       align-self: flex-start;
       padding-left: 50px;
     }
@@ -154,12 +153,11 @@ nav {
       padding: 5px;
     }
   }
-  
+
   .errorfunction {
     border: 0.5px solid red !important;
-    box-shadow: red 0px 0px 20px 0px !important; 
+    box-shadow: red 0px 0px 20px 0px !important;
   }
-
 }
 
 // Warm List

@@ -87,10 +87,10 @@ export type ArnBodyUpdateType = {
 };
 
 export type ErrorBodyType = {
-          region: string;
-        arn: string;
-        func: string;
-}
+  region: string;
+  arn: string;
+  func: string;
+};
 
 //Responses
 export type ResponseDataType = {
@@ -118,10 +118,10 @@ export type SignupErrorType = {
 
 //Error Log Response
 export interface ErrorData {
-  logStreamName?: string
-  timestamp?: number
-  message?: string
-  ingestionTime?: number
-  eventId?: string
+  logStreamName?: string;
+  timestamp?: number;
+  message?: string;
+  ingestionTime?: number;
+  eventId?: string;
 }
 

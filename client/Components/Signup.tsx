@@ -22,7 +22,6 @@ function Signup() {
   const [password, setPassword] = useState('' as string);
   const [arn, setArn] = useState('' as string);
   const [region, setRegion] = useState('us-east-1' as string);
-  // const [diffUser, setdiffUser] = useState(true as boolean);
   const navigate = useNavigate();
 
   // Initialize Particles
@@ -37,7 +36,7 @@ function Signup() {
     if (!username.length || !password.length || !arn.length || !region.length) {
       const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
       if (errorDisplay) {
-        errorDisplay.innerHTML = 'username or password cannot be empty';
+        errorDisplay.innerHTML = 'Username or Password cannot be empty';
         errorDisplay.style.display = '';
       }
       return;
@@ -60,7 +59,7 @@ function Signup() {
         if (res.code == 11000) {
           const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
           if (errorDisplay) {
-            errorDisplay.innerHTML = 'username already exists';
+            errorDisplay.innerHTML = 'Username already exists';
           }
         } else {
           navigate('/');
@@ -82,7 +81,7 @@ function Signup() {
         <form>
           <div>
             <input
-              id='username-field'
+              id="signup-username"
               type="text"
               placeholder="username"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +89,7 @@ function Signup() {
               }}
             />
             <input
-              id='password-field'
+              id="signup-password"
               type="password"
               placeholder="password"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,6 +98,7 @@ function Signup() {
             />
           </div>
           <a
+            id="arn-setup"
             target="blank"
             href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
             Setup an ARN

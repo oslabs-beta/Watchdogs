@@ -26,29 +26,29 @@ const Chart = (props: ChartProps) => {
           labels: labels,
           datasets: [
             {
-              label: "Invocations",
+              label: 'Invocations',
               data: data.Invocations.values,
-              borderColor: "#9985B8",
-              backgroundColor: "#9985B8",
+              borderColor: '#9985B8',
+              backgroundColor: '#9985B8',
             },
             {
-              label: "Duration",
+              label: 'Duration',
               data: data.Duration.values,
-              borderColor: "#28A49E",
-              backgroundColor: "#28A49E",
-              yAxisID: "y1",
+              borderColor: '#28A49E',
+              backgroundColor: '#28A49E',
+              yAxisID: 'y1',
             },
             {
-              label: "Throttles",
+              label: 'Throttles',
               data: data.Throttles.values,
-              borderColor: "#983628",
-              backgroundColor: "#983628",
+              borderColor: '#983628',
+              backgroundColor: '#983628',
             },
             {
-              label: "Errors",
+              label: 'Errors',
               data: data.Errors.values,
-              borderColor: "#ff0000ed",
-              backgroundColor: "#ff0000ed",
+              borderColor: '#ff0000ed',
+              backgroundColor: '#ff0000ed',
             },
           ],
         
@@ -59,7 +59,7 @@ const Chart = (props: ChartProps) => {
           plugins: {
             legend: {
               labels: {
-                color: "#e09034",
+                color: '#e09034',
               },
             },
        
@@ -71,7 +71,7 @@ const Chart = (props: ChartProps) => {
                 color: "#a6a6a6",
                 stepSize: period,
               },
-              type: "time",
+              type: 'time',
               time: {
                 unit: unit,
                 
@@ -86,31 +86,31 @@ const Chart = (props: ChartProps) => {
 
             y: {
               ticks: {
-                color: "#a6a6a6",
+                color: '#a6a6a6',
               },
               title: {
                 display: true,
-                text: "Value",
-                color: "#a6a6a6",
+                text: 'Value',
+                color: '#a6a6a6',
               },
               min: 0,
               suggestedMax: 50,
               grid: {
-                color: "#a6a6a6",
+                color: '#a6a6a6',
                 display: false,
               },
             },
 
             y1: {
               ticks: {
-                color: "#a6a6a6",
+                color: '#a6a6a6',
               },
               title: {
                 display: true,
-                text: "Time (ms)",
-                color: "#a6a6a6",
+                text: 'Time (ms)',
+                color: '#a6a6a6',
               },
-              position: "right",
+              position: 'right',
               min: 0,
               suggestedMax: 50,
             },

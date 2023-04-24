@@ -51,8 +51,8 @@ function Login() {
         } else {
           // window.alert('Incorrect username and/or password');
           const invalidDisplay = document.getElementById('invalid-display');
-          if(invalidDisplay) {
-            invalidDisplay.innerHTML = 'Invalid Username or Password'
+          if (invalidDisplay) {
+            invalidDisplay.innerHTML = 'Invalid Username or Password';
           }
         }
       })
@@ -60,7 +60,7 @@ function Login() {
         console.log('Error in login fetch request:', err);
       });
   }
-  
+
   // useEffect(() => {
 
   // })
@@ -76,6 +76,7 @@ function Login() {
         <form>
           <div>
             <input
+              id="login-username"
               type="text"
               placeholder="username"
               onChange={(e) => {
@@ -83,6 +84,7 @@ function Login() {
               }}
             />
             <input
+              id="login-password"
               type="password"
               placeholder="password"
               onChange={(e) => {
