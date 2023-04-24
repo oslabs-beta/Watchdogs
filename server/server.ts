@@ -28,11 +28,11 @@ mongoose.connection.once('open', () => {
 const router: Router = express.Router();
 app.use('/api', router);
 
-router.get('/refresh', getUser, getMetrics, setCache, (req: Request, res: Response) => {
+router.get('/refresh/:timeframe/:increment', flushRedis, getUser, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
-router.get('/user', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
+router.get('/user/:timeframe/:increment', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 

@@ -1,5 +1,5 @@
 // React Imports
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Component Imports
 import Function from './Function';
@@ -12,8 +12,10 @@ import refresh from '../assets/Reload-100s-200px.png';
 
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
+
+
   // Destructure Props
-  const { loading, refreshInfo, metrics, user } = props;
+  const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions } = props;
 
   // Show/Hide Loading Display
   useEffect(() => {
@@ -31,13 +33,47 @@ function FunctionsList(props: FunctionsListProps) {
 
   const functions = [];
   for (const func in metrics) {
-    functions.push(<Function key={func} user={user} functionName={func} functionData={metrics[func]}></Function>);
+    functions.push(<Function key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>);
   }
 
   return (
     <>
       <div id="functions-list">
+       
         <div id="refresh-area">
+          <select
+            name="Select Timeframe"
+            id="timeframe-selector"
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              console.log('changing timeframe')
+              setTimeframe(e.target.value);
+              const x = document.getElementById('increment-selector') as HTMLSelectElement
+              x.selectedIndex = 0;
+            }}
+            >
+            <option value={"10800000"}>3hr</option>
+            <option value={"43200000"}>12hr</option>
+            <option value={"86400000"}>1d</option>
+            <option value={"604800000"}>1wk</option>
+            <option value={"2629800000"}>1mo</option>
+          </select>
+          <select
+            name="Select Increment"
+            id="increment-selector"
+            defaultValue={incrementOptions[0]}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              console.log('changing increment')
+              setIncrement(e.target.value);
+            }}
+          >
+            <option value={incrementOptions[0]}>{incrementOptions[0]}</option>
+            {incrementOptions[1] ? (
+              <option value={incrementOptions[1]}>{incrementOptions[1]}</option>
+            ) : null}
+            {incrementOptions[2] ? (
+              <option value={incrementOptions[2]}>{incrementOptions[2]}</option>
+            ) : null}
+          </select>
           <button id="refresh-button" onClick={refreshInfo}>
             Refresh
             <img id="refresh-img" src={refresh}></img>

@@ -41,6 +41,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.cookies;
     const user: UserDataType | null = await User.findOne({ _id: userId });
     res.locals.user = user;
+    console.log('user:' + user);
     return next();
   } catch (err) {
     return next({ log: 'Error in userController getUser middleware.', status: 500, message: err });
