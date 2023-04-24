@@ -9,7 +9,7 @@ const config: Config = {
   // using ts-jest
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '\\.(jpg|jpeg|png|scss)$': '<rootDir>/__tests__/mock.js',
+    '\\.(jpg|jpeg|png|scss|js)$': '<rootDir>/__tests__/mock.js',
   },
 
   // Runs special logic, such as cleaning up components

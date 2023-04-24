@@ -1,16 +1,19 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { fireEvent, render, RenderResult, waitFor, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-
-import App from '../client/App';
+// import userEvent from '@testing-library/user-event';
+import { fireEvent, render, RenderResult, waitFor, screen, act } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import Login from '../client/Components/Login';
 import Signup from '../client/Components/Signup';
+import Home from '../client/Components/Home';
+import { mock } from 'node:test';
 
 describe('React Component Testing', () => {
   let app: RenderResult;
+
   describe('SignUp Page', () => {
     beforeEach(() => {
+      // const history = createMemoryHistory();
       app = render(
         <MemoryRouter>
           <Signup />
@@ -19,87 +22,164 @@ describe('React Component Testing', () => {
     });
 
     test('Renders a signup container', () => {
-      const linkElement = app.container.querySelector('#signup-container');
-      expect(linkElement).toBeInTheDocument();
+      const signup = app.container.querySelector('#signup-container');
+      expect(signup).toBeInTheDocument();
     });
 
-    test('Should render a Username and Password fields', () => {
-      const usernameElement = app.container.querySelector('#username-field');
-      const passwordElement = app.container.querySelector('#password-field');
-      expect(usernameElement).toBeInTheDocument();
-      expect(passwordElement).toBeInTheDocument();
+    test('Renders Username, Password, ARN, and Region fields', () => {
+      const username = app.container.querySelector('#signup-username');
+      const password = app.container.querySelector('#signup-password');
+      const arn = app.container.querySelector('#arn');
+      const region = app.container.querySelector('#region-selector');
+
+      expect(username).toBeInTheDocument();
+      expect(password).toBeInTheDocument();
+      expect(arn).toBeInTheDocument();
+      expect(region).toBeInTheDocument();
     });
 
-    test('Should render a submit button', () => {
+    test('Renders a Setup an Arn Link', () => {
+      const arnSetup = app.container.querySelector('#arn-setup');
+      expect(arnSetup).toBeInTheDocument();
+    });
+
+    test('Renders a Submit button', () => {
       const signupButton = app.getByRole('button', {
         name: 'Signup',
       });
       expect(signupButton).toBeInTheDocument();
     });
 
-    // test("Should display 'Username already exists' if username already exists", () => {});
-
-    // test("Should redirect to '/Home' on succsessful signup", () => {});
-  });
-
-  xdescribe('Login Page', () => {
-    test('Should render a login container', () => {});
-
-    test('Should render Username and Password fields', () => {});
-
-    test('Should render a submit button', () => {});
-
-    test("Should display 'invalid username or password' if invalid input", () => {});
-
-    test("Should redirect to '/Home' on sucsessfull login", () => {});
-  });
-
-  xdescribe('Home Page', () => {
-    test('Should render navbarer component', () => {});
-
-    test('Should render a Functions Container', () => {});
-
-    describe('Header', () => {
-      test('Should display the users name in header', () => {});
-
-      xit('Should diplay Functions, Warm list, and Error routes', () => {});
+    test("Displays 'Username or Password cannot be empty' if fields are empty", () => {
+      fireEvent.click(
+        app.getByRole('button', {
+          name: 'Signup',
+        })
+      );
+      const errorDisplay = app.container.querySelector('#user-already-exists');
+      expect(errorDisplay).toHaveTextContent('Username or Password cannot be empty');
     });
 
-    describe('Functions Containter', () => {
-      test('Should render a function component if a function is present', () => {});
+    test('Renders an empty Error Display area', () => {
+      const errorDisplay = app.container.querySelector('#user-already-exists');
+      expect(errorDisplay).toBeInTheDocument();
+      expect(errorDisplay).toHaveTextContent('');
+    });
 
-      test("Should display 'No Functions Found' if there are no functions present", () => {});
+    test("Displays 'username already exists' if username already exists", async () => {
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve({ code: 11000 }),
+        } as any)
+      );
+      const username = app.container.querySelector('#signup-username') as HTMLInputElement;
+      fireEvent.change(username, { target: { value: 'test' } });
+
+      const password = app.container.querySelector('#signup-password') as HTMLInputElement;
+      fireEvent.change(password, { target: { value: 'test' } });
+
+      const arn = app.container.querySelector('#arn') as HTMLInputElement;
+      fireEvent.change(arn, { target: { value: 'test' } });
+
+      fireEvent.click(
+        app.getByRole('button', {
+          name: 'Signup',
+        })
+      );
+
+      await waitFor(() => {
+        const error = app.getByText('Username already exists');
+        expect(error).toBeInTheDocument();
+      });
+    });
+
+    xtest("Should redirect to '/' on succsessful signup", async () => {
+      // global.fetch = jest.fn(() =>
+      //   Promise.resolve({
+      //     json: () => Promise.resolve({}),
+      //   } as any)
+      // );
+      // jest.mock('react-router-dom', () => {
+      //   return {
+      //     ...jest.requireActual('react-router-dom'),
+      //     useNavigate: jest.fn(),
+      //   };
+      // });
+      // const username = app.container.querySelector('#signup-username') as HTMLInputElement;
+      // fireEvent.change(username, { target: { value: 'test' } });
+      // const password = app.container.querySelector('#signup-password') as HTMLInputElement;
+      // fireEvent.change(password, { target: { value: 'test' } });
+      // const arn = app.container.querySelector('#arn') as HTMLInputElement;
+      // fireEvent.change(arn, { target: { value: 'test' } });
+      // fireEvent.click(
+      //   app.getByRole('button', {
+      //     name: 'Signup',
+      //   })
+      // );
+      // await waitFor(() => {
+      // const sucsess = app.getByText('Username already exists');
+      // expect(sucsess).toBeInTheDocument();
+      // });
     });
   });
+
+  describe('Login Page', () => {
+    beforeEach(() => {
+      app = render(
+        <MemoryRouter>
+          <Login />
+        </MemoryRouter>
+      );
+    });
+    test('Renders a login container', () => {
+      const login = app.container.querySelector('#login-container');
+      expect(login).toBeInTheDocument();
+    });
+
+    test('Renders Username and Password fields', () => {
+      const username = app.container.querySelector('#login-username');
+      const password = app.container.querySelector('#login-password');
+      expect(username).toBeInTheDocument();
+      expect(password).toBeInTheDocument();
+    });
+
+    test('Renders a Login button', () => {
+      const loginButton = app.getByRole('button', {
+        name: 'Login',
+      });
+      expect(loginButton).toBeInTheDocument();
+    });
+
+    test('Renders an empty Error Display area', () => {
+      const errorDisplay = app.container.querySelector('#invalid-display');
+      expect(errorDisplay).toBeInTheDocument();
+      expect(errorDisplay).toHaveTextContent('');
+    });
+
+    // test("Displays 'invalid username or password' if invalid input", async () => {});
+    // test("Should redirect to '/' on sucsessfull login", () => {});
+  });
+
+  // describe('Home Page', () => {
+  //   beforeEach(() => {
+  //     app = render(
+  //       <MemoryRouter>
+  //         <Home />
+  //       </MemoryRouter>
+  //     );
+  //   });
+  //   describe('Nav Bar', () => {
+  //     test('Renders a Nav Bar component', () => {});
+
+  //     test('Displays Logo, Functions, Warm list, and Username in Nav Bar', () => {});
+  //   });
+
+  //   // describe('Functions Containter', () => {
+  //   //   test('Should render a Functions Container', () => {});
+
+  //   //   test('Renders a Function component if a function is present', () => {});
+
+  //   //   // test("Displays'No Functions Found' if there are no functions present", () => {});
+  //   // });
+  // });
 });
-
-// function renderLoginForm(props: Partial<Props> = {}) {
-//   // const defaultProps: Props = {
-//   //   onPasswordChange() {
-//   //     return;
-//   //   },
-//   //   onRememberChange() {
-//   //     return;
-//   //   },
-//   //   onUsernameChange() {
-//   //     return;
-//   //   },
-//   //   onSubmit() {
-//   //     return;
-//   //   },
-//   //   shouldRemember: true,
-//   // };
-//   return render(<LoginForm {...defaultProps} {...props} />);
-// }
-
-// test('should display a blank login form, with remember me checked by default', async () => {
-//   const { findByTestId } = renderLoginForm();
-
-//   const loginForm = await findByTestId('login-form');
-
-//   expect(loginForm).toHaveFormValues({
-//     username: '',
-//     password: '',
-//     remember: true,
-//   });
-// });

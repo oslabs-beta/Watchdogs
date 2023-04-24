@@ -36,7 +36,7 @@ function FunctionsList(props: FunctionsListProps) {
 
   return (
     <>
-      <div id="functions-list" >
+      <div id="functions-list">
         <div id="refresh-area">
           <button id="refresh-button" onClick={refreshInfo}>
             Refresh

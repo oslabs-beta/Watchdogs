@@ -50,7 +50,7 @@ function Home() {
         if (res == undefined) {
           return;
         }
-        if (res.badArn) window.alert('Invalid ARN')
+        if (res.badArn) window.alert('Invalid ARN');
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
