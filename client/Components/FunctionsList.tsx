@@ -1,5 +1,6 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import Select from 'react-select';
 
 // Component Imports
 import Function from './Function';
@@ -10,9 +11,16 @@ import { FunctionsListProps } from '../types';
 // Asset Imports
 import refresh from '../assets/Reload-100s-200px.png';
 
+type SelectedFuncs = {
+  value: string
+  label: string
+}
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
-
+  
+  const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
+  const [funcOptions, setFuncOptions] = useState([] as SelectedFuncs[])
+  const [options, setOptions] = useState([] as SelectedFuncs[])
 
   // Destructure Props
   const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions } = props;
@@ -30,17 +38,62 @@ function FunctionsList(props: FunctionsListProps) {
       functionsList.style.display = '';
     }
   });
-
-  const functions = [];
-  for (const func in metrics) {
-    functions.push(<Function key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>);
+  
+  useEffect(() => {
+    const array = []
+    for (const func in metrics){
+    array.push({label: func, value: func})
   }
+      setOptions(array)
+  }, [])
+
+
+  useEffect(() => {
+    const allFuncs = Array.from(document.getElementsByClassName('function') as HTMLCollectionOf<HTMLElement>)
+    allFuncs.forEach(func => {
+      func.style.display = 'none'
+    })
+    selectedFuncs.forEach(el => {
+      const displayFunc = document.getElementById(el.value)
+      if (displayFunc){
+        displayFunc.style.display = 'flex'
+      }
+      
+    })
+
+  }, [selectedFuncs])
+
+  
+    // setFuncOptions(array)
+    // setSelectedFuncs(array)
+  //   useLayoutEffect(() => {
+  //   setSelectedFuncs([{label: 'js', value: 'js'}])  
+
+  // },[])
+
+  // useEffect(()=> {
+  //   setFuncOptions(array)
+  // }, [])
 
   return (
     <>
       <div id="functions-list">
-       
+        
+       <Select
+        defaultValue={options}
+        isMulti
+        name="colors"
+        options={options}
+        className="basic-multi-select"
+        classNamePrefix="select" 
+        onChange={(selectedOptions: any): any => {
+          setSelectedFuncs(selectedOptions)
+          console.log('SELECTED FUNCS ---> ', selectedFuncs);
+        }}
+      />
+     
         <div id="refresh-area">
+          <label>Timeframe:</label>
           <select
             name="Select Timeframe"
             id="timeframe-selector"
@@ -57,6 +110,7 @@ function FunctionsList(props: FunctionsListProps) {
             <option value={"604800000"}>1wk</option>
             <option value={"2629800000"}>1mo</option>
           </select>
+          <label>Interval:</label>
           <select
             name="Select Increment"
             id="increment-selector"
@@ -79,7 +133,9 @@ function FunctionsList(props: FunctionsListProps) {
             <img id="refresh-img" src={refresh}></img>
           </button>
         </div>
-        {functions}
+        { Object.keys(metrics).map((func) => {
+          return <Function key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>
+        }) }
       </div>
     </>
   );
