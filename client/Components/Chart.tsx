@@ -1,22 +1,60 @@
 // React Imports
 import React from 'react';
 
+import gradient from 'chartjs-plugin-gradient';
+
 // Type Imports
 import { ChartProps } from '../types';
 
 // Chart.js Imports
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
-ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
+import {
+  Chart as ChartJS,
+  TimeScale,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+ChartJS.register(
+  TimeScale,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  gradient
+);
+
+let width: any, height: any, gradient1: any;
+function getGradient(ctx: any, chartArea: any, scales: any) {
+  const chartWidth = chartArea.right - chartArea.left;
+  const chartHeight = chartArea.bottom - chartArea.top;
+  console.log(scales.y1.getPixelForValue());
+  if (!gradient1 || width !== chartWidth || height !== chartHeight) {
+    // Create the gradient because this is either the first render
+    // or the size of the chart has changed
+    width = chartWidth;
+    height = chartHeight;
+    gradient1 = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+    gradient1.addColorStop(0, '#28A49E');
+    // gradient.addColorStop(0.5, 'yellow');
+    // gradient.addColorStop(1, 'transparent');
+    gradient1.addColorStop(1, 'red');
+  }
+
+  return gradient1;
+}
 
 // Main Function
 const Chart = (props: ChartProps) => {
   // Destructure Props
-  const { data, timeframe, period, unit} = props;
+  const { data, timeframe, period, unit } = props;
   const labels = data.Invocations.timestamps;
-  
-  
 
   // Render Component
   return (
@@ -34,7 +72,24 @@ const Chart = (props: ChartProps) => {
             {
               label: 'Duration',
               data: data.Duration.values,
-              borderColor: '#28A49E',
+              gradient: {
+                borderColor: {
+                  axis: 'y',
+                  colors: {
+                    0: 'rgb(40, 164, 158)',
+                    // 50: 'yellow',
+                    50: 'rgb(40, 164, 158, 0.2)',
+                  },
+                },
+              },
+              // borderColor: function (context) {
+              //   const chart = context.chart;
+              //   const { ctx, chartArea, scales } = chart;
+              //   if (!chartArea) {
+              //     return;
+              //   }
+              //   return getGradient(ctx, chartArea, scales);
+              // },
               backgroundColor: '#28A49E',
               yAxisID: 'y1',
             },
@@ -51,9 +106,7 @@ const Chart = (props: ChartProps) => {
               backgroundColor: '#ff0000ed',
             },
           ],
-        
         }}
-      
         options={{
           maintainAspectRatio: false,
           plugins: {
@@ -62,24 +115,26 @@ const Chart = (props: ChartProps) => {
                 color: '#e09034',
               },
             },
-       
           },
 
           scales: {
             x: {
               ticks: {
-                color: "#a6a6a6",
+                color: '#a6a6a6',
                 stepSize: period,
               },
               type: 'time',
               time: {
                 unit: unit,
-                
               },
-              min: new Date((Math.ceil(Date.now()/600000) *600000) - Number(timeframe)).toISOString(),
-              max: new Date(Math.ceil(Date.now()/600000) *600000).toISOString(),
-                 grid: {
-                color: "#a6a6a6",
+              min: new Date(
+                Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)
+              ).toISOString(),
+              max: new Date(
+                Math.ceil(Date.now() / 600000) * 600000
+              ).toISOString(),
+              grid: {
+                color: '#a6a6a6',
                 display: false,
               },
             },
@@ -119,6 +174,7 @@ const Chart = (props: ChartProps) => {
           layout: {
             padding: 10,
           },
+          // plugins: gradient
         }}
       />
     </div>
