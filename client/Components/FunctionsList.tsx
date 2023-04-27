@@ -13,10 +13,6 @@ import refresh from '../assets/Reload-100s-200px.png';
 
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
-<<<<<<< HEAD
-=======
-  // const [nofunc, setNofunc] = useState(false);
->>>>>>> dev
 
   // Destructure Props
   const {
@@ -119,7 +115,6 @@ function FunctionsList(props: FunctionsListProps) {
           </button>
         </div>
         {functions}
-        {/* <NoFunc nofunc={nofunc} /> */}
       </div>
     </>
   );
