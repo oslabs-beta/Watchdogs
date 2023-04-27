@@ -159,6 +159,18 @@ nav {
     box-shadow: red 0px 0px 20px 0px !important;
   }
 }
+//Pie Chart
+
+.pie {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 80vw;
+  margin-top: 5vw;
+  div {
+    width: 50%;
+  }
+}
 
 // Warm List
 #warm-list {

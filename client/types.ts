@@ -4,7 +4,6 @@ export type FunctionsListProps = {
   metrics: MetricType;
   loading: boolean;
   timeframe: string;
-  getUserInfo: () => void;
   refreshInfo: () => void;
   setIncrement: (arg0: string) => void;
   setTimeframe: (arg0: string) => void;
@@ -38,6 +37,15 @@ export type ChartProps = {
   period: number;
   unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
 };
+
+export type PieChartProps = {
+  metrics: MetricType;
+  loading: boolean;
+  timeframe: string;
+  incrementOptions: string[];
+  setIncrement: (arg0: string) => void;
+  setTimeframe: (arg0: string) => void;
+}
 
 export type UserInfoProps = {
   user: UserDataType;

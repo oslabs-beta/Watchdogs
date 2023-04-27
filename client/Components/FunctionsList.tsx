@@ -13,7 +13,6 @@ import refresh from '../assets/Reload-100s-200px.png';
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
 
-
   // Destructure Props
   const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions } = props;
 
@@ -44,6 +43,7 @@ function FunctionsList(props: FunctionsListProps) {
           <select
             name="Select Timeframe"
             id="timeframe-selector"
+            defaultValue={timeframe}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               console.log('changing timeframe')
               setTimeframe(e.target.value);
