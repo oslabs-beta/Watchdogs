@@ -9,7 +9,7 @@ import { Engine } from 'tsparticles-engine';
 import loginParticles from '../assets/login-particles.json';
 
 // Type Imports
-import { UserDataType, MetricType, ResponseDataType } from '../types';
+import { UserDataType, MetricType, ResponseDataType, SelectedFuncs } from '../types';
 
 // Component Imports
 import UserInfo from './UserInfo';
@@ -18,6 +18,7 @@ import PieChart from './PieChart'
 import FunctionsList from './FunctionsList';
 import '../scss/Home.scss';
 import NoFunc from './NoFunc';
+import About from './About';
 
 // Asset Imports
 import logo from '../assets/logo.png';
@@ -50,6 +51,8 @@ function Home() {
       | 'year'
       | undefined
   );
+  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[])
+
   const [nofunc, setNofunc] = useState(false as boolean);
 
   const navigate = useNavigate();
@@ -79,10 +82,15 @@ function Home() {
         if (res.badArn) window.alert('Invalid ARN');
         if (res.nofunc) {
           setNofunc(true);
-        } //window.alert('No functions');
+        }
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
+        for (const func in res.metrics){
+          options.push({value: func, label: func})
+        }
+        setDropdownOptions(options)
       });
   }
 
@@ -95,6 +103,11 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
+        for (const func in res.metrics){
+          options.push({value: func, label: func})
+        }
+        setDropdownOptions(options)
       });
   }
 
@@ -161,6 +174,7 @@ function Home() {
           <Link to="/">Functions</Link>
           <Link to='pie'>Pie Chart</Link>
           <Link to="warmlist">Warm List</Link>
+          <Link to="about">About</Link>
         </div>
         <div id="lock-right">
           <Link to="userinfo">
@@ -182,7 +196,6 @@ function Home() {
         </div>
       </div>
 
-      <NoFunc nofunc={nofunc} />
 
       <Routes>
         <Route
@@ -199,12 +212,13 @@ function Home() {
               setIncrement={setIncrement}
               setTimeframe={setTimeframe}
               incrementOptions={incrementOptions}
+              dropdownOptions={dropdownOptions}
               nofunc={nofunc}
             />
           }
         ></Route>
         <Route path='/pie' element={<PieChart metrics={metrics} loading={loading}setTimeframe={setTimeframe} setIncrement={setIncrement} timeframe={timeframe}
-        incrementOptions={incrementOptions}/>}></Route>
+        incrementOptions={incrementOptions} nofunc={nofunc}/>}></Route>
         <Route path="/warmlist" element={<WarmList />}></Route>
         <Route
           path="/userinfo"
@@ -218,6 +232,7 @@ function Home() {
             />
           }
         ></Route>
+        <Route path="/about" element={<About loading={loading}/>}></Route>
       </Routes>
     </>
   );

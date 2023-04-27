@@ -22,6 +22,7 @@ export type FunctionsListProps = {
     | 'year'
     | undefined;
   nofunc: boolean;
+  dropdownOptions: SelectedFuncs[];
 };
 
 export type FunctionProps = {
@@ -79,6 +80,7 @@ export type PieChartProps = {
   incrementOptions: string[];
   setIncrement: (arg0: string) => void;
   setTimeframe: (arg0: string) => void;
+  nofunc: boolean;
 }
 
 export type UserInfoProps = {
@@ -94,10 +96,6 @@ export type UserInfoProps = {
   }) => void;
   setLoading: (arg0: boolean) => void;
   setMetrics: (arg0: any) => void;
-};
-
-export type NoFuncProps = {
-  nofunc: boolean;
 };
 
 //User Data
@@ -177,4 +175,13 @@ export interface ErrorData {
   message?: string;
   ingestionTime?: number;
   eventId?: string;
+}
+
+export type SelectedFuncs = {
+  value: string;
+  label: string
+}
+
+export type NoFuncProps = {
+  nofunc: boolean;
 }
