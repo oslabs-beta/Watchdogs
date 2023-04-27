@@ -3,10 +3,18 @@ import { NoFuncProps } from '../types';
 
 function NoFunc(props: NoFuncProps) {
   const { nofunc } = props;
+  // const functionsList = document.getElementById(
+  //   'functions-list'
+  // ) as HTMLDivElement;
   if (!nofunc) {
+    // functionsList.style.display = 'none';
     return null;
   }
-  return <p>You have no functions!</p>;
+  return (
+    <div id="nofunc">
+      <p>You have no functions!</p>
+    </div>
+  );
 }
 
 export default NoFunc;

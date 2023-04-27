@@ -13,7 +13,7 @@ import refresh from '../assets/Reload-100s-200px.png';
 
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
-  const [nofunc, setNofunc] = useState(false);
+  // const [nofunc, setNofunc] = useState(false);
 
   // Destructure Props
   const {
@@ -27,11 +27,12 @@ function FunctionsList(props: FunctionsListProps) {
     setIncrement,
     setTimeframe,
     incrementOptions,
+    nofunc,
   } = props;
 
-  if (!metrics.func) {
-    setNofunc(true);
-  }
+  // if (!metrics.func) {
+  //   setNofunc(true);
+  // }
   // Show/Hide Loading Display
   useEffect(() => {
     const loadingSection = document.getElementById(
@@ -47,6 +48,10 @@ function FunctionsList(props: FunctionsListProps) {
     } else {
       loadingSection.style.display = 'none';
       functionsList.style.display = '';
+    }
+
+    if (nofunc) {
+      functionsList.style.display = 'none';
     }
   });
 
@@ -110,7 +115,7 @@ function FunctionsList(props: FunctionsListProps) {
           </button>
         </div>
         {functions}
-        <NoFunc nofunc={nofunc} />
+        {/* <NoFunc nofunc={nofunc} /> */}
       </div>
     </>
   );

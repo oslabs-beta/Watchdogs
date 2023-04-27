@@ -16,6 +16,7 @@ import UserInfo from './UserInfo';
 import WarmList from './WarmList';
 import FunctionsList from './FunctionsList';
 import '../scss/Home.scss';
+import NoFunc from './NoFunc';
 
 // Asset Imports
 import logo from '../assets/logo.png';
@@ -27,27 +28,28 @@ function Home() {
   const [user, setUser] = useState({} as UserDataType);
   const [metrics, setMetrics] = useState({} as MetricType);
   const [loading, setLoading] = useState(false as boolean);
-  const [timeframe, setTimeframe] = useState("10800000" as string);
+  const [timeframe, setTimeframe] = useState('10800000' as string);
   const [incrementOptions, setIncrementOptions] = useState([
-    "10min",
-    "30min",
+    '10min',
+    '30min',
   ] as string[]);
-  const [increment, setIncrement] = useState("10min" as string);
+  const [increment, setIncrement] = useState('10min' as string);
   const [period, setPeriod] = useState(10 as number);
   const [unit, setUnit] = useState(
-    "minute" as
+    'minute' as
       | false
-      | "millisecond"
-      | "second"
-      | "minute"
-      | "hour"
-      | "day"
-      | "week"
-      | "month"
-      | "quarter"
-      | "year"
+      | 'millisecond'
+      | 'second'
+      | 'minute'
+      | 'hour'
+      | 'day'
+      | 'week'
+      | 'month'
+      | 'quarter'
+      | 'year'
       | undefined
   );
+  const [nofunc, setNofunc] = useState(false as boolean);
 
   const navigate = useNavigate();
 
@@ -59,12 +61,12 @@ function Home() {
 
   // Get User Info Logic
   function getUserInfo(): void {
-    console.log(timeframe, increment)
+    console.log(timeframe, increment);
     setLoading(true);
     fetch(`/api/user/${timeframe}/${increment}`)
       .then((res): Promise<ResponseDataType> | undefined => {
         if (res.redirected) {
-          navigate("/login");
+          navigate('/login');
         } else {
           return res.json();
         }
@@ -73,7 +75,10 @@ function Home() {
         if (res == undefined) {
           return;
         }
-        if (res.badArn) window.alert("Invalid ARN");
+        if (res.badArn) window.alert('Invalid ARN');
+        if (res.nofunc) {
+          setNofunc(true);
+        } //window.alert('No functions');
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
@@ -93,57 +98,56 @@ function Home() {
   }
 
   useEffect(() => {
-    if (timeframe === "10800000") {
-      setIncrement("10min");
-      setIncrementOptions(["10min", "30min"]);
-    } else if (timeframe === "43200000") {
-      setIncrement("30min");
-      setIncrementOptions(["30min", "1hr"]);
-    } else if (timeframe === "86400000") {
-      setIncrement("1hr");
-      setIncrementOptions(["1hr", "3hr", "6hr"]);
-    } else if (timeframe === "604800000") {
-      setIncrement("12hr");
-      setIncrementOptions(["12hr", "1d"]);
-    } else if (timeframe === "2629800000") {
-      setIncrement("1d");
-      setIncrementOptions(["1d"]);
+    if (timeframe === '10800000') {
+      setIncrement('10min');
+      setIncrementOptions(['10min', '30min']);
+    } else if (timeframe === '43200000') {
+      setIncrement('30min');
+      setIncrementOptions(['30min', '1hr']);
+    } else if (timeframe === '86400000') {
+      setIncrement('1hr');
+      setIncrementOptions(['1hr', '3hr', '6hr']);
+    } else if (timeframe === '604800000') {
+      setIncrement('12hr');
+      setIncrementOptions(['12hr', '1d']);
+    } else if (timeframe === '2629800000') {
+      setIncrement('1d');
+      setIncrementOptions(['1d']);
     }
   }, [timeframe]);
 
   useEffect(() => {
-    if (increment === "10min") {
+    if (increment === '10min') {
       setPeriod(10);
-      setUnit("minute");
+      setUnit('minute');
     }
-    if (increment === "30min") {
+    if (increment === '30min') {
       setPeriod(30);
-      setUnit("minute");
+      setUnit('minute');
     }
-    if (increment === "1hr") {
+    if (increment === '1hr') {
       setPeriod(1);
-      setUnit("hour");
+      setUnit('hour');
     }
-    if (increment === "3hr") {
+    if (increment === '3hr') {
       setPeriod(3);
-      setUnit("hour");
+      setUnit('hour');
     }
-    if (increment === "6hr") {
+    if (increment === '6hr') {
       setPeriod(6);
-      setUnit("hour");
+      setUnit('hour');
     }
-    if (increment === "12hr") {
+    if (increment === '12hr') {
       setPeriod(12);
-      setUnit("hour");
+      setUnit('hour');
     }
-    if (increment === "1d") {
+    if (increment === '1d') {
       setPeriod(1);
-      setUnit("day");
+      setUnit('day');
     }
     getUserInfo();
   }, [increment]);
 
- 
   // Render Componenets
   return (
     <>
@@ -163,7 +167,7 @@ function Home() {
           </Link>
         </div>
       </nav>
-    
+
       <div id="loading-section">
         <div className="loadingio-spinner-reload-95c95vxnjuq">
           <div className="ldio-7c2ii3644jj">
@@ -175,6 +179,8 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <NoFunc nofunc={nofunc} />
 
       <Routes>
         <Route
@@ -192,6 +198,7 @@ function Home() {
               setIncrement={setIncrement}
               setTimeframe={setTimeframe}
               incrementOptions={incrementOptions}
+              nofunc={nofunc}
             />
           }
         ></Route>

@@ -22,6 +22,7 @@ export type FunctionsListProps = {
     | 'quarter'
     | 'year'
     | undefined;
+  nofunc: boolean;
 };
 
 export type FunctionProps = {
@@ -141,6 +142,7 @@ export type ResponseDataType = {
   user: UserDataType;
   metrics: MetricType;
   badArn?: boolean;
+  nofunc?: boolean;
 };
 
 export type LoginResponseType = {

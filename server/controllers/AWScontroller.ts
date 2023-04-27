@@ -119,6 +119,10 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
       .describeLogGroups({ logGroupNamePrefix: '/aws/lambda' })
       .promise()) as LogGroupsInterface;
     console.log('here is the log groups ', logGroups);
+    // if (logGroups.length === 0) {
+    //   res.locals.noFunc = true;
+    //   return res.json(res.locals);
+    // }
     const lambdaFunctions = logGroups.map((el) =>
       el.logGroupName.replace('/aws/lambda/', '')
     );
@@ -224,6 +228,12 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
 
   const metrics = {} as Metrics;
 
+  console.log(functions);
+
+  if (functions.length === 0) {
+    res.locals.nofunc = true;
+    return res.json(res.locals);
+  }
   functions.forEach((el: string) => {
     addQuery(el);
     metrics[el] = {
