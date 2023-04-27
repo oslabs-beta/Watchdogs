@@ -97,12 +97,6 @@ function Signup() {
               }}
             />
           </div>
-          <a
-            id="arn-setup"
-            target="blank"
-            href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
-            Setup an ARN
-          </a>
           <div>
             <input
               id="arn"
@@ -137,6 +131,12 @@ function Signup() {
               <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
             </select>
           </div>
+          <a
+            id="arn-setup"
+            target="blank"
+            href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
+            Setup an ARN
+          </a>
           <button
             type="submit"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
