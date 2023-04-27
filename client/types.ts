@@ -9,7 +9,19 @@ export type FunctionsListProps = {
   setTimeframe: (arg0: string) => void;
   incrementOptions: string[];
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
+  nofunc: boolean;
 };
 
 export type FunctionProps = {
@@ -23,7 +35,18 @@ export type FunctionProps = {
   user: UserDataType;
   timeframe: string;
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
 };
 
 export type ChartProps = {
@@ -35,7 +58,18 @@ export type ChartProps = {
   };
   timeframe: string;
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
 };
 
 export type PieChartProps = {
@@ -50,9 +84,20 @@ export type PieChartProps = {
 export type UserInfoProps = {
   user: UserDataType;
   loading: boolean;
-  setUser: (arg0: { arn: string; region: string; password: string; username: string; __v: number; _id: string }) => void;
+  setUser: (arg0: {
+    arn: string;
+    region: string;
+    password: string;
+    username: string;
+    __v: number;
+    _id: string;
+  }) => void;
   setLoading: (arg0: boolean) => void;
   setMetrics: (arg0: any) => void;
+};
+
+export type NoFuncProps = {
+  nofunc: boolean;
 };
 
 //User Data
@@ -105,6 +150,7 @@ export type ResponseDataType = {
   user: UserDataType;
   metrics: MetricType;
   badArn?: boolean;
+  nofunc?: boolean;
 };
 
 export type LoginResponseType = {
@@ -132,4 +178,3 @@ export interface ErrorData {
   ingestionTime?: number;
   eventId?: string;
 }
-
