@@ -92,38 +92,83 @@ nav {
   justify-content: center;
   align-items: center;
   position: relative;
-  #refresh-area {
+  #functions-list-filters{
     margin-top: 20px;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    align-self: flex-end;
-  
-    label {
-      color: $secondary-color;
-      margin: 0 4px;
-    }
-    select {
-      color: $secondary-color;
-      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));  
-      font-size: 14px;
-      margin: 0 4px;
-      border: 1px solid $secondary-color;
-      border-radius: 5px;
-    }
-    #refresh-button {
+    width: 100%;
+    justify-content: space-between;
+
+    #function-filter{
       display: flex;
       align-items: center;
       color: $secondary-color;
-      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
-      border: 1px solid $secondary-color;
-      border-radius: 5px;
-      font-size: 14px;
-      box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-  
-      #refresh-img {
-        margin: 5px;
-        height: 14px;
+      
+
+      .select__control{
+        background-color: $primary-color;
+        border: solid 1px $secondary-color;
+        margin-inline: 6px;
+        .select__indicators {
+          .select__indicator-separator{
+            background-color: $secondary-color;
+          }
+          .select__dropdown-indicator{
+            color: $secondary-color
+          }
+        }
+      }
+
+      .select__control--is-focused {
+        border: solid 1px $secondary-color;
+      }
+      .select__control--menu-is-open {
+        border: solid 1px $secondary-color;
+        box-shadow: none;
+      }
+      .select__menu {
+        background-color: $primary-color;
+        border: solid 1px $secondary-color;
+        margin-inline: 6px;
+      }
+      .css-t3ipsp-control{
+        border: solid 1px $secondary-color;
+        box-shadow: none;
+      }
+    }
+    
+    #refresh-area {
+      
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      align-self: flex-end;
+    
+      label {
+        color: $secondary-color;
+        margin: 0 4px;
+      }
+      select {
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));  
+        font-size: 14px;
+        margin: 0 4px;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+      }
+      #refresh-button {
+        display: flex;
+        align-items: center;
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        font-size: 14px;
+        box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+    
+        #refresh-img {
+          margin: 5px;
+          height: 14px;
+        }
       }
     }
   }

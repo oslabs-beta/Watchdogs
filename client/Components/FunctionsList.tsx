@@ -6,24 +6,21 @@ import Select from 'react-select';
 import Function from './Function';
 
 // Type Imports
-import { FunctionsListProps } from '../types';
+import { FunctionsListProps, SelectedFuncs } from '../types';
 
 // Asset Imports
 import refresh from '../assets/Reload-100s-200px.png';
 
-type SelectedFuncs = {
-  value: string
-  label: string
-}
+
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
+  // Destructure Props
+  const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions, dropdownOptions} = props;
   
   const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
   const [funcOptions, setFuncOptions] = useState([] as SelectedFuncs[])
   const [options, setOptions] = useState([] as SelectedFuncs[])
 
-  // Destructure Props
-  const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions } = props;
 
   // Show/Hide Loading Display
   useEffect(() => {
@@ -39,14 +36,18 @@ function FunctionsList(props: FunctionsListProps) {
     }
   });
   
-  useEffect(() => {
-    const array = []
-    for (const func in metrics){
-    array.push({label: func, value: func})
-  }
-      setOptions(array)
-  }, [])
+  // useEffect(() => {z
+  //   const array = []
+  //   for (const func in metrics){
+  //   array.push({label: func, value: func})
+  // }
+  //     setOptions(array)
+  // }, [])
 
+
+  useEffect(() => {
+    setSelectedFuncs(dropdownOptions)
+  }, [])
 
   useEffect(() => {
     const allFuncs = Array.from(document.getElementsByClassName('function') as HTMLCollectionOf<HTMLElement>)
@@ -63,7 +64,6 @@ function FunctionsList(props: FunctionsListProps) {
 
   }, [selectedFuncs])
 
-  
     // setFuncOptions(array)
     // setSelectedFuncs(array)
   //   useLayoutEffect(() => {
@@ -78,61 +78,62 @@ function FunctionsList(props: FunctionsListProps) {
   return (
     <>
       <div id="functions-list">
-        
-       <Select
-        defaultValue={options}
-        isMulti
-        name="colors"
-        options={options}
-        className="basic-multi-select"
-        classNamePrefix="select" 
-        onChange={(selectedOptions: any): any => {
-          setSelectedFuncs(selectedOptions)
-          console.log('SELECTED FUNCS ---> ', selectedFuncs);
-        }}
-      />
-     
-        <div id="refresh-area">
-          <label>Timeframe:</label>
-          <select
-            name="Select Timeframe"
-            id="timeframe-selector"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              console.log('changing timeframe')
-              setTimeframe(e.target.value);
-              const x = document.getElementById('increment-selector') as HTMLSelectElement
-              x.selectedIndex = 0;
+        <div id='functions-list-filters'>
+          <div id='function-filter'>
+            <p>Filter results:</p>
+            <Select
+            // defaultValue={dropdownOptions}
+            isMulti
+            name="colors"
+            options={dropdownOptions}
+            className="basic-multi-select"
+            classNamePrefix="select" 
+            onChange={(selectedOptions: any): any => {
+              setSelectedFuncs(selectedOptions)
             }}
+            />
+          </div>
+          <div id="refresh-area">
+            <label>Timeframe:</label>
+            <select
+              name="Select Timeframe"
+              id="timeframe-selector"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setTimeframe(e.target.value);
+                const x = document.getElementById('increment-selector') as HTMLSelectElement
+                x.selectedIndex = 0;
+              }}
+              >
+              <option value={"10800000"}>3hr</option>
+              <option value={"43200000"}>12hr</option>
+              <option value={"86400000"}>1d</option>
+              <option value={"604800000"}>1wk</option>
+              <option value={"2629800000"}>1mo</option>
+            </select>
+            <label>Interval:</label>
+            <select
+              name="Select Increment"
+              id="increment-selector"
+              defaultValue={incrementOptions[0]}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setIncrement(e.target.value);
+              }}
             >
-            <option value={"10800000"}>3hr</option>
-            <option value={"43200000"}>12hr</option>
-            <option value={"86400000"}>1d</option>
-            <option value={"604800000"}>1wk</option>
-            <option value={"2629800000"}>1mo</option>
-          </select>
-          <label>Interval:</label>
-          <select
-            name="Select Increment"
-            id="increment-selector"
-            defaultValue={incrementOptions[0]}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              console.log('changing increment')
-              setIncrement(e.target.value);
-            }}
-          >
-            <option value={incrementOptions[0]}>{incrementOptions[0]}</option>
-            {incrementOptions[1] ? (
-              <option value={incrementOptions[1]}>{incrementOptions[1]}</option>
-            ) : null}
-            {incrementOptions[2] ? (
-              <option value={incrementOptions[2]}>{incrementOptions[2]}</option>
-            ) : null}
-          </select>
-          <button id="refresh-button" onClick={refreshInfo}>
-            Refresh
-            <img id="refresh-img" src={refresh}></img>
-          </button>
+              <option value={incrementOptions[0]}>{incrementOptions[0]}</option>
+              {incrementOptions[1] ? (
+                <option value={incrementOptions[1]}>{incrementOptions[1]}</option>
+              ) : null}
+              {incrementOptions[2] ? (
+                <option value={incrementOptions[2]}>{incrementOptions[2]}</option>
+              ) : null}
+            </select>
+            <button id="refresh-button" onClick={refreshInfo}>
+              Refresh
+              <img id="refresh-img" src={refresh}></img>
+            </button>
+          </div>
         </div>
+     
         { Object.keys(metrics).map((func) => {
           return <Function key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>
         }) }

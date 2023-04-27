@@ -9,7 +9,7 @@ import { Engine } from 'tsparticles-engine';
 import loginParticles from '../assets/login-particles.json';
 
 // Type Imports
-import { UserDataType, MetricType, ResponseDataType } from '../types';
+import { UserDataType, MetricType, ResponseDataType, SelectedFuncs } from '../types';
 
 // Component Imports
 import UserInfo from './UserInfo';
@@ -48,6 +48,8 @@ function Home() {
       | "year"
       | undefined
   );
+  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[])
+
 
   const navigate = useNavigate();
 
@@ -77,6 +79,11 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        const options: SelectedFuncs[] = []
+        for (const func in res.metrics){
+          options.push({value: func, label: func})
+        }
+        setDropdownOptions(options)
       });
   }
 
@@ -192,6 +199,7 @@ function Home() {
               setIncrement={setIncrement}
               setTimeframe={setTimeframe}
               incrementOptions={incrementOptions}
+              dropdownOptions={dropdownOptions}
             />
           }
         ></Route>

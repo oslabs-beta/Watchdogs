@@ -11,6 +11,7 @@ export type FunctionsListProps = {
   incrementOptions: string[];
   period: number;
   unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  dropdownOptions: any
 };
 
 export type FunctionProps = {
@@ -125,3 +126,7 @@ export interface ErrorData {
   eventId?: string;
 }
 
+export type SelectedFuncs = {
+  value: string
+  label: string
+}
