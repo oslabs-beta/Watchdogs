@@ -26,6 +26,7 @@ export type FunctionsListProps = {
 };
 
 export type FunctionProps = {
+  id: string;
   functionName: string;
   functionData: {
     [metric: string]: {
@@ -51,6 +52,7 @@ export type FunctionProps = {
 };
 
 export type ChartProps = {
+  functionName: string;
   data: {
     [metric: string]: {
       timestamps: Array<string>;

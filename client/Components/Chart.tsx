@@ -9,26 +9,8 @@ import { ChartProps } from '../types';
 // Chart.js Imports
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  TimeScale,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-ChartJS.register(
-  TimeScale,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-  gradient
-);
+import { Chart as ChartJS, TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
+ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend, gradient);
 
 let width: any, height: any, gradient1: any;
 function getGradient(ctx: any, chartArea: any, scales: any) {
@@ -53,12 +35,12 @@ function getGradient(ctx: any, chartArea: any, scales: any) {
 // Main Function
 const Chart = (props: ChartProps) => {
   // Destructure Props
-  const { data, timeframe, period, unit } = props;
+  const { data, timeframe, period, unit, functionName } = props;
   const labels = data.Invocations.timestamps;
 
   // Render Component
   return (
-    <div className="chart">
+    <div className="chart" id={functionName + '-chart'}>
       <Line
         data={{
           labels: labels,
@@ -127,12 +109,8 @@ const Chart = (props: ChartProps) => {
               time: {
                 unit: unit,
               },
-              min: new Date(
-                Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)
-              ).toISOString(),
-              max: new Date(
-                Math.ceil(Date.now() / 600000) * 600000
-              ).toISOString(),
+              min: new Date(Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)).toISOString(),
+              max: new Date(Math.ceil(Date.now() / 600000) * 600000).toISOString(),
               grid: {
                 color: '#a6a6a6',
                 display: false,

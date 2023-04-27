@@ -88,17 +88,7 @@ function FunctionsList(props: FunctionsListProps) {
   const functions = [];
   
   for (const func in metrics) {
-    functions.push(
-      <Function
-        key={func}
-        user={user}
-        functionName={func}
-        functionData={metrics[func]}
-        timeframe={timeframe}
-        period={period}
-        unit={unit}
-      ></Function>
-    );
+    functions.push(<Function id={func} key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>);
   }
 
 
