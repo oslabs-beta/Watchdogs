@@ -4,7 +4,7 @@ import Select from 'react-select';
 
 // Component Imports
 import Function from './Function';
-
+import NoFunc from './NoFunc';
 // Type Imports
 import { FunctionsListProps, SelectedFuncs } from '../types';
 
@@ -15,24 +15,46 @@ import refresh from '../assets/Reload-100s-200px.png';
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
   // Destructure Props
-  const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions, dropdownOptions} = props;
+  const {
+    loading,
+    refreshInfo,
+    metrics,
+    user,
+    timeframe,
+    period,
+    unit,
+    setIncrement,
+    setTimeframe,
+    incrementOptions,
+    nofunc,
+    dropdownOptions,
+  } = props;
   
-    const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
+  const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
 
 
 
+  
   // Show/Hide Loading Display
   useEffect(() => {
-    const loadingSection = document.getElementById('loading-section') as HTMLDivElement;
-    const functionsList = document.getElementById('functions-list') as HTMLDivElement;
+    const loadingSection = document.getElementById(
+      'loading-section'
+    ) as HTMLDivElement;
+    const functionsList = document.getElementById(
+      'functions-list'
+    ) as HTMLDivElement;
 
     if (loading) {
       loadingSection.style.display = '';
       functionsList.style.display = 'none';
     } else {
       loadingSection.style.display = 'none';
-      functionsList.style.display = '';
+      if(functionsList){
+        functionsList.style.display = '';
+      }
     }
+
+    
   });
 
   useEffect(() => {
@@ -55,7 +77,32 @@ function FunctionsList(props: FunctionsListProps) {
      setSelectedFuncs(dropdownOptions.slice(1))
     }, [])
   
+    if (nofunc){
+      return (
+          <>
+              <NoFunc nofunc={nofunc}/>
+          </>
+      )
+  } 
+  
+  const functions = [];
+  
+  for (const func in metrics) {
+    functions.push(
+      <Function
+        key={func}
+        user={user}
+        functionName={func}
+        functionData={metrics[func]}
+        timeframe={timeframe}
+        period={period}
+        unit={unit}
+      ></Function>
+    );
+  }
 
+
+  
   return (
     <>
       <div id="functions-list">
@@ -119,9 +166,7 @@ function FunctionsList(props: FunctionsListProps) {
           </div>
         </div>
      
-        { Object.keys(metrics).map((func) => {
-          return <Function key={func} user={user} functionName={func} functionData={metrics[func]} timeframe={timeframe} period={period} unit={unit}></Function>
-        }) }
+        { functions }
       </div>
     </>
   );
