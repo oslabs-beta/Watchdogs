@@ -48,6 +48,10 @@ export type UserInfoProps = {
   setMetrics: (arg0: any) => void;
 };
 
+export type AboutPropsType = {
+  loading: boolean;
+}
+
 //User Data
 export type UserDataType = {
   arn: string;

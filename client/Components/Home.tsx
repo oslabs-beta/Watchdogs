@@ -16,6 +16,7 @@ import UserInfo from './UserInfo';
 import WarmList from './WarmList';
 import FunctionsList from './FunctionsList';
 import '../scss/Home.scss';
+import About from './About';
 
 // Asset Imports
 import logo from '../assets/logo.png';
@@ -169,6 +170,7 @@ function Home() {
           </Link>
           <Link to="/">Functions</Link>
           <Link to="warmlist">Warm List</Link>
+          <Link to="about">About</Link>
         </div>
         <div id="lock-right">
           <Link to="userinfo">
@@ -223,6 +225,7 @@ function Home() {
             />
           }
         ></Route>
+        <Route path="/about" element={<About loading={loading}/>}></Route>
       </Routes>
     </>
   );
