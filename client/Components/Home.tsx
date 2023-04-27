@@ -59,7 +59,6 @@ function Home() {
 
   // Get User Info Logic
   function getUserInfo(): void {
-    console.log(timeframe, increment)
     setLoading(true);
     fetch(`/api/user/${timeframe}/${increment}`)
       .then((res): Promise<ResponseDataType> | undefined => {

@@ -24,7 +24,7 @@ nav {
   width: auto;
   min-height: 30px;
   position: relative;
-  z-index: 1000;
+  // z-index: 1000;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   border: 0.5px solid $secondary-color;
   border-radius: 15px;

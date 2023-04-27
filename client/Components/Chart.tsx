@@ -13,14 +13,12 @@ ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScal
 // Main Function
 const Chart = (props: ChartProps) => {
   // Destructure Props
-  const { data, timeframe, period, unit} = props;
+  const { data, timeframe, period, unit, functionName } = props;
   const labels = data.Invocations.timestamps;
-  
-  
 
   // Render Component
   return (
-    <div className="chart">
+    <div className="chart" id={functionName + '-chart'}>
       <Line
         data={{
           labels: labels,
@@ -51,9 +49,7 @@ const Chart = (props: ChartProps) => {
               backgroundColor: '#ff0000ed',
             },
           ],
-        
         }}
-      
         options={{
           maintainAspectRatio: false,
           plugins: {
@@ -62,24 +58,22 @@ const Chart = (props: ChartProps) => {
                 color: '#e09034',
               },
             },
-       
           },
 
           scales: {
             x: {
               ticks: {
-                color: "#a6a6a6",
+                color: '#a6a6a6',
                 stepSize: period,
               },
               type: 'time',
               time: {
                 unit: unit,
-                
               },
-              min: new Date((Math.ceil(Date.now()/600000) *600000) - Number(timeframe)).toISOString(),
-              max: new Date(Math.ceil(Date.now()/600000) *600000).toISOString(),
-                 grid: {
-                color: "#a6a6a6",
+              min: new Date(Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)).toISOString(),
+              max: new Date(Math.ceil(Date.now() / 600000) * 600000).toISOString(),
+              grid: {
+                color: '#a6a6a6',
                 display: false,
               },
             },

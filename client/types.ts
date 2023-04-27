@@ -10,10 +10,11 @@ export type FunctionsListProps = {
   setTimeframe: (arg0: string) => void;
   incrementOptions: string[];
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
 };
 
 export type FunctionProps = {
+  id: string;
   functionName: string;
   functionData: {
     [metric: string]: {
@@ -24,10 +25,11 @@ export type FunctionProps = {
   user: UserDataType;
   timeframe: string;
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
 };
 
 export type ChartProps = {
+  functionName: string;
   data: {
     [metric: string]: {
       timestamps: Array<string>;
@@ -36,7 +38,7 @@ export type ChartProps = {
   };
   timeframe: string;
   period: number;
-  unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
+  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
 };
 
 export type UserInfoProps = {
@@ -124,4 +126,3 @@ export interface ErrorData {
   ingestionTime?: number;
   eventId?: string;
 }
-

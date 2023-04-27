@@ -49,7 +49,6 @@ function Login() {
         if (res.match) {
           navigate('/');
         } else {
-          // window.alert('Incorrect username and/or password');
           const invalidDisplay = document.getElementById('invalid-display');
           if (invalidDisplay) {
             invalidDisplay.innerHTML = 'Invalid Username or Password';

@@ -113,7 +113,7 @@ function Function(props: FunctionProps) {
     <>
       <div className="function" id={functionName}>
         <h2>&quot;{functionName}&quot;</h2>
-        <Chart key={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
+        <Chart key={functionName} functionName={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
         <div>
           <p>Generate Error Logs: </p>
           <button className="error-button" onClick={() => generatePDF()}>
