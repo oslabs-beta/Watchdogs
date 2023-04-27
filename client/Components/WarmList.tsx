@@ -8,7 +8,7 @@ function WarmList() {
   return (
     <main id="main-warm-list">
       <div id="warm-list">
-        <p>This is the warm list</p>
+        <p>In Development...</p>
       </div>
     </main>
   );

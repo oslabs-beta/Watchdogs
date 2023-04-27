@@ -4,13 +4,25 @@ export type FunctionsListProps = {
   metrics: MetricType;
   loading: boolean;
   timeframe: string;
-  getUserInfo: () => void;
   refreshInfo: () => void;
   setIncrement: (arg0: string) => void;
   setTimeframe: (arg0: string) => void;
   incrementOptions: string[];
   period: number;
-  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
+  nofunc: boolean;
+  dropdownOptions: SelectedFuncs[];
 };
 
 export type FunctionProps = {
@@ -25,7 +37,18 @@ export type FunctionProps = {
   user: UserDataType;
   timeframe: string;
   period: number;
-  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
 };
 
 export type ChartProps = {
@@ -38,13 +61,41 @@ export type ChartProps = {
   };
   timeframe: string;
   period: number;
-  unit: false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined;
+  unit:
+    | false
+    | 'millisecond'
+    | 'second'
+    | 'minute'
+    | 'hour'
+    | 'day'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | undefined;
 };
+
+export type PieChartProps = {
+  metrics: MetricType;
+  loading: boolean;
+  timeframe: string;
+  incrementOptions: string[];
+  setIncrement: (arg0: string) => void;
+  setTimeframe: (arg0: string) => void;
+  nofunc: boolean;
+}
 
 export type UserInfoProps = {
   user: UserDataType;
   loading: boolean;
-  setUser: (arg0: { arn: string; region: string; password: string; username: string; __v: number; _id: string }) => void;
+  setUser: (arg0: {
+    arn: string;
+    region: string;
+    password: string;
+    username: string;
+    __v: number;
+    _id: string;
+  }) => void;
   setLoading: (arg0: boolean) => void;
   setMetrics: (arg0: any) => void;
 };
@@ -99,6 +150,7 @@ export type ResponseDataType = {
   user: UserDataType;
   metrics: MetricType;
   badArn?: boolean;
+  nofunc?: boolean;
 };
 
 export type LoginResponseType = {
@@ -125,4 +177,13 @@ export interface ErrorData {
   message?: string;
   ingestionTime?: number;
   eventId?: string;
+}
+
+export type SelectedFuncs = {
+  value: string;
+  label: string
+}
+
+export type NoFuncProps = {
+  nofunc: boolean;
 }
