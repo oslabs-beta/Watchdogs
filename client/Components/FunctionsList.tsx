@@ -1,5 +1,5 @@
 // React Imports
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 // Component Imports
@@ -17,9 +17,8 @@ function FunctionsList(props: FunctionsListProps) {
   // Destructure Props
   const { loading, refreshInfo, metrics, user, timeframe, period, unit, setIncrement, setTimeframe, incrementOptions, dropdownOptions} = props;
   
-  const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
-  const [funcOptions, setFuncOptions] = useState([] as SelectedFuncs[])
-  const [options, setOptions] = useState([] as SelectedFuncs[])
+    const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
+
 
 
   // Show/Hide Loading Display
@@ -35,26 +34,13 @@ function FunctionsList(props: FunctionsListProps) {
       functionsList.style.display = '';
     }
   });
-  
-  // useEffect(() => {z
-  //   const array = []
-  //   for (const func in metrics){
-  //   array.push({label: func, value: func})
-  // }
-  //     setOptions(array)
-  // }, [])
-
-
-  useEffect(() => {
-    setSelectedFuncs(dropdownOptions)
-  }, [])
 
   useEffect(() => {
     const allFuncs = Array.from(document.getElementsByClassName('function') as HTMLCollectionOf<HTMLElement>)
     allFuncs.forEach(func => {
       func.style.display = 'none'
     })
-    selectedFuncs.forEach(el => {
+    selectedFuncs.forEach((el: SelectedFuncs) => {
       const displayFunc = document.getElementById(el.value)
       if (displayFunc){
         displayFunc.style.display = 'flex'
@@ -64,16 +50,11 @@ function FunctionsList(props: FunctionsListProps) {
 
   }, [selectedFuncs])
 
-    // setFuncOptions(array)
-    // setSelectedFuncs(array)
-  //   useLayoutEffect(() => {
-  //   setSelectedFuncs([{label: 'js', value: 'js'}])  
-
-  // },[])
-
-  // useEffect(()=> {
-  //   setFuncOptions(array)
-  // }, [])
+  
+  useEffect(() => {
+     setSelectedFuncs(dropdownOptions.slice(1))
+    }, [])
+  
 
   return (
     <>
@@ -81,15 +62,18 @@ function FunctionsList(props: FunctionsListProps) {
         <div id='functions-list-filters'>
           <div id='function-filter'>
             <p>Filter results:</p>
-            <Select
-            // defaultValue={dropdownOptions}
+            <Select            
             isMulti
-            name="colors"
+            defaultValue={{ label: "Select All", value: "all" }}
+            name="functions"
             options={dropdownOptions}
             className="basic-multi-select"
             classNamePrefix="select" 
-            onChange={(selectedOptions: any): any => {
-              setSelectedFuncs(selectedOptions)
+            onChange={(selectedOptions: any): void => {              
+              if (selectedOptions.length && selectedOptions.find((option: SelectedFuncs) => option.value === 'all')){
+                setSelectedFuncs(dropdownOptions.slice(1))
+              }
+                else setSelectedFuncs(selectedOptions)
             }}
             />
           </div>
@@ -98,6 +82,7 @@ function FunctionsList(props: FunctionsListProps) {
             <select
               name="Select Timeframe"
               id="timeframe-selector"
+              defaultValue={timeframe}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                 setTimeframe(e.target.value);
                 const x = document.getElementById('increment-selector') as HTMLSelectElement

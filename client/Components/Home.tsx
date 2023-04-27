@@ -49,6 +49,8 @@ function Home() {
       | undefined
   );
   const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[])
+  const [selectedFuncs, setSelectedFuncs] = useState([] as SelectedFuncs[]);
+
 
 
   const navigate = useNavigate();
@@ -79,7 +81,7 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
-        const options: SelectedFuncs[] = []
+        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
         for (const func in res.metrics){
           options.push({value: func, label: func})
         }
@@ -96,6 +98,11 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
+        for (const func in res.metrics){
+          options.push({value: func, label: func})
+        }
+        setDropdownOptions(options)
       });
   }
 

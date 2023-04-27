@@ -116,6 +116,14 @@ nav {
             color: $secondary-color
           }
         }
+        .select__multi-value{
+          background-color: $primary-color;
+          border: solid 1px $secondary-color;
+          color: $secondary-color;
+            .select__multi-value__label{
+              color: $secondary-color;
+            }
+        }
       }
 
       .select__control--is-focused {

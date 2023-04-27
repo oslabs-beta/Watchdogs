@@ -11,7 +11,7 @@ export type FunctionsListProps = {
   incrementOptions: string[];
   period: number;
   unit: false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined;
-  dropdownOptions: any
+  dropdownOptions: SelectedFuncs[];
 };
 
 export type FunctionProps = {
@@ -130,3 +130,4 @@ export type SelectedFuncs = {
   value: string
   label: string
 }
+
