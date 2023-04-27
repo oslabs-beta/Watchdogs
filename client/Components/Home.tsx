@@ -14,6 +14,7 @@ import { UserDataType, MetricType, ResponseDataType } from '../types';
 // Component Imports
 import UserInfo from './UserInfo';
 import WarmList from './WarmList';
+import PieChart from './PieChart'
 import FunctionsList from './FunctionsList';
 import '../scss/Home.scss';
 import NoFunc from './NoFunc';
@@ -158,6 +159,7 @@ function Home() {
             <img src={logo} alt="" />
           </Link>
           <Link to="/">Functions</Link>
+          <Link to='pie'>Pie Chart</Link>
           <Link to="warmlist">Warm List</Link>
         </div>
         <div id="lock-right">
@@ -189,7 +191,6 @@ function Home() {
             <FunctionsList
               user={user}
               metrics={metrics}
-              getUserInfo={getUserInfo}
               loading={loading}
               refreshInfo={refreshInfo}
               timeframe={timeframe}
@@ -202,6 +203,8 @@ function Home() {
             />
           }
         ></Route>
+        <Route path='/pie' element={<PieChart metrics={metrics} loading={loading}setTimeframe={setTimeframe} setIncrement={setIncrement} timeframe={timeframe}
+        incrementOptions={incrementOptions}/>}></Route>
         <Route path="/warmlist" element={<WarmList />}></Route>
         <Route
           path="/userinfo"

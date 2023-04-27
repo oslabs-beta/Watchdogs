@@ -192,6 +192,36 @@ nav {
     box-shadow: red 0px 0px 20px 0px !important;
   }
 }
+//Pie Chart
+#pielist{
+  display: flex;
+  flex-direction: column;
+
+  #pie-timeframe {
+    display: flex;
+    justify-content: end;
+    margin: 25px 0 0 0;
+    select {
+      margin: 0 10px 0 0;
+      color: $secondary-color;
+      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+      border: none;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      font-size: 14px;
+      box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+    }
+  }
+  .pie {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    // margin-top: 3vw;
+    div {
+      width: 50%;
+    }
+  }
+}
 
 // Warm List
 #warm-list {

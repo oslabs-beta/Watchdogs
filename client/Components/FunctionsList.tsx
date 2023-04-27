@@ -13,7 +13,6 @@ import refresh from '../assets/Reload-100s-200px.png';
 
 // Main Function
 function FunctionsList(props: FunctionsListProps) {
-  // const [nofunc, setNofunc] = useState(false);
 
   // Destructure Props
   const {
@@ -77,6 +76,7 @@ function FunctionsList(props: FunctionsListProps) {
           <select
             name="Select Timeframe"
             id="timeframe-selector"
+            defaultValue={timeframe}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               console.log('changing timeframe');
               setTimeframe(e.target.value);
@@ -115,7 +115,6 @@ function FunctionsList(props: FunctionsListProps) {
           </button>
         </div>
         {functions}
-        {/* <NoFunc nofunc={nofunc} /> */}
       </div>
     </>
   );
