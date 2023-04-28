@@ -15,9 +15,11 @@ $fourth-color: darken($third-color, 10);
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   position: relative;
   width: 50vw;
-  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  // background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  background-color: $primary-color;
   margin-top: 20px;
   padding: 20px;
   border: 1px solid $secondary-color;
@@ -26,9 +28,10 @@ $fourth-color: darken($third-color, 10);
   color: $secondary-color;
 }
 
-.github-link {
+#github-link, #oslabs-form, #medium-form {
   color: $secondary-color;
-  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  // background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  background-color: $primary-color;
   border: 0.5px solid $secondary-color;
   border-radius: 15px;
   padding: 5px;
@@ -37,7 +40,10 @@ $fourth-color: darken($third-color, 10);
   button {
     border: none;
     box-shadow: none;
-    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+    // background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+    background-color: $primary-color;
+    display: flex;
+    align-items: center;
 
     #github-logo {
       filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
@@ -45,6 +51,9 @@ $fourth-color: darken($third-color, 10);
 
     img {
       max-height: 25px;
+    }
+    &:hover {
+      cursor: pointer;
     }
   }
   &:hover {
@@ -55,15 +64,53 @@ $fourth-color: darken($third-color, 10);
 #linkedin-section {
   display: flex;
   justify-content: center;
+  ul {
+    list-style-type: none;
+  }
   img {
-    max-height: 150px;
+    margin-block: 16px;
+    max-height: 100px;
     filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  }
+  #linkedin-form {
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
   }
   a {
     color: $secondary-color;
+    &:hover {
+      text-decoration: none;
+      color: darken($secondary-color, 20)
+    }
   }
   #watchdogs-linkedin-link {
-    font-size: 22px;
+    font-size: 26px;
+  }
+}
+
+#medium-form {
+  background-color: $primary-color;
+  button {
+    height: 25px;
+    display: flex;
+    align-items: center;
+  }
+  #medium-logo {
+    max-height: 100%;
+    filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  }
+}
+
+
+#oslabs-form {
+  button {
+    height: 50px;
+  }
+  #oslabs-logo {
+    max-height: 100%;
   }
 }
 
