@@ -14,11 +14,9 @@ import { UserDataType, MetricType, ResponseDataType, SelectedFuncs } from '../ty
 // Component Imports
 import UserInfo from './UserInfo';
 import WarmList from './WarmList';
-import PieChart from './PieChart'
 import FunctionsList from './FunctionsList';
-import '../scss/Home.scss';
-import NoFunc from './NoFunc';
 import About from './About';
+import '../scss/Home.scss';
 
 // Asset Imports
 import logo from '../assets/logo.png';
@@ -31,28 +29,11 @@ function Home() {
   const [metrics, setMetrics] = useState({} as MetricType);
   const [loading, setLoading] = useState(false as boolean);
   const [timeframe, setTimeframe] = useState('10800000' as string);
-  const [incrementOptions, setIncrementOptions] = useState([
-    '10min',
-    '30min',
-  ] as string[]);
+  const [incrementOptions, setIncrementOptions] = useState(['10min', '30min'] as string[]);
   const [increment, setIncrement] = useState('10min' as string);
   const [period, setPeriod] = useState(10 as number);
-  const [unit, setUnit] = useState(
-    'minute' as
-      | false
-      | 'millisecond'
-      | 'second'
-      | 'minute'
-      | 'hour'
-      | 'day'
-      | 'week'
-      | 'month'
-      | 'quarter'
-      | 'year'
-      | undefined
-  );
-  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[])
-
+  const [unit, setUnit] = useState('minute' as false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined);
+  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[]);
   const [nofunc, setNofunc] = useState(false as boolean);
 
   const navigate = useNavigate();
@@ -85,11 +66,11 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
-        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
-        for (const func in res.metrics){
-          options.push({value: func, label: func})
+        const options: SelectedFuncs[] = [{ label: 'All Functions', value: 'all' }];
+        for (const func in res.metrics) {
+          options.push({ value: func, label: func });
         }
-        setDropdownOptions(options)
+        setDropdownOptions(options);
       });
   }
 
@@ -102,11 +83,11 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
-        const options: SelectedFuncs[] = [{ label: "Select All", value: "all" }]
-        for (const func in res.metrics){
-          options.push({value: func, label: func})
+        const options: SelectedFuncs[] = [{ label: 'All functions', value: 'all' }];
+        for (const func in res.metrics) {
+          options.push({ value: func, label: func });
         }
-        setDropdownOptions(options)
+        setDropdownOptions(options);
       });
   }
 
@@ -171,7 +152,6 @@ function Home() {
             <img src={logo} alt="" />
           </Link>
           <Link to="/">Functions</Link>
-          <Link to='pie'>Pie Chart</Link>
           <Link to="warmlist">Warm List</Link>
           <Link to="about">About</Link>
         </div>
@@ -182,19 +162,6 @@ function Home() {
           </Link>
         </div>
       </nav>
-
-      <div id="loading-section">
-        <div className="loadingio-spinner-reload-95c95vxnjuq">
-          <div className="ldio-7c2ii3644jj">
-            <div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
       <Routes>
         <Route
@@ -214,24 +181,10 @@ function Home() {
               dropdownOptions={dropdownOptions}
               nofunc={nofunc}
             />
-          }
-        ></Route>
-        <Route path='/pie' element={<PieChart metrics={metrics} loading={loading}setTimeframe={setTimeframe} setIncrement={setIncrement} timeframe={timeframe}
-        incrementOptions={incrementOptions} nofunc={nofunc}/>}></Route>
+          }></Route>
         <Route path="/warmlist" element={<WarmList />}></Route>
-        <Route
-          path="/userinfo"
-          element={
-            <UserInfo
-              user={user}
-              loading={loading}
-              setLoading={setLoading}
-              setUser={setUser}
-              setMetrics={setMetrics}
-            />
-          }
-        ></Route>
-        <Route path="/about" element={<About loading={loading}/>}></Route>
+        <Route path="/userinfo" element={<UserInfo user={user} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} />}></Route>
+        <Route path="/about" element={<About />}></Route>
       </Routes>
     </>
   );

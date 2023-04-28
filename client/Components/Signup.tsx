@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Particles Imports
 import Particles from 'react-particles';
@@ -64,7 +64,6 @@ function Signup() {
         } else {
           navigate('/');
         }
-        console.log(res);
       })
       .catch((err) => {
         console.log('Error in signup fetch request:', err);
@@ -144,6 +143,7 @@ function Signup() {
             }}>
             Signup
           </button>
+          <Link to="/login">Click Here to go Back to Login</Link>
         </form>
       </div>
     </main>

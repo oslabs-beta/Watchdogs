@@ -3,24 +3,71 @@ $secondary-color: #e09034;
 $third-color: #ffffff;
 $fourth-color: darken($third-color, 10);
 
+#main-about-page {
+  color: $secondary-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #about-page {
-    position: relative;
-    z-index: 1000;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 50vw;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+  color: $secondary-color;
 }
 
 .github-link {
-    color: $secondary-color;
+  color: $secondary-color;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  border: 0.5px solid $secondary-color;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 20px;
+
+  button {
+    border: none;
+    box-shadow: none;
     background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
-    border: 0.5px solid $secondary-color;
-    border-radius: 15px;
-    box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
-    
-    button {
-        border: none;
-        box-shadow: none;
-    }
+
     #github-logo {
-        filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+      filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
     }
-   
+
+    img {
+      max-height: 25px;
+    }
+  }
+  &:hover {
+    box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+  }
+}
+
+#linkedin-section {
+  display: flex;
+  justify-content: center;
+  img {
+    max-height: 150px;
+    filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  }
+  a {
+    color: $secondary-color;
+  }
+  #watchdogs-linkedin-link {
+    font-size: 22px;
+  }
+}
+
+#about-icon {
+  filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  max-height: 25px;
 }

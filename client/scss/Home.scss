@@ -12,6 +12,10 @@ body {
   align-items: center;
   background-color: $primary-color;
   color: $third-color;
+  // overflow: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 // Nav-Bar
@@ -21,10 +25,8 @@ nav {
   justify-content: space-between;
   height: 4.5vh;
   min-width: 80vw;
-  width: auto;
   min-height: 30px;
   position: relative;
-  // z-index: 1000;
   background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   border: 0.5px solid $secondary-color;
   border-radius: 15px;
@@ -60,8 +62,7 @@ nav {
       img {
         margin: 15px;
         height: 45%;
-        filter: invert(74%) sepia(57%) saturate(2033%) hue-rotate(335deg)
-          brightness(93%) contrast(89%);
+        filter: invert(74%) sepia(57%) saturate(2033%) hue-rotate(335deg) brightness(93%) contrast(89%);
       }
     }
   }
@@ -74,7 +75,7 @@ nav {
     text-decoration: underline;
   }
 }
-
+// No function Display
 #nofunc {
   display: flex;
   justify-content: center;
@@ -85,119 +86,151 @@ nav {
   border-radius: 15px;
   box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
   margin: 50px;
-  // z-index: 1000;
-  background: linear-gradient(
-    45deg,
-    $primary-color,
-    lighten($primary-color, 2)
-  );
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
   position: relative;
   background-color: $primary-color;
 }
 
-#timeframe-selector {
-  position: relative;
-  z-index: 1000;
-}
-
-#increment-selector {
-  position: relative;
-  z-index: 1000;
-}
-
-
 // Functions
 #functions-list {
   display: flex;
+  width: 80vw;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  #functions-list-filters{
+
+  #functions-list-filters {
     margin-top: 20px;
     display: flex;
-    width: 100%;
+    align-items: flex-end;
     justify-content: space-between;
+    width: 80vw;
 
-    #function-filter{
+    #function-filter {
       display: flex;
-      align-items: center;
       color: $secondary-color;
-      
+      width: 20vw;
 
-      .select__control{
+      .select__control {
+        width: 15vw;
         background-color: $primary-color;
         border: solid 1px $secondary-color;
-        margin-inline: 6px;
+
+        &:hover {
+          box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+        }
+
         .select__indicators {
-          .select__indicator-separator{
+          .select__indicator-separator {
             background-color: $secondary-color;
           }
-          .select__dropdown-indicator{
-            color: $secondary-color
+          .select__dropdown-indicator {
+            color: $secondary-color;
           }
         }
-        .select__multi-value{
+        .select__multi-value {
           background-color: $primary-color;
-          border: solid 1px $secondary-color;
+          // border: solid .5px $secondary-color;
           color: $secondary-color;
-            .select__multi-value__label{
-              color: $secondary-color;
-            }
+          .select__multi-value__label {
+            color: $secondary-color;
+          }
         }
       }
-
       .select__control--is-focused {
         border: solid 1px $secondary-color;
       }
       .select__control--menu-is-open {
         border: solid 1px $secondary-color;
         box-shadow: none;
+        // color: red;
       }
       .select__menu {
+        color: $secondary-color;
         background-color: $primary-color;
         border: solid 1px $secondary-color;
         margin-inline: 6px;
       }
-      .css-t3ipsp-control{
+
+      .css-t3ipsp-control {
         border: solid 1px $secondary-color;
         box-shadow: none;
+        color: red;
       }
     }
-    
-    #refresh-area {
-      
+
+    #buttons-area {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      align-self: flex-end;
-    
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+
+      button {
+        color: $secondary-color;
+        background-color: $primary-color;
+        font-size: 14px;
+        width: 8vw;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        border: none;
+        transition: background-color 0.5s;
+        min-height: 3vh;
+      }
+      .selected {
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+    }
+
+    #refresh-timeframe {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 20vw;
       label {
         color: $secondary-color;
-        margin: 0 4px;
+        margin: 0 10px;
       }
       select {
         color: $secondary-color;
-        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));  
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
         font-size: 14px;
-        margin: 0 4px;
+        border: none;
+        position: relative;
+        z-index: 1000;
+
+        &:hover {
+          background-color: $secondary-color;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+
+      #timeframe-interval {
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
         border: 1px solid $secondary-color;
         border-radius: 5px;
+        padding: 4px;
       }
+
       #refresh-button {
         display: flex;
         align-items: center;
         color: $secondary-color;
-        background: linear-gradient(
-      45deg,
-      $primary-color,
-      lighten($primary-color, 7)
-    );
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
         border: 1px solid $secondary-color;
         border-radius: 5px;
         font-size: 14px;
-        box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-    
+        margin: 0 0 10px 0;
+
+        &:hover {
+          box-shadow: darken($secondary-color, 20) 0px 0px 10px 0px;
+        }
+
         #refresh-img {
           margin: 5px;
           height: 14px;
@@ -206,31 +239,26 @@ nav {
     }
   }
 
-
   .function {
-    width: 80vw;
+    width: 100%;
     color: $secondary-color;
-    background: linear-gradient(
-      45deg,
-      $primary-color,
-      lighten($primary-color, 2)
-    );
+    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     margin-top: 30px;
-    padding: 10px;
+    // padding: 10px;
     border: 0.5px solid $secondary-color;
     border-radius: 15px;
     box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
 
     h2 {
       align-self: flex-start;
-      padding-left: 50px;
+      padding-inline: 50px;
     }
     .chart {
-      width: 100%;
+      width: 90%;
       height: 250px;
     }
     p {
@@ -243,7 +271,7 @@ nav {
       border: none;
       border: 1px solid $secondary-color;
       border-radius: 5px;
-      margin: 0 5px 10px;
+      margin: 0 5px 20px;
       padding: 5px;
     }
   }
@@ -253,10 +281,19 @@ nav {
     box-shadow: red 0px 0px 20px 0px !important;
   }
 }
+
 //Pie Chart
-#pielist{
+#pielist {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $secondary-color;
+  // padding: 20px;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  border-radius: 15px;
+  margin-top: 30px;
+  width: 80vw;
+  height: 416px;
 
   #pie-timeframe {
     display: flex;
@@ -275,149 +312,13 @@ nav {
   }
   .pie {
     display: flex;
-    justify-content: center;
+    width: 80%;
+    justify-content: space-between;
     position: relative;
     // margin-top: 3vw;
     div {
-      width: 50%;
+      // width: 50%;
+      margin: 0 5vw;
     }
   }
 }
-
-// Warm List
-#warm-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50vw;
-  max-width: 50vw;
-  position: relative;
-  background-color: $primary-color;
-  margin-top: 20px;
-  padding-left: 20px;
-  border: 1px solid $secondary-color;
-  border-radius: 15px;
-  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-}
-
-//User Info
-#main-user-info,
-#main-warm-list {
-  color: $secondary-color;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#user-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  background: linear-gradient(
-    45deg,
-    $primary-color,
-    lighten($primary-color, 2)
-  );
-  margin-top: 20px;
-  padding-left: 20px;
-  border: 1px solid $secondary-color;
-  border-radius: 15px;
-  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-  color: $secondary-color;
-
-  button {
-    color: $secondary-color;
-    background: transparent;
-    border: none;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
-    margin-left: 10px;
-  }
-  form {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    input {
-      margin-right: 5px;
-    }
-  }
-  span {
-    text-decoration: underline;
-  }
-  #logout-button {
-    margin: 20px;
-  }
-}
-
-//Loading
-#loading-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15vh;
-}
-
-// Loading Icon
-@keyframes ldio-7c2ii3644jj {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.ldio-7c2ii3644jj > div {
-  animation: ldio-7c2ii3644jj 3s infinite linear;
-  transform-origin: 64px 64px;
-  border-radius: 5px;
-}
-.ldio-7c2ii3644jj > div div {
-  position: absolute;
-}
-.ldio-7c2ii3644jj > div div:nth-child(1),
-.ldio-7c2ii3644jj > div div:nth-child(2) {
-  width: 60.160000000000004px;
-  height: 60.160000000000004px;
-  border: 14.08px solid;
-  border-radius: 50%;
-  border-color: transparent #e09034 #e09034 #e09034;
-  box-sizing: border-box;
-  position: absolute;
-  transform: rotate(45deg);
-  transform-origin: 64px 64px;
-}
-.ldio-7c2ii3644jj > div div:nth-child(1) {
-  transform: rotate(45deg) translate(33.92px, 33.92px);
-}
-.ldio-7c2ii3644jj > div div:nth-child(2) {
-  transform: rotate(45deg) translate(33.92px, 33.92px);
-}
-.ldio-7c2ii3644jj > div div:nth-child(3) {
-  width: 0;
-  height: 0;
-  border: 15.36px solid;
-  border-color: transparent transparent transparent #e09034;
-  transform: translate(64px, 26.240000000000002px);
-}
-.loadingio-spinner-reload-95c95vxnjuq {
-  width: 128px;
-  height: 128px;
-  display: inline-block;
-  overflow: hidden;
-  background: none;
-}
-.ldio-7c2ii3644jj {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform: translateZ(0) scale(1);
-  backface-visibility: hidden;
-  transform-origin: 0 0; /* see note above */
-}
-.ldio-7c2ii3644jj div {
-  box-sizing: content-box;
-}
-/* generated by https://loading.io/ */
-
-

@@ -1,14 +1,13 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loading from './Loading';
+import '../scss/UserInfo.scss';
 
 // Import types
 import { UserInfoProps, ArnBodyUpdateType, ResponseDataType } from '../types';
-import { useNavigate } from 'react-router-dom';
 
-// Main Function
 function UserInfo(props: UserInfoProps) {
-  //
-  // State Declaration
   const [formVisible, setFormVisible] = useState(false as boolean);
   const [newArn, setNewArn] = useState('' as string);
   const [newRegion, setNewRegion] = useState('us-east-1' as string);
@@ -41,6 +40,7 @@ function UserInfo(props: UserInfoProps) {
       });
   }
 
+  // Delete Account
   function deleteAccount() {
     if (window.confirm('Are you sure you want to delete your account?')) {
       fetch('/api/user', {
@@ -76,25 +76,21 @@ function UserInfo(props: UserInfoProps) {
       edit.innerHTML = 'Edit *';
       // edit.style.border = 'none';
     } else {
-      form.style.display = 'none';
-      edit.innerHTML = 'Edit ARN / Region';
-      edit.style.border = '1px solid rgb(224, 144, 52)';
+      if (form) {
+        form.style.display = 'none';
+        edit.innerHTML = 'Edit ARN / Region';
+        edit.style.border = '1px solid rgb(224, 144, 52)';
+      }
     }
   });
 
-  // Show/Hide Loading Display
-  useEffect(() => {
-    const loadingSection = document.getElementById('loading-section') as HTMLDivElement;
-    const userInfo = document.getElementById('main-user-info') as HTMLDivElement;
-
-    if (loading) {
-      loadingSection.style.display = '';
-      userInfo.style.display = 'none';
-    } else {
-      loadingSection.style.display = 'none';
-      userInfo.style.display = '';
-    }
-  });
+  if (loading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   // Render Components
   return (

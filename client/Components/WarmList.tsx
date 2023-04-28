@@ -1,7 +1,7 @@
 // React Imports
 import React from 'react';
+import '../scss/WarmList.scss';
 
-// Type Declarations
 
 // Main Function
 function WarmList() {

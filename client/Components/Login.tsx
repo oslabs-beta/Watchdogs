@@ -60,10 +60,6 @@ function Login() {
       });
   }
 
-  // useEffect(() => {
-
-  // })
-
   // Render Components
   return (
     <main id="main-login-container">
