@@ -1,42 +1,66 @@
-import React, { useEffect } from 'react'
-import { AboutPropsType } from '../types';
-import logo from '../assets/logo.png'
-import github from '../assets/github-mark.png'
-import '../scss/About.scss'
+import React from 'react';
+import logo from '../assets/logo.png';
+import github from '../assets/github-mark.png';
+import icon from '../assets/icon.png';
+import linkedin from '../assets/linkedin-logo.png';
+import '../scss/About.scss';
 
-function About(props: AboutPropsType){
-    // Show/Hide Loading Display
-    const { loading } = props;
-  useEffect(() => {
-    const loadingSection = document.getElementById('loading-section') as HTMLDivElement;
-    const userInfo = document.getElementById('about-page') as HTMLDivElement;
-
-    if (loading) {
-      loadingSection.style.display = '';
-      userInfo.style.display = 'none';
-    } else {
-      loadingSection.style.display = 'none';
-      userInfo.style.display = '';
-    }
-  });
-
-    return (
-        <>
+function About() {
+  return (
+    <>
+      <div id="main-about-page">
         <div id="about-page">
-            <div>About page</div>
-            <p>Thank you for using our open-source project Watchdogs! This app was developed in partnership with OSLabs.
-                If you wish to help contribute to this projects, please feel free to stop by our Github page to learn more.
-            </p>
-            <form action='https://github.com/oslabs-beta/Watchdogs' target='blank' className='github-link'>
-                <button type='submit' className='github-link'>
-                    <img src={github} id='github-logo'></img>
-                    <img src={logo}></img>
-                </button> 
-            </form>
-
+          <h3>Thank you for using Watchdogs!</h3>
+          <p>To learn more about how Watchdogs can help you optimize your workflow, check out our Medium article!</p>
+          <p>If you wish to contribute to this project, please feel free to stop by our Github page to learn more.</p>
+          <form action="https://github.com/oslabs-beta/Watchdogs" target="blank" className="github-link">
+            <button type="submit" className="github-link-button">
+              <img src={github} id="github-logo"></img>
+              <img src={logo}></img>
+            </button>
+          </form>
+          <div id="linkedin-section">
+            <div>
+              <img src={linkedin} id="linkedin-logo"></img>
+            </div>
+            <div>
+              <p>If you are interested in connecting with our team, do not hesitate to connect with us on LinkedIn!</p>
+              <ul>
+                <li>
+                  <a href="https://www.linkedin.com/company/watchdogsmetrics/" target="blank" id="watchdogs-linkedin-link">
+                    Watchdogs
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/benjamin-hergenroeder/" target="blank">
+                    Benjamin Hergenroeder
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/john-saehwan-lee/" target="blank">
+                    John Lee
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/peterfeng96/" target="blank">
+                    Peter Feng
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/westoclark/" target="blank">
+                    Weston Clark
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p>This product was developed in partnership with OSLabs. To learn more about OSLabs and how they can help accelerate your products, please visit their website!</p>
+          <h3>Thank You</h3>
+          <img src={icon} id="about-icon"></img>
         </div>
-        </>
-    )
+      </div>
+    </>
+  );
 }
 
-export default About
+export default About;

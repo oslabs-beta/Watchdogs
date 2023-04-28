@@ -4,15 +4,7 @@ import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import * as dotenv from 'dotenv';
 import { Express, Request, Response, NextFunction } from 'express';
 
-import {
-  CredentialsInterface,
-  LogGroupsInterface,
-  ParamsInterface,
-  Metrics,
-  MetricDataResponse,
-  ErrorParamsInterface,
-  ErrorData,
-} from './types.js';
+import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse, ErrorParamsInterface, ErrorData } from './types.js';
 
 dotenv.config();
 
@@ -115,17 +107,8 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   async function getFunctions() {
-    const { logGroups } = (await cloudwatchlogs
-      .describeLogGroups({ logGroupNamePrefix: '/aws/lambda' })
-      .promise()) as LogGroupsInterface;
-    console.log('here is the log groups ', logGroups);
-    // if (logGroups.length === 0) {
-    //   res.locals.noFunc = true;
-    //   return res.json(res.locals);
-    // }
-    const lambdaFunctions = logGroups.map((el) =>
-      el.logGroupName.replace('/aws/lambda/', '')
-    );
+    const { logGroups } = (await cloudwatchlogs.describeLogGroups({ logGroupNamePrefix: '/aws/lambda' }).promise()) as LogGroupsInterface;
+    const lambdaFunctions = logGroups.map((el) => el.logGroupName.replace('/aws/lambda/', ''));
     return lambdaFunctions;
   }
 
@@ -228,8 +211,6 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
 
   const metrics = {} as Metrics;
 
-  console.log(functions);
-
   if (functions.length === 0) {
     res.locals.nofunc = true;
     return res.json(res.locals);
@@ -257,23 +238,15 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   });
 
   async function getMetricData(params: ParamsInterface) {
-    const { MetricDataResults, NextToken } = (await cloudwatch
-      .getMetricData(params)
-      .promise()) as unknown as MetricDataResponse;
+    const { MetricDataResults, NextToken } = (await cloudwatch.getMetricData(params).promise()) as unknown as MetricDataResponse;
 
     MetricDataResults.forEach((el) => {
       if (el.Values.length) {
         const func = el.Label.split(' ')[0];
         const metric = el.Label.split(' ')[1];
 
-        metrics[func][metric].values = [
-          ...metrics[func][metric].values,
-          ...el.Values,
-        ];
-        metrics[func][metric].timestamps = [
-          ...metrics[func][metric].timestamps,
-          ...el.Timestamps,
-        ];
+        metrics[func][metric].values = [...metrics[func][metric].values, ...el.Values];
+        metrics[func][metric].timestamps = [...metrics[func][metric].timestamps, ...el.Timestamps];
       }
     });
 

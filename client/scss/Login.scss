@@ -2,6 +2,12 @@
 $primary-color: rgb(16, 17, 29);
 $secondary-color: rgb(224, 144, 52);
 
+input:-webkit-autofill,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px $primary-color inset !important;
+  -webkit-text-fill-color: $secondary-color;
+}
+
 // Main Container
 #main-login-container {
   display: flex;
@@ -40,7 +46,7 @@ $secondary-color: rgb(224, 144, 52);
     align-items: center;
 
     div {
-      padding: 5px;
+      padding: 10px;
       margin-bottom: 5px;
 
       input {
@@ -50,16 +56,16 @@ $secondary-color: rgb(224, 144, 52);
         width: 10em;
         height: 1.5em;
         color: $secondary-color;
-        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
-        background-color: $primary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4)) !important;
+        // background-color: $primary-color !important;
         border: none;
         border: 1px solid $secondary-color;
         border-radius: 5px;
         font-size: 14px;
         box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
-      }
-      input:focus {
-        outline: none;
+        &:focus {
+          outline: none;
+        }
       }
     }
 

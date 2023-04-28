@@ -4,7 +4,7 @@ import Chart from './Chart';
 import { jsPDF } from 'jspdf';
 import Excel from 'exceljs';
 import * as FileSaver from 'file-saver';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 // Type Imports
 import { FunctionProps, ErrorData, ErrorBodyType } from '../types';
