@@ -1,11 +1,11 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { UserDataType, ReqDataType } from './types'
+import { UserDataType, ReqDataType } from './types';
 
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password, arn, region } = req.body as ReqDataType
+    const { username, password, arn, region } = req.body as ReqDataType;
     if (!username.length || !password.length || !arn.length || !region.length) {
       return next({ log: 'Requires all input', status: 500, message: { err: 'Requires all input' } });
     }
@@ -19,7 +19,7 @@ const createAccount = async (req: Request, res: Response, next: NextFunction) =>
 
 const logIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password } = req.body as ReqDataType
+    const { username, password } = req.body as ReqDataType;
     const user: UserDataType | null = await User.findOne({ username: username });
     if (user) {
       const rightPassword: boolean = await bcrypt.compare(password, user.password);
@@ -29,7 +29,7 @@ const logIn = async (req: Request, res: Response, next: NextFunction) => {
         return next();
       } else res.status(200).json({ message: 'Incorrect username and/or password.' });
     } else {
-      res.status(200).json({message: 'No user exists'});
+      res.status(200).json({ message: 'No user exists' });
     }
   } catch (err) {
     return next({ log: 'Error in userController logIn middleware.', status: 500, message: err });
@@ -41,7 +41,6 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.cookies;
     const user: UserDataType | null = await User.findOne({ _id: userId });
     res.locals.user = user;
-    console.log('user:' + user);
     return next();
   } catch (err) {
     return next({ log: 'Error in userController getUser middleware.', status: 500, message: err });

@@ -11,7 +11,7 @@ const config: Config = {
     '^.+\\.tsx?$': 'ts-jest',
     '\\.(jpg|jpeg|png|scss|js)$': '<rootDir>/__tests__/mock.js',
   },
-
+  transformIgnorePatterns: ['/node_modules/(?!(exceljs)/)'],
   // Runs special logic, such as cleaning up components
   // when using React Testing Library and adds special
   // extended assertions to Jest
