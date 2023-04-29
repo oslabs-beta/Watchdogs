@@ -77,12 +77,36 @@ input:-webkit-autofill:active {
       border: 1px solid $secondary-color;
       border-radius: 5px;
       font-size: 16px;
-      box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
+      &:hover {
+          box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+        }
     }
 
     a {
       color: $secondary-color;
       padding-bottom: 20px;
+      &:hover {
+          text-decoration: none;
+          color: darken($secondary-color, 20)
+        }
+    }
+  }
+  #login-github-link {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+    a {
+      color: $secondary-color;
+      &:hover {
+          text-decoration: none;
+          color: darken($secondary-color, 20)
+        }
+    }
+    img {
+      height: 25px;
+      width: auto;
+      filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+      padding-inline: 8px;
     }
   }
 }

@@ -10,6 +10,7 @@ import loginParticles from '../assets/login-particles.json';
 
 // Styles and Assets Imports
 import logo from '../assets/watchdogs-black.png';
+import github from '../assets/github-mark.png'
 import '../scss/Login.scss';
 
 //Types Imports
@@ -93,6 +94,10 @@ function Login() {
           <br></br>
           <Link to="/signup">Click Here to Sign Up</Link>
         </form>
+        <div id='login-github-link'>
+          <a href='https://github.com/oslabs-beta/Watchdogs' target='blank'>Check us out on Github</a>
+          <img src={github}></img>
+        </div>
       </div>
     </main>
   );

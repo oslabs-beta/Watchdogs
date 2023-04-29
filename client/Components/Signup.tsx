@@ -134,7 +134,7 @@ function Signup() {
             id="arn-setup"
             target="blank"
             href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
-            Setup an ARN
+            Connect Your AWS Account
           </a>
           <button
             type="submit"
@@ -143,7 +143,7 @@ function Signup() {
             }}>
             Signup
           </button>
-          <Link to="/login">Click Here to go Back to Login</Link>
+          <Link to="/login">Back to Login</Link>
         </form>
       </div>
     </main>

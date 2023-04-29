@@ -88,13 +88,20 @@ $secondary-color: rgb(224, 144, 52);
       border: 1px solid $secondary-color;
       border-radius: 5px;
       font-size: 16px;
-      box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
       margin-bottom: 20px;
+      &:hover {
+        box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+      }
+      
     }
 
     a {
       color: $secondary-color;
       padding-bottom: 20px;
+      &:hover {
+          text-decoration: none;
+          color: darken($secondary-color, 20)
+        }
     }
   }
 }

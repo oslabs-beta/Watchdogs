@@ -152,7 +152,7 @@ function Home() {
             <img src={logo} alt="" />
           </Link>
           <Link to="/">Functions</Link>
-          <Link to="warmlist">Warm List</Link>
+          <Link to="warmlist">Incubator</Link>
           <Link to="about">About</Link>
         </div>
         <div id="lock-right">
