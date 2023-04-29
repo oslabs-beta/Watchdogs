@@ -2,6 +2,7 @@
 import express, { Express, Request, Response, NextFunction, ErrorRequestHandler, Router } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import * as dotenv from 'dotenv';
 
 import { GlobalErrorType } from './controllers/types.js';
 
@@ -11,6 +12,14 @@ import { setCookie, checkCookie, deleteCookie } from './controllers/cookieContro
 import { getMetrics, getErrors } from './controllers/AWScontroller.js';
 import { setCache, getCache, flushRedis } from './controllers/redisController.js';
 
+dotenv.config();
+declare let process: {
+  env: {
+    accessKeyId: string;
+    secretAccessKey: string;
+    mongoKey: string;
+  };
+};
 const port = 3000;
 
 //CREATE APP AND PARSE
@@ -19,7 +28,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 app.use(cookieParser());
 
-mongoose.connect('mongodb+srv://watchdogsadmin:watchdogsECRI39@watchdogs.r5ylian.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(process.env.mongoKey);
 mongoose.connection.once('open', () => {
   console.log('Connected to Database');
 });

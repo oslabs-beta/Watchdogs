@@ -15,6 +15,7 @@ import '../scss/Signup.scss';
 //Types Imports
 import { SignupBodyType, SignupErrorType } from '../types';
 
+
 // Main Function
 function Signup() {
   // State Declaration
@@ -24,6 +25,7 @@ function Signup() {
   const [region, setRegion] = useState('us-east-1' as string);
   const navigate = useNavigate();
 
+  
   // Initialize Particles
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -133,7 +135,7 @@ function Signup() {
           <a
             id="arn-setup"
             target="blank"
-            href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack">
+            href='https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/quickcreate?templateURL=https://cf-templates-u6isxdthhcp5-us-east-2.s3.us-east-2.amazonaws.com/2023-04-18T184812.186Z6q4-WatchDogTemplate&stackName=WatchDogsStack'>
             Connect Your AWS Account
           </a>
           <button
