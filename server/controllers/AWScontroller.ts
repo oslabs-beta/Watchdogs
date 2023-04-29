@@ -13,6 +13,7 @@ declare let process: {
   env: {
     accessKeyId: string;
     secretAccessKey: string;
+    mongoKey: string;
   };
 };
 
