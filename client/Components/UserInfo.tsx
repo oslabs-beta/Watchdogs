@@ -96,13 +96,13 @@ function UserInfo(props: UserInfoProps) {
   return (
     <main id="main-user-info">
       <div id="user-info">
-        <p>
+        <p id="user-username">
           <span>Username</span> : {props.user.username}
         </p>
-        <p>
+        <p id="user-region">
           <span>Region</span> : {props.user.region}
         </p>
-        <p>
+        <p id="user-arn">
           <span>ARN</span> : {props.user.arn}{' '}
         </p>
         <div>
@@ -113,18 +113,17 @@ function UserInfo(props: UserInfoProps) {
             }}></button>
           <button
             onClick={() => {
-              sendLogout();
-            }}
-            id="logout-button">
-            Log Out
-          </button>
-
-          <button
-            onClick={() => {
               deleteAccount();
             }}
             id="delete-button">
             Delete Account
+          </button>
+          <button
+            onClick={() => {
+              sendLogout();
+            }}
+            id="logout-button">
+            Log Out
           </button>
         </div>
         <form id="new-arn">

@@ -30,10 +30,8 @@ const client = new STSClient({ region: 'us-east-2', credentials: credentials });
 // GET METRICS MIDDLEWARE
 const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   console.log('getting metrics');
-  console.log('REQ PARAMS --->', req.params);
   const { region, arn } = res.locals.user;
   const { timeframe, increment } = req.params;
-  console.log(timeframe, increment);
   let period: number;
 
   switch (increment) {
