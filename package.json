@@ -9,10 +9,10 @@
     "dev-all": "concurrently --kill-others \"npm run dev:server\" \"npm run dev\" \"redis-server\"",
     "dev-all-jsl": "concurrently --kill-others \"npm run dev:server\" \"npm run dev\"",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "preview": "concurrently --kill-others \"npm run dev:server\" \"redis-server\" \"vite preview\"",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "tsc": "tsc ./server/controllers/AWScontroller.ts"
+    "test:watch": "jest --watch"
+    
   },
   "dependencies": {
     "@aws-sdk/client-sts": "^3.312.0",
