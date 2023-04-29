@@ -1,0 +1,34 @@
+version: '3'
+services:
+  prod:
+    image: watchdogs39/watchdogs-prod
+    container_name: watchdogs-prod
+    ports:
+      - '4173:4173'
+    networks:
+      - watchdogs-network
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    depends_on:
+      - redis-db
+    command: npm run preview
+  
+  redis-db: 
+    image: watchdogs39/watchdogs-redis
+    container_name: watchdogs-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - prod-redis-volume:/var/lib/redis/data
+    ports:
+      - 6379:6379
+    networks:
+      - watchdogs-network
+    command: redis-server
+volumes:
+  node_modules:
+  prod-redis-volume:
+  
+networks:
+  watchdogs-network:

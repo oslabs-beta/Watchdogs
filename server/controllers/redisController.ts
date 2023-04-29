@@ -2,7 +2,12 @@ import { Express, Request, Response, NextFunction } from 'express';
 
 import redis from 'redis';
 
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  socket: {
+    host: "watchdogs-redis",
+    port: 6379
+  }
+} as any);
 await redisClient.connect();
 const DEFAULT_EXPIRATION = 3600;
 
