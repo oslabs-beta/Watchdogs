@@ -22,7 +22,6 @@ const getCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username } = res.locals.user;
     const { timeframe, increment } = req.params;
-    console.log('REQ PARAMS in GET CACHE --->', req.params)
     const metrics: string | null = await redisClient.get(`${username}${timeframe}${increment}`);
     if (metrics !== null) {
       res.locals.metrics = JSON.parse(metrics);
@@ -37,9 +36,7 @@ const getCache = async (req: Request, res: Response, next: NextFunction) => {
 
 const flushRedis = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('before flush')
     await redisClient.flushAll();
-    console.log('after flush')
     return next();
   } catch (err) {
     return next({ log: 'Error in redisController flushRedis middlware.', status: 500, message: err });
