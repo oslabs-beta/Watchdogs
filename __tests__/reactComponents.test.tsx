@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, RenderResult, waitFor, screen, act } from '@testing-library/react';
+import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Login from '../client/Components/Login';
 import Signup from '../client/Components/Signup';
@@ -57,12 +57,12 @@ describe('React Component Testing', () => {
           name: 'Signup',
         })
       );
-      const errorDisplay = app.container.querySelector('#user-already-exists');
+      const errorDisplay = app.container.querySelector('#invalid-signup');
       expect(errorDisplay).toHaveTextContent('Username or Password cannot be empty');
     });
 
     test("Displays 'Username Already Exists' if username already exists", async () => {
-      global.fetch = jest.fn(() =>
+      global.fetch = jest.fn(() => 
         Promise.resolve({
           json: () => Promise.resolve({ code: 11000 }),
         } as any)

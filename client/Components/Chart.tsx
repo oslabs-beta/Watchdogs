@@ -1,6 +1,5 @@
 // React Imports
 import React from 'react';
-import gradient from 'chartjs-plugin-gradient';
 
 // Type Imports
 import { ChartProps } from '../types';
@@ -9,31 +8,27 @@ import { ChartProps } from '../types';
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
-ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend, gradient);
+ChartJS.register(TimeScale, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-// Main Function
-const Chart = (props: ChartProps) => {
-  // Destructure Props
-  const { data, timeframe, period, unit, functionName } = props;
-  const labels = data.Invocations.timestamps;
-
+const Chart = ({ data, timeframe, period, unit, functionName }: ChartProps) => {
+  
   // Render Component
   return (
     <div className="chart" id={functionName + '-chart'}>
       <Line
         data={{
-          labels: labels,
+          labels: data.Invocations.timestamps, // x-axis values
           datasets: [
             {
               label: 'Invocations',
-              data: data.Invocations.values,
+              data: data.Invocations.values, // y-axis values
               pointRadius: 1,
               borderColor: '#9985B8',
               backgroundColor: '#9985B8',
             },
             {
               label: 'Duration',
-              data: data.Duration.values,
+              data: data.Duration.values, // y1-axis values
               pointRadius: 1,
               borderColor: '#28A49E',
               backgroundColor: '#28A49E',
@@ -41,14 +36,14 @@ const Chart = (props: ChartProps) => {
             },
             {
               label: 'Throttles',
-              data: data.Throttles.values,
+              data: data.Throttles.values, // y-axis values
               pointRadius: 1,
               borderColor: '#983628',
               backgroundColor: '#983628',
             },
             {
               label: 'Errors',
-              data: data.Errors.values,
+              data: data.Errors.values, // y-axis values
               pointRadius: 1,
               borderColor: '#ff0000ed',
               backgroundColor: '#ff0000ed',
@@ -69,21 +64,21 @@ const Chart = (props: ChartProps) => {
             x: {
               ticks: {
                 color: '#a6a6a6',
-                stepSize: period,
+                stepSize: period, // Makes chart increments responsive to props passed as timeframe filter
               },
               type: 'time',
               time: {
-                unit: unit,
+                unit: unit, // Makes chart increments responsive to props passed as timeframe filter
               },
-              min: new Date(Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)).toISOString(),
-              max: new Date(Math.ceil(Date.now() / 600000) * 600000).toISOString(),
+              min: new Date(Math.ceil(Date.now() / 600000) * 600000 - Number(timeframe)).toISOString(), // Overall timeframe of chart, responsive to timeframe prop
+              max: new Date(Math.ceil(Date.now() / 600000) * 600000).toISOString(), // Current time rounding up to 10 minutes
               grid: {
                 color: '#a6a6a6',
                 display: false,
               },
             },
-
-            y: {
+            // Axis for numeric values
+            y: { 
               ticks: {
                 color: '#a6a6a6',
               },
@@ -93,13 +88,13 @@ const Chart = (props: ChartProps) => {
                 color: '#a6a6a6',
               },
               min: 0,
-              suggestedMax: 50,
+              suggestedMax: 50, // Default max y-tick
               grid: {
                 color: '#a6a6a6',
                 display: false,
               },
             },
-
+            // Axis for time values
             y1: {
               ticks: {
                 color: '#a6a6a6',
@@ -111,7 +106,7 @@ const Chart = (props: ChartProps) => {
               },
               position: 'right',
               min: 0,
-              suggestedMax: 50,
+              suggestedMax: 50, // Default max y1-tick
             },
           },
 

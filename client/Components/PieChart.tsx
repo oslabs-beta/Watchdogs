@@ -1,60 +1,66 @@
 // React Imports
 import React from 'react';
 
-import { Chart, ArcElement, Title } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+// Component Imports
 import NoFunc from './NoFunc';
 
+// Type Imports
 import { PieChartProps } from '../types';
 
-Chart.register(Title);
-Chart.register(ArcElement);
+// Chart.js Imports
+import { Chart, ArcElement, Title } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+Chart.register(Title, ArcElement);
 
-function PieChart(props: PieChartProps) {
-  const { metrics, nofunc } = props;
+function PieChart({ metrics, nofunc }: PieChartProps) {
 
   if (nofunc) {
     return (
       <>
-        <NoFunc nofunc={nofunc} />
+        <NoFunc />
       </>
     );
   }
 
-  const labels = Object.keys(metrics).length > 0 ? Object.keys(metrics) : [''];
+  const labels = Object.keys(metrics).length > 0 ? Object.keys(metrics) : ['']; // Creates array of function names
+  // Invocation Values
   const invocationValues =
     labels[0] !== ''
-      ? labels.map((label) => {
-          return metrics[label].Invocations.values.reduce((accum, curr) => accum + curr, 0);
+      ? labels.map((label) => { // Returns array of total invocations for each function
+          return metrics[label].Invocations.values.reduce((accum, curr) => accum + curr, 0); 
         })
       : [0];
+  // Error Values
   const errorValues =
     labels[0] !== ''
-      ? labels.map((label) => {
+      ? labels.map((label) => { // Returns array of total errors for each function
           return metrics[label].Errors.values.reduce((accum, curr) => accum + curr, 0);
         })
       : [0];
 
-  const colors = labels.map(() => '#' + Math.floor(Math.random() * 16777215).toString(16));
-
+  // Random label colors
+  const colors = labels.map(() => '#' + Math.floor(Math.random() * 16777215).toString(16)); 
+  
+  // Invocation and Error Data to pass into Chart.js
   const invocationData = {
-    labels: labels,
+    labels: labels, // Function names
     datasets: [
       {
         label: 'Invocations',
-        data: invocationValues,
+        data: invocationValues, // Array of values corresponding to functions
         backgroundColor: colors,
         hoverOffset: 4,
         borderColor: colors,
       },
     ],
   };
+  
   const errorData = {
-    labels: labels,
+    labels: labels, // Function names
     datasets: [
       {
         label: 'Errors',
-        data: errorValues,
+        data: errorValues, // Array of errors corresponding to functions
         backgroundColor: colors,
         hoverOffset: 4,
         borderColor: colors,

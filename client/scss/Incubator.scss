@@ -1,24 +1,24 @@
 $primary-color: #10111d;
 $secondary-color: #e09034;
 
-  #warm-list {
+  #incubator-list {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 50vw;
-    max-width: 50vw;
+    flex-direction: column;
     position: relative;
+    max-width: 50vw;
+    width: 50vw;
     background-color: $primary-color;
     margin-top: 20px;
-    padding-inline: 20px;
     border: 1px solid $secondary-color;
     border-radius: 15px;
     box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+    padding-inline: 20px;
   }
 
-  #main-warm-list {
-    color: $secondary-color;
+  #main-incubator-list {
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: $secondary-color;
   }

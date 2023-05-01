@@ -1,44 +1,31 @@
 // React Imports
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// Particles Imports
-import Particles from 'react-particles';
-import { loadFull } from 'tsparticles';
-import { Engine } from 'tsparticles-engine';
-import loginParticles from '../assets/login-particles.json';
 
 // Styles and Assets Imports
 import logo from '../assets/watchdogs-black.png';
 import '../scss/Signup.scss';
 
-//Types Imports
+// Types Imports
 import { SignupBodyType, SignupErrorType } from '../types';
 
-
-// Main Function
 function Signup() {
   // State Declaration
-  const [username, setUsername] = useState('' as string);
+  const [username, setUsername] = useState('' as string); 
   const [password, setPassword] = useState('' as string);
   const [arn, setArn] = useState('' as string);
-  const [region, setRegion] = useState('us-east-1' as string);
+  const [region, setRegion] = useState('us-east-1' as string); 
   const navigate = useNavigate();
 
-  
-  // Initialize Particles
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-  const options: any = loginParticles;
-
-  //Signup Form Submission
+  // Signup Form Submission
   function signupSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    
+    // Populate error display div if any fields are missing
     if (!username.length || !password.length || !arn.length || !region.length) {
-      const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
+      const errorDisplay: HTMLElement | null = document.getElementById('invalid-signup');
       if (errorDisplay) {
-        errorDisplay.innerHTML = 'Username or Password cannot be empty';
+        errorDisplay.innerHTML = 'All fields required';
         errorDisplay.style.display = '';
       }
       return;
@@ -58,12 +45,13 @@ function Signup() {
     })
       .then((res): Promise<SignupErrorType> => res.json())
       .then((res) => {
-        if (res.code == 11000) {
-          const errorDisplay: HTMLElement | null = document.getElementById('user-already-exists');
+        if (res.code == 11000) {//res.code number is returned by MongoDB as the duplicate key error code
+          const errorDisplay: HTMLElement | null = document.getElementById('invalid-signup');
           if (errorDisplay) {
             errorDisplay.innerHTML = 'Username already exists';
           }
         } else {
+          // Navigate to Home on successful signup
           navigate('/');
         }
       })
@@ -75,10 +63,9 @@ function Signup() {
   // Render Components
   return (
     <main id="main-signup-container">
-      <Particles options={options} init={particlesInit} />
       <div id="signup-container">
         <img src={logo} alt="Watchdogs logo" />
-        <p id="user-already-exists"></p>
+        <p id="invalid-signup"></p>
         <form>
           <div>
             <input
@@ -107,6 +94,7 @@ function Signup() {
                 setArn(e.target.value);
               }}
             />
+            {/* AWS Region options */}
             <select
               name="Select Region"
               id="region-selector"
@@ -132,6 +120,7 @@ function Signup() {
               <option value="sa-east-1">SA East 1 (Sao Paulo)</option>
             </select>
           </div>
+          {/* Link to Watchdogs permissions stack */}
           <a
             id="arn-setup"
             target="blank"

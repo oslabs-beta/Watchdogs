@@ -1,10 +1,15 @@
 import React from 'react';
+
+
+//Asset imports
 import logo from '../assets/logo.png';
 import github from '../assets/github-mark.png';
 import icon from '../assets/icon.png';
 import linkedin from '../assets/linkedin-logo.png';
 import oslabs from '../assets/oslabs.png';
 import medium from '../assets/medium.png';
+
+//Style imports
 import '../scss/About.scss';
 
 //replace medium article link

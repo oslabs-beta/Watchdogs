@@ -5,57 +5,52 @@ $secondary-color: rgb(224, 144, 52);
 // Main Container
 #main-signup-container {
   display: flex;
-  height: 96vh;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height: 96vh;
 }
 
 //Signup Container
 #signup-container {
-  background-color: $primary-color;
-  height: auto;
-  width: 50vw;
-  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: auto;
+  max-width: 800px;
+  width: 50vw;
+  background-color: $primary-color;
   border: 1px solid $secondary-color;
   border-radius: 25px;
-  z-index: 1;
   box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
-  a {
-  }
+  z-index: 1;
+
   img {
-    width: 50vw;
     max-width: 800px;
+    width: 50vw;
     border-radius: 30px;
   }
-  #user-already-exists {
+  #invalid-signup {
     color: red;
   }
   form {
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     div {
       padding: 5px;
 
       input {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-bottom: 10px;
+        font-size: 14px;
         width: 10em;
         height: 1.5em;
         color: $secondary-color;
         background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
-        background-color: $primary-color;
-        border: none;
+        margin: 0 10px 10px 10px;
         border: 1px solid $secondary-color;
         border-radius: 5px;
-        font-size: 14px;
         box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
       }
       input:focus {
@@ -64,31 +59,27 @@ $secondary-color: rgb(224, 144, 52);
     }
 
     select {
-      // background-color: $primary-color;
+      font-size: 14px;
       color: $secondary-color;
+      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
+      margin: 0 10px 10px 10px;
       border: 1px solid $secondary-color;
       border-radius: 5px;
-      padding: 2px;
       box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
-      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
-      margin-left: 10px;
-      margin-right: 10px;
-      margin-bottom: 10px;
-      font-size: 14px;
+      padding: 2px;
     }
     select:focus {
       outline: none;
     }
 
     button {
+      font-size: 16px;
       width: 10em;
       color: $secondary-color;
       background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
-      border: none;
+      margin-bottom: 20px;
       border: 1px solid $secondary-color;
       border-radius: 5px;
-      font-size: 16px;
-      margin-bottom: 20px;
       &:hover {
         box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
       }
