@@ -6,7 +6,7 @@
   "scripts": {
     "dev:server": "nodemon --watch './**/*.ts' --exec 'ts-node-esm' ./server/server.ts",
     "dev": "vite",
-    "dev-all": "concurrently --kill-others \"npm run dev:server\" \"npm run dev\"",
+    "dev-all": "NODE_ENV=DEV concurrently --kill-others \"npm run dev:server\" \"npm run dev\" \"redis-server\"",
     "dev-all-jsl": "concurrently --kill-others \"npm run dev:server\" \"npm run dev\"",
     "build": "tsc && vite build",
     "preview": "concurrently --kill-others \"npm run dev:server\" \"vite preview\"",

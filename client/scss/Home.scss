@@ -116,6 +116,7 @@ nav {
         width: 15vw;
         background-color: $primary-color;
         border: solid 1px $secondary-color;
+        min-width: 213px;
 
         &:hover {
           box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
@@ -177,7 +178,7 @@ nav {
         border-radius: 5px;
         border: none;
         transition: background-color 0.5s;
-        min-height: 3vh;
+        min-height: 27px;
       }
       .selected {
         background-color: $secondary-color;
@@ -215,6 +216,9 @@ nav {
         border: 1px solid $secondary-color;
         border-radius: 5px;
         padding: 4px;
+        min-width: 300px;
+        display: flex;
+        justify-content: space-between;
       }
 
       #refresh-button {
@@ -253,13 +257,27 @@ nav {
     border-radius: 15px;
     box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
 
+#top-function{
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#error-logs{
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+}
+
     h2 {
-      align-self: flex-start;
-      padding-inline: 50px;
+      padding-inline: 10px;
     }
     .chart {
       width: 90%;
-      height: 250px;
+      height: 300px;
+      margin-bottom: 20px;
     }
     p {
       text-align: center;
@@ -271,7 +289,7 @@ nav {
       border: none;
       border: 1px solid $secondary-color;
       border-radius: 5px;
-      margin: 0 5px 20px;
+      margin: 0 5px;
       padding: 5px;
     }
   }

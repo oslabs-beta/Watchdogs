@@ -277,12 +277,12 @@ describe('React Component Testing', () => {
           expect(chart).toBeInTheDocument();
 
           const errorLogsPdf = app.getByRole('button', {
-            name: 'As PDF',
+            name: 'PDF',
           });
           expect(errorLogsPdf).toBeInTheDocument();
 
           const errorLogsSpreadsheet = app.getByRole('button', {
-            name: 'As Spreadsheet',
+            name: 'Spreadsheet',
           });
           expect(errorLogsSpreadsheet).toBeInTheDocument();
         });

@@ -4,3 +4,5 @@ COPY . /user/src/app
 RUN npm install
 RUN npm run build
 EXPOSE 4173
+
+

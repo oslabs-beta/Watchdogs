@@ -104,7 +104,10 @@ function FunctionsList(props: FunctionsListProps) {
               Refresh
               <img id="refresh-img" src={refresh}></img>
             </button>
+
             <div id="timeframe-interval">
+
+            <div>
               <label htmlFor="Select Increment" style={{ display: view ? 'inline' : 'none' }}>
                 Interval:
               </label>
@@ -120,6 +123,8 @@ function FunctionsList(props: FunctionsListProps) {
                 {incrementOptions[1] ? <option value={incrementOptions[1]}>{incrementOptions[1]}</option> : null}
                 {incrementOptions[2] ? <option value={incrementOptions[2]}>{incrementOptions[2]}</option> : null}
               </select>
+            </div>
+            <div>
 
               <label htmlFor="Select Timeframe">Timeframe:</label>
               <select
@@ -137,6 +142,8 @@ function FunctionsList(props: FunctionsListProps) {
                 <option value={'604800000'}>1wk</option>
                 <option value={'2629800000'}>1mo</option>
               </select>
+            </div>
+
             </div>
           </div>
         </div>

@@ -112,17 +112,20 @@ function Function(props: FunctionProps) {
   return (
     <>
       <div className="function" id={functionName}>
+        <div id='top-function'>
         <h2>&quot;{functionName}&quot;</h2>
-        <Chart key={functionName} functionName={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
-        <div>
-          <p>Generate Error Logs: </p>
-          <button className="error-button" onClick={() => generatePDF()}>
-            As PDF
-          </button>
+        <div id='error-logs'>
+        Export Error Logs: 
           <button className="error-button" onClick={() => generateSpreadsheet()}>
-            As Spreadsheet
+            Spreadsheet
+          </button>
+          <button className="error-button" onClick={() => generatePDF()}>
+            PDF
           </button>
         </div>
+        </div>
+
+        <Chart key={functionName} functionName={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
       </div>
     </>
   );

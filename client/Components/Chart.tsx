@@ -27,33 +27,29 @@ const Chart = (props: ChartProps) => {
             {
               label: 'Invocations',
               data: data.Invocations.values,
+              pointRadius: 1,
               borderColor: '#9985B8',
               backgroundColor: '#9985B8',
             },
             {
               label: 'Duration',
               data: data.Duration.values,
-              gradient: {
-                borderColor: {
-                  axis: 'y',
-                  colors: {
-                    0: 'rgb(40, 164, 158)',
-                    50: 'rgb(40, 164, 158, 0.2)',
-                  },
-                },
-              },
+              pointRadius: 1,
+              borderColor: '#28A49E',
               backgroundColor: '#28A49E',
               yAxisID: 'y1',
             },
             {
               label: 'Throttles',
               data: data.Throttles.values,
+              pointRadius: 1,
               borderColor: '#983628',
               backgroundColor: '#983628',
             },
             {
               label: 'Errors',
               data: data.Errors.values,
+              pointRadius: 1,
               borderColor: '#ff0000ed',
               backgroundColor: '#ff0000ed',
             },
