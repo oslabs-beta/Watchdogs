@@ -4,7 +4,7 @@ export type FunctionsListProps = {
   metrics: MetricType;
   loading: boolean;
   timeframe: string;
-  refreshInfo: () => void;
+  refreshMetrics: () => void;
   setIncrement: (arg0: string) => void;
   setTimeframe: (arg0: string) => void;
   incrementOptions: string[];
@@ -52,7 +52,7 @@ export type UserInfoProps = {
   loading: boolean;
   setUser: (arg0: { arn: string; region: string; password: string; username: string; __v: number; _id: string }) => void;
   setLoading: (arg0: boolean) => void;
-  setMetrics: (arg0: any) => void;
+  setMetrics: (arg0: MetricType) => void;
 };
 
 //User Data
@@ -139,10 +139,3 @@ export type SelectedFuncs = {
   label: string;
 };
 
-export type NoFuncProps = {
-  nofunc: boolean;
-};
-
-// export type AboutPropsType = {
-//   loading: boolean;
-// };

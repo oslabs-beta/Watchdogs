@@ -1,20 +1,17 @@
 // React Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import Chart from './Chart';
 import { jsPDF } from 'jspdf';
 import Excel from 'exceljs';
 import * as FileSaver from 'file-saver';
-import { useEffect } from 'react';
 
 // Type Imports
 import { FunctionProps, ErrorData, ErrorBodyType } from '../types';
 
 // Main Function
-function Function(props: FunctionProps) {
-  // Destructure Props
-  const { functionData, functionName, user, timeframe, period, unit } = props;
+function Function({ functionData, functionName, user, timeframe, period, unit }: FunctionProps) {
 
-  //change function border to red if there are errors
+  // Change function border to red if there are errors
   useEffect(() => {
     if (Math.max(...functionData.Errors.values) > 0) {
       const errorFunc = document.getElementById(functionName);
@@ -22,9 +19,9 @@ function Function(props: FunctionProps) {
         errorFunc.className = 'function errorfunction';
       }
     }
-  });
+  }, [functionData]);
 
-  // PDF Generator Function
+  // PDF Generator
   const generatePDF = (): void => {
     fetch('/api/error', {
       method: 'POST',
@@ -39,19 +36,23 @@ function Function(props: FunctionProps) {
     })
       .then((res): Promise<ErrorData[]> => res.json())
       .then((res) => {
-        const doc = new jsPDF();
+        const doc = new jsPDF(); // Creates the PDF
         doc.setFontSize(12);
         const output: string[] = [];
+
+        // For each error, push timestamp and error message to output array
         res.forEach((error) => {
           if (error.message && error.timestamp) {
             output.push(`${new Date(error.timestamp).toString()}: `);
             const cut = error.message.slice(68);
-            const splitMessage = doc.splitTextToSize(cut, 190);
-            splitMessage.forEach((split: string) => output.push(split));
+            const splitMessage = doc.splitTextToSize(cut, 190); // Splits error message to prevent text from running off page
+            splitMessage.forEach((split: string) => output.push(split)); // Pushes each segment of split message to output array
           }
         });
         const pageHeight = doc.internal.pageSize.getHeight();
         let y = 10;
+
+        // Creates as many pages as needed for the content of the document
         output.forEach((el) => {
           doc.text(el, 10, y);
           y += 5;
@@ -61,10 +62,11 @@ function Function(props: FunctionProps) {
           }
         });
 
-        doc.save(`${functionName}ErrorLogs.pdf`);
+        doc.save(`${functionName}ErrorLogs.pdf`); // Download document to local machine
       });
   };
 
+  // Spreadsheet Generator
   const generateSpreadsheet = async (): Promise<void> => {
     fetch('/api/error', {
       method: 'POST',
@@ -79,10 +81,11 @@ function Function(props: FunctionProps) {
     })
       .then((res): Promise<ErrorData[]> => res.json())
       .then((res) => {
-        const workbook = new Excel.Workbook();
-        const worksheet = workbook.addWorksheet('My Sheet');
-        const blobType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const workbook = new Excel.Workbook(); // Creates spreadsheet
+        const worksheet = workbook.addWorksheet('My Sheet'); // Creates initial sheet
+        const blobType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';// Formatting the spreadsheet
 
+        // Create spreadsheet columns
         worksheet.columns = [
           { header: '#', key: 'id', width: 10 },
           { header: 'Log Stream Name', key: 'logStreamName', width: 32 },
@@ -91,6 +94,7 @@ function Function(props: FunctionProps) {
           { header: 'Ingestion Time', key: 'ingestionTime', width: 15 },
           { header: 'Event ID', key: 'eventId', width: 32 },
         ];
+        // Add a new row to spreadsheet for each error
         for (let i = 0; i < res.length; i++) {
           worksheet.addRow({
             id: `${i + 1}`,
@@ -101,13 +105,14 @@ function Function(props: FunctionProps) {
             eventId: res[i].eventId,
           });
         }
-        // save under export.xlsx
+        // Download spreadsheet to local machine
         workbook.xlsx.writeBuffer().then((data) => {
           const blob = new Blob([data], { type: blobType });
           FileSaver.saveAs(blob, `${functionName}ErrorSpreadsheet`);
         });
       });
   };
+
   // Render Component
   return (
     <>
@@ -124,7 +129,6 @@ function Function(props: FunctionProps) {
           </button>
         </div>
         </div>
-
         <Chart key={functionName} functionName={functionName} data={functionData} timeframe={timeframe} period={period} unit={unit} />
       </div>
     </>

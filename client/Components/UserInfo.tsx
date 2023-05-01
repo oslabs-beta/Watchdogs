@@ -1,17 +1,21 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Loading from './Loading';
-import '../scss/UserInfo.scss';
 
-// Import types
+// Component Imports
+import Loading from './Loading';
+
+// Types Imports
 import { UserInfoProps, ArnBodyUpdateType, ResponseDataType } from '../types';
 
-function UserInfo(props: UserInfoProps) {
-  const [formVisible, setFormVisible] = useState(false as boolean);
-  const [newArn, setNewArn] = useState('' as string);
+// Style Imports
+import '../scss/UserInfo.scss';
+
+function UserInfo({ user, loading, setUser, setMetrics, setLoading }: UserInfoProps) {
+  //State Declaration
+  const [formVisible, setFormVisible] = useState(false as boolean); // Pop-up form when update ARN button pressed
+  const [newArn, setNewArn] = useState('' as string); 
   const [newRegion, setNewRegion] = useState('us-east-1' as string);
-  const { loading, setUser, setMetrics, setLoading } = props;
   const navigate = useNavigate();
 
   // Update ARN Submission
@@ -27,7 +31,7 @@ function UserInfo(props: UserInfoProps) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: props.user.username,
+        username: user.username,
         arn: newArn,
         region: newRegion,
       } as ArnBodyUpdateType),
@@ -48,8 +52,9 @@ function UserInfo(props: UserInfoProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: props.user.username }),
+        body: JSON.stringify({ username: user.username }),
       }).then(() => navigate('/login'));
+      //Navigates to login component after deleting account
     }
   }
 
@@ -74,7 +79,6 @@ function UserInfo(props: UserInfoProps) {
     if (formVisible) {
       form.style.display = '';
       edit.innerHTML = 'Edit *';
-      // edit.style.border = 'none';
     } else {
       if (form) {
         form.style.display = 'none';
@@ -97,13 +101,13 @@ function UserInfo(props: UserInfoProps) {
     <main id="main-user-info">
       <div id="user-info">
         <p id="user-username">
-          <span>Username</span> : {props.user.username}
+          <span>Username</span> : {user.username}
         </p>
         <p id="user-region">
-          <span>Region</span> : {props.user.region}
+          <span>Region</span> : {user.region}
         </p>
         <p id="user-arn">
-          <span>ARN</span> : {props.user.arn}{' '}
+          <span>ARN</span> : {user.arn}{' '}
         </p>
         <div>
           <button
@@ -126,6 +130,7 @@ function UserInfo(props: UserInfoProps) {
             Log Out
           </button>
         </div>
+
         <form id="new-arn">
           <input
             id="arn-input"
@@ -166,6 +171,7 @@ function UserInfo(props: UserInfoProps) {
             Submit
           </button>
         </form>
+
       </div>
     </main>
   );

@@ -2,53 +2,43 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
-// Particles Imports
-import Particles from 'react-particles';
-import { loadFull } from 'tsparticles';
-import { Engine } from 'tsparticles-engine';
-import loginParticles from '../assets/login-particles.json';
-
 // Type Imports
 import { UserDataType, MetricType, ResponseDataType, SelectedFuncs } from '../types';
 
 // Component Imports
 import UserInfo from './UserInfo';
-import WarmList from './WarmList';
+import Incubator from './Incubator';
 import FunctionsList from './FunctionsList';
 import About from './About';
+
+// Style Imports
 import '../scss/Home.scss';
 
 // Asset Imports
 import logo from '../assets/logo.png';
 import icon from '../assets/icon.png';
 
-// Main Function
 function Home() {
   // State Declaration
-  const [user, setUser] = useState({} as UserDataType);
-  const [metrics, setMetrics] = useState({} as MetricType);
-  const [loading, setLoading] = useState(false as boolean);
-  const [timeframe, setTimeframe] = useState('10800000' as string);
-  const [incrementOptions, setIncrementOptions] = useState(['10min', '30min'] as string[]);
-  const [increment, setIncrement] = useState('10min' as string);
-  const [period, setPeriod] = useState(10 as number);
-  const [unit, setUnit] = useState('minute' as false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined);
-  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[]);
-  const [nofunc, setNofunc] = useState(false as boolean);
+  const [user, setUser] = useState({} as UserDataType); // User Info
+  const [metrics, setMetrics] = useState({} as MetricType); // Metric Data
+  const [loading, setLoading] = useState(false as boolean); // Loading State used to display the Loading Component
+  const [timeframe, setTimeframe] = useState('10800000' as string); // Timeframe filter
+  const [incrementOptions, setIncrementOptions] = useState(['10min', '30min'] as string[]); // Increment Values
+  const [increment, setIncrement] = useState('10min' as string); // Current Increment(breaks down to period and unit states)
+  const [period, setPeriod] = useState(10 as number); // Number units for chartjs
+  const [unit, setUnit] = useState('minute' as false | 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year' | undefined); // Time units for chartJS display
+  const [dropdownOptions, setDropdownOptions] = useState([] as SelectedFuncs[]); // Functions Display Options
+  const [nofunc, setNofunc] = useState(false as boolean); // Displays noFunc component if user has no functions
 
   const navigate = useNavigate();
 
-  // Particles Initialization
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-  const options: any = loginParticles;
-
-  // Get User Info Logic
+  // Get User Info
   function getUserInfo(): void {
     setLoading(true);
     fetch(`/api/user/${timeframe}/${increment}`)
       .then((res): Promise<ResponseDataType> | undefined => {
+        // Redirects to login page if no existing cookie
         if (res.redirected) {
           navigate('/login');
         } else {
@@ -59,13 +49,14 @@ function Home() {
         if (res == undefined) {
           return;
         }
-        if (res.badArn) window.alert('Invalid ARN');
+        if (res.badArn) window.alert('Invalid ARN, please update');
         if (res.nofunc) {
           setNofunc(true);
         }
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        // Updates display filter dropdown menu based on existing Lambda functions
         const options: SelectedFuncs[] = [{ label: 'All Functions', value: 'all' }];
         for (const func in res.metrics) {
           options.push({ value: func, label: func });
@@ -74,8 +65,8 @@ function Home() {
       });
   }
 
-  // Refresh Functions
-  function refreshInfo(): void {
+  // Refreshes metrics, flushes and updates redis cache for selected timeframe/increment 
+  function refreshMetrics(): void {
     setLoading(true);
     fetch(`/api/refresh/${timeframe}/${increment}`)
       .then((res): Promise<ResponseDataType> => res.json())
@@ -83,6 +74,7 @@ function Home() {
         setLoading(false);
         setUser(res.user);
         setMetrics(res.metrics);
+        // Updates display filter dropdown menu based on existing Lambda functions
         const options: SelectedFuncs[] = [{ label: 'All functions', value: 'all' }];
         for (const func in res.metrics) {
           options.push({ value: func, label: func });
@@ -91,6 +83,7 @@ function Home() {
       });
   }
 
+  // Update increment options based on selected timeframe 
   useEffect(() => {
     if (timeframe === '10800000') {
       setIncrement('10min');
@@ -110,6 +103,8 @@ function Home() {
     }
   }, [timeframe]);
 
+
+  // Break current increment state into period (number) and unit (string) for chartJS
   useEffect(() => {
     if (increment === '10min') {
       setPeriod(10);
@@ -145,14 +140,13 @@ function Home() {
   // Render Componenets
   return (
     <>
-      <Particles options={options} init={particlesInit} />
       <nav>
         <div id="lock-left">
           <Link to="/">
             <img src={logo} alt="" />
           </Link>
           <Link to="/">Functions</Link>
-          <Link to="warmlist">Incubator</Link>
+          <Link to="incubator">Incubator</Link>
           <Link to="about">About</Link>
         </div>
         <div id="lock-right">
@@ -163,6 +157,7 @@ function Home() {
         </div>
       </nav>
 
+      {/* React Router path definitions */}
       <Routes>
         <Route
           path="/"
@@ -171,7 +166,7 @@ function Home() {
               user={user}
               metrics={metrics}
               loading={loading}
-              refreshInfo={refreshInfo}
+              refreshMetrics={refreshMetrics}
               timeframe={timeframe}
               period={period}
               unit={unit}
@@ -182,7 +177,7 @@ function Home() {
               nofunc={nofunc}
             />
           }></Route>
-        <Route path="/warmlist" element={<WarmList />}></Route>
+        <Route path="/incubator" element={<Incubator />}></Route>
         <Route path="/userinfo" element={<UserInfo user={user} loading={loading} setLoading={setLoading} setUser={setUser} setMetrics={setMetrics} />}></Route>
         <Route path="/about" element={<About />}></Route>
       </Routes>

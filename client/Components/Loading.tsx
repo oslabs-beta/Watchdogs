@@ -1,6 +1,9 @@
 import React from 'react';
 import '../scss/Loading.scss';
 
+
+// Loading screen arrow
+// Do not delete empty divs, these are accessed and changed via styling
 function Loading() {
   return (
     <div id="loading-section">

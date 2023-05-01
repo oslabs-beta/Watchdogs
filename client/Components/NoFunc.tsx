@@ -1,12 +1,7 @@
 import React from 'react';
-import { NoFuncProps } from '../types';
+// If data contains no functions, the app will render this component
+function NoFunc() {
 
-function NoFunc(props: NoFuncProps) {
-  const { nofunc } = props;
-
-  if (!nofunc) {
-    return null;
-  }
   return (
     <div id="nofunc">
       <p>You have no functions!</p>

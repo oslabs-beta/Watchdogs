@@ -1,35 +1,22 @@
 // React Imports
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// Particles Imports
-import Particles from 'react-particles';
-import { loadFull } from 'tsparticles';
-import { Engine } from 'tsparticles-engine';
-import loginParticles from '../assets/login-particles.json';
 
 // Styles and Assets Imports
 import logo from '../assets/watchdogs-black.png';
 import github from '../assets/github-mark.png'
 import '../scss/Login.scss';
 
-//Types Imports
+// Types Imports
 import { LoginResponseType, LoginBodyType } from '../types';
 
-// Main Function
 function Login() {
-  //
   // State Declaration
-  const [username, setUsername] = useState('' as string);
-  const [password, setPassword] = useState('' as string);
+  const [username, setUsername] = useState('' as string); // Updated as user types into input field
+  const [password, setPassword] = useState('' as string); // Updated as user types into input field
 
   const navigate = useNavigate();
-
-  //Initialize Particles
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-  const options: any = loginParticles;
 
   // Login Form Submission
   function loginSubmit(e: React.MouseEvent<HTMLButtonElement>) {
@@ -47,12 +34,12 @@ function Login() {
     })
       .then((res): Promise<LoginResponseType> => res.json())
       .then((res) => {
-        if (res.match) {
-          navigate('/');
+        if (res.match) { 
+          navigate('/'); // Navigates to Home page on successful signin
         } else {
-          const invalidDisplay = document.getElementById('invalid-display');
+          const invalidDisplay = document.getElementById('invalid-display'); 
           if (invalidDisplay) {
-            invalidDisplay.innerHTML = 'Invalid Username or Password';
+            invalidDisplay.innerHTML = 'Invalid Username or Password'; // Insert text into empty div
           }
         }
       })
@@ -64,11 +51,12 @@ function Login() {
   // Render Components
   return (
     <main id="main-login-container">
-      <Particles options={options} init={particlesInit} />
 
       <div id="login-container">
         <img src={logo} alt="Watchdogs logo" />
-        <div id="invalid-display"></div>
+        <div id="invalid-display">
+          {/* Empty div to be populated on unsuccessful login */}
+        </div>
         <form>
           <div>
             <input
