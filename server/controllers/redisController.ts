@@ -1,8 +1,19 @@
 import { Express, Request, Response, NextFunction } from 'express';
 
-import redis from 'redis';
+// import redis from 'redis';
+import redis, { RedisClientType} from 'redis';
 
-const redisClient = redis.createClient();
+let redisClient: RedisClientType;
+if (process.env.NODE_ENV === 'DEV'){
+   redisClient = redis.createClient()
+} else {
+  redisClient = redis.createClient({
+    socket: {
+      host: "watchdogs-redis",
+      port: 6379
+    }
+  } as any);
+}
 await redisClient.connect();
 const DEFAULT_EXPIRATION = 3600;
 

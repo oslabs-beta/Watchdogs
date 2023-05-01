@@ -20,7 +20,14 @@ $secondary-color: #e09034;
     border-radius: 15px;
     box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
     color: $secondary-color;
-  
+
+    div {
+      display: flex;
+      width: 50%;
+      justify-content: space-around;
+      margin: 15px;
+    }
+
     button {
       color: $secondary-color;
       background: transparent;
@@ -65,7 +72,7 @@ $secondary-color: #e09034;
     span {
       text-decoration: underline;
     }
-    #logout-button {
-      margin: 20px;
-    }
+    // #logout-button {
+      // margin: 20px;
+    // }
   }
