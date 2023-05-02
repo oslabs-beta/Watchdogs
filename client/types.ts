@@ -126,7 +126,7 @@ export type SignupErrorType = {
 };
 
 //Error Log Response
-export interface ErrorData {
+export type ErrorData = {
   logStreamName?: string;
   timestamp?: number;
   message?: string;

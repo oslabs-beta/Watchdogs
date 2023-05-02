@@ -1,9 +1,10 @@
 import { Express, Request, Response, NextFunction } from 'express';
 
-// import redis from 'redis';
+// Import redis from 'redis';
 import redis, { RedisClientType} from 'redis';
 
 let redisClient: RedisClientType;
+// Dev environment with locally run Redis
 if (process.env.NODE_ENV === 'DEV'){
    redisClient = redis.createClient()
 } else {
@@ -15,8 +16,9 @@ if (process.env.NODE_ENV === 'DEV'){
   } as any);
 }
 await redisClient.connect();
-const DEFAULT_EXPIRATION = 3600;
+const DEFAULT_EXPIRATION = 3600; // Redis keys expire after one hour
 
+// Creates a redis key for each timeframe/increment combination as it is requested
 const setCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { metrics } = res.locals;
@@ -29,11 +31,14 @@ const setCache = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Checking if a redis key for a timeframe/increment exists in memory
 const getCache = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username } = res.locals.user;
     const { timeframe, increment } = req.params;
     const metrics: string | null = await redisClient.get(`${username}${timeframe}${increment}`);
+
+    // If key exists, exit middlware chain and return key to frontend
     if (metrics !== null) {
       res.locals.metrics = JSON.parse(metrics);
       res.status(200).json(res.locals);
@@ -45,6 +50,7 @@ const getCache = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Flushes redis cache on refresh button and login/logout
 const flushRedis = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await redisClient.flushAll();

@@ -1,12 +1,13 @@
-//IMPORT DEPENDECIES
+// Imports
 import express, { Express, Request, Response, NextFunction, ErrorRequestHandler, Router } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 
-import { GlobalErrorType } from './controllers/types.js';
+// Types Imports
+import { GlobalErrorType } from './types.js';
 
-//IMPORT CONTROLLERS
+// Controller Imports
 import { createAccount, getUser, deleteUser, addArn, logIn } from './controllers/userController.js';
 import { setCookie, checkCookie, deleteCookie } from './controllers/cookieController.js';
 import { getMetrics, getErrors } from './controllers/AWScontroller.js';
@@ -20,50 +21,61 @@ declare let process: {
     mongoKey: string;
   };
 };
+// Create App
 const port = 3000;
-
-//CREATE APP AND PARSE
 const app: Express = express();
+
+// Global Middleware
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(cookieParser());
 
+// MongoDB connection
 mongoose.connect(process.env.mongoKey);
 mongoose.connection.once('open', () => {
   console.log('Connected to Database');
 });
 
-//ROUTER FOR /API
+// /api
 const router: Router = express.Router();
 app.use('/api', router);
 
+// Flush redis cache and update metrics on page
 router.get('/refresh/:timeframe/:increment', flushRedis, getUser, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
+// Populate metrics on page, not as a refresh; checks redis cache first
 router.get('/user/:timeframe/:increment', checkCookie, getUser, getCache, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
+// Delete the user's account from the database
 router.delete('/user', deleteUser, deleteCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
+
+// Flush redis cache, create a new user account, then set cookie
 router.post('/signup', flushRedis, createAccount, setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
+// Flush redis cache, log user in and set cookie
 router.post('/login', flushRedis, logIn, setCookie, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
+// Logs user out
 router.get('/logout', flushRedis, deleteCookie, (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
+// Updates user's ARN/Region
 router.put('/', addArn, getMetrics, setCache, (req: Request, res: Response) => {
   res.status(200).json(res.locals);
 });
 
+// Returns error logs
 router.post('/error', getErrors, (req: Request, res: Response) => {
   res.status(200).json(res.locals.errors);
 })
