@@ -1,15 +1,16 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { UserDataType, ReqDataType } from './types';
+import { UserDataType, ReqDataType } from '../types.js';
 
+// Creates account
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password, arn, region } = req.body as ReqDataType;
     if (!username.length || !password.length || !arn.length || !region.length) {
-      return next({ log: 'Requires all input', status: 500, message: { err: 'Requires all input' } });
+      return next({ log: 'Requires all input', status: 500, message: { err: 'Requires all input' } }); // If any fields are blank, exit middleware chain
     }
-    const user: UserDataType = await User.create({ username: username, password: password, arn: arn, region: region });
+    const user: UserDataType = await User.create({ username, password, arn, region });
     res.locals.user = user;
     return next();
   } catch (err) {
@@ -17,25 +18,27 @@ const createAccount = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
+// Logs in
 const logIn = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body as ReqDataType;
-    const user: UserDataType | null = await User.findOne({ username: username });
+    const user: UserDataType | null = await User.findOne({ username });
     if (user) {
       const rightPassword: boolean = await bcrypt.compare(password, user.password);
       if (rightPassword) {
         res.locals.user = user;
         res.locals.match = true;
         return next();
-      } else res.status(200).json({ message: 'Incorrect username and/or password.' });
+      } else res.status(200).json({ message: 'Incorrect username and/or password.' }); // If password is invalid, exit middleware chain 
     } else {
-      res.status(200).json({ message: 'No user exists' });
+      res.status(200).json({ message: 'No user exists' }); // If user doesnt exist, exit middleware chain
     }
   } catch (err) {
     return next({ log: 'Error in userController logIn middleware.', status: 500, message: err });
   }
 };
 
+// Gets user
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.cookies;
@@ -47,10 +50,11 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Deletes the user account
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username } = req.body as ReqDataType;
-    const user: UserDataType | null = await User.findOneAndDelete({ username: username });
+    const user: UserDataType | null = await User.findOneAndDelete({ username });
     res.locals.user = user;
     return next();
   } catch (err) {
@@ -58,10 +62,11 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Update the user's ARN
 const addArn = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, arn, region } = req.body as ReqDataType;
-    const user: UserDataType | null = await User.findOneAndUpdate({ username }, { arn: arn, region: region }, { new: true });
+    const user: UserDataType | null = await User.findOneAndUpdate({ username }, { arn, region }, { new: true });
     res.locals.user = user;
     return next();
   } catch (err) {

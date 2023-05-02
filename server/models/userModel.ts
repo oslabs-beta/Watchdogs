@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
 import bcrypt from 'bcryptjs';
+
+const Schema = mongoose.Schema;
 
 const SALT_WORK_FACTOR = 10;
 
@@ -24,6 +25,7 @@ const userSchema = new Schema({
     }
 });
 
+// Hash the user's password before saving in database
 userSchema.pre('save', function (next) {
     
     bcrypt.hash(this.password, SALT_WORK_FACTOR, (error, hash) => {
@@ -32,8 +34,6 @@ userSchema.pre('save', function (next) {
         return next();
     })
 })
-
-
 
 const User = mongoose.model('User', userSchema);
 export default User;

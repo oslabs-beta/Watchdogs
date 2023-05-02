@@ -1,10 +1,11 @@
 // Imports
+import { Express, Request, Response, NextFunction } from 'express';
 import AWS from 'aws-sdk';
 import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import * as dotenv from 'dotenv';
-import { Express, Request, Response, NextFunction } from 'express';
 
-import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse, ErrorParamsInterface, ErrorData } from './types.js';
+// Types Imports
+import { CredentialsInterface, LogGroupsInterface, ParamsInterface, Metrics, MetricDataResponse, ErrorParamsInterface, ErrorData, MetricDataQueriesInterface } from '../types.js';
 
 dotenv.config();
 
@@ -17,23 +18,22 @@ declare let process: {
   };
 };
 
-//OUR PROJECT'S AWS USER CREDENTIALS
-
+// OUR PROJECT'S AWS USER CREDENTIALS
 const credentials = new AWS.Credentials({
   accessKeyId: process.env.accessKeyId,
   secretAccessKey: process.env.secretAccessKey,
 });
 
-//STS CLIENT TO ASSUME ROLE
-const client = new STSClient({ region: 'us-east-2', credentials: credentials });
+// STS CLIENT TO ASSUME ROLE
+const client = new STSClient({ region: 'us-east-2', credentials: credentials }); 
 
 // GET METRICS MIDDLEWARE
 const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('getting metrics');
   const { region, arn } = res.locals.user;
   const { timeframe, increment } = req.params;
   let period: number;
 
+  // Period is dynamic for input timeframe/increment
   switch (increment) {
     case '10min':
       period = 600;
@@ -58,53 +58,40 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
       break;
   }
 
-  // switch (timeframe) {
-  //   case 'three-hour':
-  //     timeframems = 10800000;
-  //     break;
-  //   case 'twelve-hour':
-  //     timeframems = 43200000;
-  //     break;
-  //   case 'one-day':
-  //     timeframems = 86400000;
-  //     break;
-  //   case 'one-week':
-  //     timeframems = 604800000;
-  //     break;
-  //   case 'one-month':
-  //     timeframems = 2628000000;
-  //     break;
-  // }
-
-  const input = {
-    RoleArn: arn, // required
-    RoleSessionName: 'test', // required
-    DurationSeconds: 900,
-  };
-
   let userCredentials;
   let cloudwatchlogs: any;
-
+  
   try {
+    const input = {
+      RoleArn: arn, // required
+      RoleSessionName: 'test', // required
+      DurationSeconds: 900,
+    };
+
+    // Assumes a role for access to AWS
     const command = new AssumeRoleCommand(input);
-
-    const response = (await client.send(command)) as CredentialsInterface;
-
+    const {Credentials: {AccessKeyId, SecretAccessKey, SessionToken}} = (await client.send(command)) as CredentialsInterface;
+    
+    // Updates Credentials using response from AWS
     userCredentials = new AWS.Credentials({
-      accessKeyId: response.Credentials.AccessKeyId,
-      secretAccessKey: response.Credentials.SecretAccessKey,
-      sessionToken: response.Credentials.SessionToken,
+      accessKeyId: AccessKeyId,
+      secretAccessKey: SecretAccessKey,
+      sessionToken: SessionToken,
     });
 
+    // Ensure that the user is able to connect to their Cloudwatch service
     cloudwatchlogs = new AWS.CloudWatchLogs({
       region: region,
       credentials: userCredentials,
     });
+
   } catch (err) {
+    // If ARN is invalid, badArn : true is sent as server response 
     res.locals.badArn = true;
     return res.json(res.locals);
   }
 
+  // Get names of all existing Lambda functions
   async function getFunctions() {
     const { logGroups } = (await cloudwatchlogs.describeLogGroups({ logGroupNamePrefix: '/aws/lambda' }).promise()) as LogGroupsInterface;
     const lambdaFunctions = logGroups.map((el) => el.logGroupName.replace('/aws/lambda/', ''));
@@ -118,16 +105,33 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     credentials: userCredentials,
   });
 
+  const params = {
+    // eslint-disable-next-line @typescript-eslint/no-array-constructor
+    MetricDataQueries: new Array(), // Will hold array of query objects for each function 
+    StartTime: new Date(Date.now() - Number(timeframe)), //date.now() - timeframe(in milliseconds)
+    EndTime: new Date(),
+    ScanBy: 'TimestampAscending',
+    MaxDatapoints: 10,
+  };
+
   const addQuery = (func: string) => {
-    params.MetricDataQueries.push(
-      {
-        Id: `invocations` + func.replaceAll('-', ''),
-        Label: `${func} Invocations`,
+    const metricStats = { // Format of statistics to be gathered from Cloudwatch
+      Invocations: 'Sum',
+      Duration: 'Average',
+      Errors: 'Sum',
+      Throttles: 'Sum'
+    }
+
+    // For each function, the following query will be added for as many stats as we need
+    for (const [metric, stat] of Object.entries(metricStats)) {
+      params.MetricDataQueries.push({
+        Id: metric.toLowerCase() + func.replace(/[^A-Za-z0-9]/g, ""),
+        Label: `${func} ${metric}`,
 
         MetricStat: {
           Metric: {
             Namespace: 'AWS/Lambda',
-            MetricName: 'Invocations',
+            MetricName: metric,
             Dimensions: [
               {
                 Name: 'FunctionName',
@@ -136,86 +140,21 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
             ],
           },
           Period: period, //period// seconds
-          Stat: 'Sum',
-        },
-      },
-      {
-        Id: `duration` + func.replaceAll('-', ''),
-        Label: `${func} Duration`,
-
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'Duration',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: func,
-              },
-            ],
-          },
-          Period: period, // seconds
-          Stat: 'Average',
-        },
-      },
-      {
-        Id: `errors` + func.replaceAll('-', ''),
-        Label: `${func} Errors`,
-
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'Errors',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: func,
-              },
-            ],
-          },
-          Period: period, // seconds
-          Stat: 'Sum',
-        },
-      },
-      {
-        Id: `throttles` + func.replaceAll('-', ''),
-        Label: `${func} Throttles`,
-
-        MetricStat: {
-          Metric: {
-            Namespace: 'AWS/Lambda',
-            MetricName: 'Throttles',
-            Dimensions: [
-              {
-                Name: 'FunctionName',
-                Value: func,
-              },
-            ],
-          },
-          Period: period, // seconds
-          Stat: 'Sum',
-        },
-      }
-    );
+          Stat: stat,
+        } ,
+      } as MetricDataQueriesInterface)
+    }
   };
 
-  const params = {
-    // eslint-disable-next-line @typescript-eslint/no-array-constructor
-    MetricDataQueries: new Array(),
-    StartTime: new Date(Date.now() - Number(timeframe)), //date.now() - timeframe(in milliseconds)
-    EndTime: new Date(),
-    ScanBy: 'TimestampAscending',
-    MaxDatapoints: 10,
-  };
+  const metrics = {} as Metrics; // Will hold the metrics info to return to frontend
 
-  const metrics = {} as Metrics;
-
+  // Return nofunc to front-end if account/ARN has no functions
   if (functions.length === 0) {
     res.locals.nofunc = true;
     return res.json(res.locals);
   }
   functions.forEach((el: string) => {
-    addQuery(el);
+    addQuery(el); // See helper function above
     metrics[el] = {
       Invocations: {
         values: [],
@@ -239,6 +178,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
   async function getMetricData(params: ParamsInterface) {
     const { MetricDataResults, NextToken } = (await cloudwatch.getMetricData(params).promise()) as unknown as MetricDataResponse;
 
+    // Parsing and inserting metric data into Metrics object
     MetricDataResults.forEach((el) => {
       if (el.Values.length) {
         const func = el.Label.split(' ')[0];
@@ -249,7 +189,7 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
       }
     });
 
-    if (NextToken) {
+    if (NextToken) { //If there is more data to be collected, NextToken is returned and therefore we recursively call getMetricData until there is no more data to collect
       params.NextToken = NextToken;
       await getMetricData(params);
     }
@@ -271,46 +211,19 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
 const getErrors = async (req: Request, res: Response, next: NextFunction) => {
   const { region, arn, func, timeframe } = req.body;
 
-  // let timeframems: number;
-  // if (timeframe==='three-hour') return timeframems = 10800000;
-  // else if (timeframe==='twelve-hour') return timeframems = 43200000;
-  // else if (timeframe==='one-day') return timeframems = 86400000;
-  // else if (timeframe==='one-week') return timeframems = 604800000;
-  // else if (timeframe==='one-month') return timeframems = 2628000000;
-
-  // let timeframems: number;
-
-  // switch (timeframe) {
-  //   case 'three-hour':
-  //     timeframems = 600;
-  //     break;
-  //   case 'twelve-hour':
-  //     timeframems = 43200000;
-  //     break;
-  //   case 'one-day':
-  //     timeframems = 86400000;
-  //     break;
-  //   case 'one-week':
-  //     timeframems = 604800000;
-  //     break;
-  //   case 'one-month':
-  //     timeframems = 2628000000;
-  //     break;
-  // }
-
   const input = {
     RoleArn: arn, // required
     RoleSessionName: 'test', // required
     DurationSeconds: 900,
   };
-
+  // Assumes a role for access to AWS
   const command = new AssumeRoleCommand(input);
-  const response = (await client.send(command)) as CredentialsInterface;
+  const {Credentials : { AccessKeyId, SecretAccessKey, SessionToken }} = (await client.send(command)) as CredentialsInterface;
 
   const userCredentials = new AWS.Credentials({
-    accessKeyId: response.Credentials.AccessKeyId,
-    secretAccessKey: response.Credentials.SecretAccessKey,
-    sessionToken: response.Credentials.SessionToken,
+    accessKeyId: AccessKeyId,
+    secretAccessKey: SecretAccessKey,
+    sessionToken: SessionToken,
   });
 
   const cloudwatchlogs = new AWS.CloudWatchLogs({
