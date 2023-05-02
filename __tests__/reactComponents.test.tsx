@@ -148,11 +148,6 @@ describe('React Component Testing', () => {
   describe('Home Page', () => {
     describe('Nav Bar', () => {
       beforeEach(() => {
-        app = render(
-          <MemoryRouter>
-            <Home />
-          </MemoryRouter>
-        );
         global.fetch = jest.fn(() =>
           Promise.resolve({
             json: () =>
@@ -167,6 +162,11 @@ describe('React Component Testing', () => {
                 },
               } as any),
           } as any)
+        );
+        app = render(
+          <MemoryRouter>
+            <Home />
+          </MemoryRouter>
         );
       });
 
