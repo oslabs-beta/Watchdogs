@@ -3,6 +3,10 @@ services:
   prod:
     image: watchdogs39/watchdogs-prod
     container_name: watchdogs-prod
+    environment: 
+      - accessKeyId=
+      - secretAccessKey=
+      - mongoKey=
     ports:
       - '4173:4173'
     networks:
