@@ -1,0 +1,98 @@
+// Color Variables
+$primary-color: rgb(16, 17, 29);
+$secondary-color: rgb(224, 144, 52);
+
+// Main Container
+#main-signup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96vh;
+}
+
+//Signup Container
+#signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  max-width: 800px;
+  width: 50vw;
+  background-color: $primary-color;
+  border: 1px solid $secondary-color;
+  border-radius: 25px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+  z-index: 1;
+
+  img {
+    max-width: 800px;
+    width: 50vw;
+    border-radius: 30px;
+  }
+  #invalid-signup {
+    color: red;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    div {
+      padding: 5px;
+
+      input {
+        font-size: 14px;
+        width: 10em;
+        height: 1.5em;
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
+        margin: 0 10px 10px 10px;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
+      }
+      input:focus {
+        outline: none;
+      }
+    }
+
+    select {
+      font-size: 14px;
+      color: $secondary-color;
+      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
+      margin: 0 10px 10px 10px;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
+      padding: 2px;
+    }
+    select:focus {
+      outline: none;
+    }
+
+    button {
+      font-size: 16px;
+      width: 10em;
+      color: $secondary-color;
+      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4));
+      margin-bottom: 20px;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      &:hover {
+        box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+      }
+      
+    }
+
+    a {
+      color: $secondary-color;
+      padding-bottom: 20px;
+      &:hover {
+          text-decoration: none;
+          color: darken($secondary-color, 20)
+        }
+    }
+  }
+}

@@ -1,0 +1,335 @@
+// Color Variables
+$primary-color: #10111d;
+$secondary-color: #e09034;
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $primary-color;
+  margin: 25px;
+  
+  &::-webkit-scrollbar {//removes scroll bar
+    display: none;
+  }
+}
+
+// Nav-Bar
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 4.5vh;
+  min-width: 80vw;
+  min-height: 30px;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  border: 0.5px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+
+  #lock-left {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    a {
+      display: flex;
+      align-items: center;
+      height: 80%;
+      margin: 20px;
+      img {
+        height: 70%;
+      }
+    }
+  }
+
+  #lock-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin: 30px;
+
+    a {
+      display: flex;
+      align-items: center;
+      height: 80%;
+      img {
+        height: 45%;
+        margin: 15px;
+        filter: invert(74%) sepia(57%) saturate(2033%) hue-rotate(335deg) brightness(93%) contrast(89%);
+      }
+    }
+  }
+
+  a {
+    color: $secondary-color;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+}
+// No function Display
+#nofunc {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  color: $secondary-color;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  background-color: $primary-color;
+  margin: 50px;
+  border: 0.5px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+}
+
+// Functions
+#functions-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 80vw;
+
+  #functions-list-filters {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 80vw;
+    margin-top: 20px;
+
+    #function-filter {
+      display: flex;
+      width: 20vw;
+      color: $secondary-color;
+
+      .select__control {
+        width: 15vw;
+        min-width: 213px;
+        background-color: $primary-color;
+        border: solid 1px $secondary-color;
+
+        &:hover {
+          box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+        }
+
+        .select__indicators {
+          .select__indicator-separator {
+            background-color: $secondary-color;
+          }
+          .select__dropdown-indicator {
+            color: $secondary-color;
+          }
+        }
+        .select__multi-value {
+          background-color: $primary-color;
+          // border: solid .5px $secondary-color;
+          color: $secondary-color;
+          .select__multi-value__label {
+            color: $secondary-color;
+          }
+        }
+      }
+      .select__control--is-focused {
+        border: solid 1px $secondary-color;
+      }
+      .select__control--menu-is-open {
+        border: solid 1px $secondary-color;
+        box-shadow: none;
+        // color: red;
+      }
+      .select__menu {
+        color: $secondary-color;
+        background-color: $primary-color;
+        margin-inline: 6px;
+        border: solid 1px $secondary-color;
+      }
+
+      .css-t3ipsp-control {
+        color: red;
+        border: solid 1px $secondary-color;
+        box-shadow: none;
+      }
+    }
+
+    #buttons-area {
+      display: flex;
+      align-items: center;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      overflow: hidden;
+      
+      button {
+        color: $secondary-color;
+        background-color: $primary-color;
+        font-size: 14px;
+        width: 8vw;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        border: none;
+        transition: background-color 0.5s;
+        min-height: 27px;
+      }
+      .selected {
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+    }
+
+    #refresh-timeframe {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 20vw;
+      
+      label {
+        color: $secondary-color;
+        margin: 0 10px;
+      }
+      select {
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+        font-size: 14px;
+        border: none;
+        position: relative;
+        // z-index: 1000;
+        &:hover {
+          background-color: $secondary-color;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+
+      #timeframe-interval {
+        display: flex;
+        justify-content: space-between;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        padding: 4px;
+
+        div {
+          display: flex;
+        }
+      }
+
+      #refresh-button {
+        display: flex;
+        align-items: center;
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        font-size: 14px;
+        margin: 0 0 10px 0;
+
+        &:hover {
+          box-shadow: darken($secondary-color, 20) 0px 0px 10px 0px;
+        }
+        #refresh-img {
+          margin: 5px;
+          height: 14px;
+        }
+      }
+    }
+  }
+
+  .function {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: $secondary-color;
+    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+    margin-top: 30px;
+    border: 0.5px solid $secondary-color;
+    border-radius: 15px;
+    box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+
+#top-function{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  margin-top: 10px;
+}
+
+#error-logs{
+  display: flex;
+  align-items: center;
+}
+
+    h2 {
+      padding-inline: 10px;
+    }
+    .chart {
+      width: 90%;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+    p {
+      text-align: center;
+    }
+    .error-button {
+      align-self: flex-end;
+      color: $secondary-color;
+      background: transparent;
+      margin: 0 5px;
+      border: none;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      padding: 5px;
+    }
+  }
+
+  .errorfunction {
+    border: 0.5px solid red !important;
+    box-shadow: red 0px 0px 20px 0px !important;
+  }
+}
+
+//Pie Chart
+#pielist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 416px;
+  background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+  margin-top: 30px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+
+  #pie-timeframe {
+    display: flex;
+    justify-content: end;
+    margin: 25px 0 0 0;
+    select {
+      color: $secondary-color;
+      background: linear-gradient(45deg, $primary-color, lighten($primary-color, 7));
+      margin: 0 10px 0 0;
+      border: none;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+      font-size: 14px;
+    }
+  }
+  .pie {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    position: relative;
+    div {
+      margin: 0 5vw;
+    }
+  }
+}

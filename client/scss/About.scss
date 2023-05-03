@@ -1,0 +1,114 @@
+$primary-color: #10111d;
+$secondary-color: #e09034;
+
+#main-about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $secondary-color;
+}
+
+#about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  width: 50vw;
+  color: $secondary-color;
+  background-color: $primary-color;
+  margin-top: 20px;
+  border: 1px solid $secondary-color;
+  border-radius: 15px;
+  box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+  padding: 20px;
+}
+
+#github-link, #oslabs-form, #medium-form {
+  color: $secondary-color;
+  background-color: $primary-color;
+  margin: 20px;
+  border: 0.5px solid $secondary-color;
+  border-radius: 15px;
+  padding: 5px;
+
+  button {
+    display: flex;
+    align-items: center;
+    background-color: $primary-color;
+    border: none;
+    box-shadow: none;
+
+    #github-logo {
+      filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+    }
+
+    img {
+      max-height: 25px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    box-shadow: darken($secondary-color, 30) 0px 0px 10px 0px;
+  }
+}
+
+#linkedin-section {
+  display: flex;
+  justify-content: center;
+  ul {
+    list-style-type: none;
+  }
+  img {
+    max-height: 100px;
+    margin-block: 16px;
+    filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  }
+  #linkedin-form {
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+  }
+  a {
+    color: $secondary-color;
+    &:hover {
+      text-decoration: none;
+      color: darken($secondary-color, 20)
+    }
+  }
+  #watchdogs-linkedin-link {
+    font-size: 26px;
+  }
+}
+
+#medium-form {
+  background-color: $primary-color;
+  button {
+    height: 25px;
+    display: flex;
+    align-items: center;
+  }
+  #medium-logo {
+    max-height: 100%;
+    filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+  }
+}
+
+
+#oslabs-form {
+  button {
+    height: 50px;
+  }
+  #oslabs-logo {
+    max-height: 100%;
+  }
+}
+
+#about-icon {
+  max-height: 25px;
+  filter: invert(49%) sepia(95%) saturate(433%) hue-rotate(353deg) brightness(97%) contrast(93%);
+}

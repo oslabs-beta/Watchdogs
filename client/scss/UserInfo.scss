@@ -1,0 +1,72 @@
+$primary-color: #10111d;
+$secondary-color: #e09034;
+
+#main-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $secondary-color;
+}
+
+#user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 50vw;
+    color: $secondary-color;
+    background: linear-gradient(45deg, $primary-color, lighten($primary-color, 2));
+    margin-top: 20px;
+    border: 1px solid $secondary-color;
+    border-radius: 15px;
+    box-shadow: darken($secondary-color, 30) 0px 0px 15px 0px;
+
+    div {
+      display: flex;
+      justify-content: space-around;
+      width: 50%;
+      margin: 15px;
+    }
+
+    button {
+      color: $secondary-color;
+      background: transparent;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+  
+      &:hover {
+        box-shadow: darken($secondary-color, 20) 0px 0px 10px 0px;
+      }
+    }
+    form {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      input {
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4)) !important;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        font-size: 14px;
+        box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
+        &:focus {
+          outline: none;
+        }
+      }
+  
+      select {
+        color: $secondary-color;
+        background: linear-gradient(45deg, $primary-color, lighten($primary-color, 4)) !important;
+        margin: 10px;
+        border: 1px solid $secondary-color;
+        border-radius: 5px;
+        font-size: 14px;
+        box-shadow: darken($secondary-color, 40) 0px 0px 15px 0px;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    span {
+      text-decoration: underline;
+    }
+  }
