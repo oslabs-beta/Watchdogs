@@ -19,6 +19,7 @@ declare let process: {
     accessKeyId: string;
     secretAccessKey: string;
     mongoKey: string;
+    PORT: number;
   };
 };
 // Create App
@@ -99,7 +100,7 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Listening on port ${port}`);
 });
 
