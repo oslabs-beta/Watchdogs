@@ -26,7 +26,7 @@ Using the AWS SDK, Watchdogs provides the user with a pre-built AWS permissions 
 
 Use Watchdogs keep track of your Lambda metrics and abstract away the complexities of Cloudwatch. Built by (and for) developers.
 
-To use Watchdogs, you can visit our <a href='https://watch-dogs.io'>website</a> and/or follow the below instructions for running on your local machine.
+To use Watchdogs, you can visit our <a href='http://www.watch-dogs.io'>website</a> and/or follow the below instructions for running on your local machine.
 
 
 <div align='center'>
