@@ -20,6 +20,7 @@
 
 A streamlined health and metrics visualizer for AWS Lambda functions
 
+
 Watchdogs provides metrics for the invocations, durations, errors, and throttles of your Lambda functions, paired with the ability to download error logs to your local machine.
 
 Using the AWS SDK, Watchdogs provides the user with a pre-built AWS permissions stack and ARN to provide a quick and easy setup.
